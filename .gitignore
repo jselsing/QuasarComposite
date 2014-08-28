@@ -5,6 +5,17 @@ __pycache__/
 # C extensions
 *.so
 
+# Tex files
+*~
+*.aux
+*.dvi
+*.log
+*.pdf
+*.png
+vc.tex
+
+
+
 # Distribution / packaging
 .Python
 env/
