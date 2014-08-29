@@ -1,0 +1,152 @@
+%% This is emulateapj reformatting of the AASTEX sample document
+%%
+\documentclass[iop]{emulateapj}
+
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand{\myemail}{jselsing@dark-cosmology.dk}
+
+%% You can insert a short comment on the title page using the command below.
+
+\slugcomment{Draft version, July 31, 2014}
+
+%% If you wish, you may supply running head information, although
+%% this information may be modified by the editorial offices.
+%% The left head contains a list of authors,
+%% usually a maximum of three (otherwise use et al.).  The right
+%% head is a modified title of up to roughly 44 characters.
+%% Running heads will not print in the manuscript style.
+
+\shorttitle{Contamination-Free Quasar Composite}
+\shortauthors{Selsing et al.}
+
+%% This is the end of the preamble.  Indicate the beginning of the
+%% paper itself with \begin{document}.
+
+\begin{document}
+
+%% LaTeX will automatically break titles if they run longer than
+%% one line. However, you may use \\ to force a line break if
+%% you desire.
+
+\title{Contamination-Free Quasar Composite Spectrum}
+
+%% Use \author, \affil, and the \and command to format
+%% author and affiliation information.
+%% Note that \email has replaced the old \authoremail command
+%% from AASTeX v4.0. You can use \email to mark an email address
+%% anywhere in the paper, not just in the front matter.
+%% As in the title, use \\ to force line breaks.
+
+\author{J. Selsing\altaffilmark{1}, J. P. U. Fynbo\altaffilmark{1}, L. Christensen\altaffilmark{1}}
+\email{jselsing@dark-comoslogy.dk}
+
+
+%% Notice that each of these authors has alternate affiliations, which
+%% are identified by the \altaffilmark after each name.  Specify alternate
+%% affiliation information with \altaffiltext, with one command per each
+%% affiliation.
+
+\altaffiltext{1}{Dark Cosmology Centre, Niels Bohr Institute, University of Copenhagen, Juliane Maries Vej 30, 2100 Copenhagen, Denmark}
+
+
+%% Mark off your abstract in the ``abstract'' environment. In the manuscript
+%% style, abstract will output a Received/Accepted line after the
+%% title and affiliation information. No date will appear since the author
+%% does not have this information. The dates will be filled in by the
+%% editorial office after submission.
+
+\begin{abstract}
+Some abstract
+\end{abstract}
+
+%% Keywords should appear after the \end{abstract} command. The uncommented
+%% example has been keyed in ApJ style. See the instructions to authors
+%% for the journal to which you are submitting your paper to determine
+%% what keyword punctuation is appropriate.
+
+%% Authors who wish to have the most important objects in their paper
+%% linked in the electronic edition to a data center may do so in the
+%% subject header.  Objects should be in the appropriate "individual"
+%% headers (e.g. quasars: individual, stars: individual, etc.) with the
+%% additional provision that the total number of headers, including each
+%% individual object, not exceed six.  The \objectname{} macro, and its
+%% alias \object{}, is used to mark each object.  The macro takes the object
+%% name as its primary argument.  This name will appear in the paper
+%% and serve as the link's anchor in the electronic edition if the name
+%% is recognized by the data centers.  The macro also takes an optional
+%% argument in parentheses in cases where the data center identification
+%% differs from what is to be printed in the paper.
+
+\keywords{quasars: general --- quasars: composite spectrum --- quasars: host galaxy}
+
+
+\section{Introduction}
+
+Template spectra are useful for a wide range of purposes, e.g., the detection of features that are too weak to be detected in individual spectra, identification of objects that differ from the mean, etc. Examples of such composite spectra include template spectra of various classes of galaxies (Shapley et al. 2003, ApJ, 588, 65S; Dobos et al. 2012, MNRAS, 420, 1217), QSOs (Cristiani \& Voi 1990, A\&A, 227, 385C; Boyle 1990, MNRAS, 243, 231; Francis et al. 1991, ApJ, 373, 465; Brotherton et al. 2000, ApJ, 546, 775; Vanden Berk et al. 2001, AJ, 122, 549; Telfer et al. 2002, ApJ, 565, 773) and GRB afterglows (Christensen et al. 2011, ApJ, 727, 73). In particular, QSO composite spectra have been studied and discussed intensively since the first papers in the early 1990ies.
+
+
+\section{Sample description}
+To build a composite free of significant host contamination we have selected 7 SDSS detected bright blue quasars, with r-band magnitude $r \lesssim 17$ at redshifts $1 < z < 2.1$ where we can use the redshift distribution to cover the regions of strong telluric absorption. More sample description. X-Shooter description. Observing conditions. Reduction procedure. 
+
+
+
+
+\newcommand\sk[2]{Sk\,{$-#1{^\circ}#2$}}
+\newcommand\tnc{\,\tablenotemark{c}}
+\newcommand\tnd{\,\tablenotemark{d}}
+
+%\clearpage
+\begin{deluxetable}{lllll}
+\tabletypesize{\footnotesize}
+\tablecolumns{4} 
+\tablewidth{0pt} 
+\tablecaption{Quasars in the composite}
+\tablehead{\colhead{Quasar name}                                 			   &
+           \colhead{$\alpha$(J2000)}                           				    	  &
+           \colhead{$\delta$(J2000)}                   &
+%           \mu
+           \colhead{$z$\,\tablenotemark{a}}                                   }
+\startdata
+
+SDSS0820+1306  & 08 20 45.39 & $+$13 06 18.99 & 1.12        \\
+SDSS1150-0023  & 11 50 43.88 & $-$00 23 54.07 & 1.98         \\
+SDSS1219-0100  & 12 19 40.37& $-$01 00 07.49& 1.57           \\
+SDSS1236-0331  & 12 36 02.34 & $-$03 31 29.94 & 1.82          \\
+SDSS1354-0013  & 13 54 25.24 & $-$00 13 58.06 & 1.51          \\
+SDSS1431+0535  & 14 31 48.09 & $+$05 35 58.10 & 2.10         \\
+SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
+
+\enddata
+
+\tablenotetext{a}{Taken from SDSS }
+  
+
+\end{deluxetable}
+
+
+
+
+
+\subsection{Telluric Correction}
+Because of the limited sample-size, it is desirable to avoid simply masking out regions of severe atmospheric absorption and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. 
+\subsection{Effective Resolution}
+Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution
+
+\section{Composite Construction}
+Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population mean. 
+\section{Results}
+Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
+\section{Discussion}
+Bla bla bla
+\section{Conclusion}
+
+
+
+
+%% The following command ends your manuscript. LaTeX will ignore any text
+%% that appears after it.
+
+\end{document}
+
+%%
+%% End of file `sample.tex'.
