@@ -31,7 +31,6 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
     wl_obs = wl
 #    obs_lambda_range = 10*(obs_spectrum_header['AWAVELMIN'] + np.array([0.,obs_spectrum_header['SPEC_BIN']*(obs_spectrum_header['NAXIS1']-1)]))
     obs_lambda_range = np.array([min(wl), max(wl)])
-    print obs_lambda_range
     # If the galaxy is at a significant redshift (z > 0.03), one would need to apply 
     # a large velocity shift in PPXF to match the template to the galaxy spectrum.
     # This would require a large initial value for the velocity (V > 1e4 km/s) 
@@ -90,8 +89,9 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
         interpolated_library_spectrum = splev(wl_obs,f)
         
         tell_lib, lib_lambda, velscale = util.log_rebin(lib_lambda_range,interpolated_library_spectrum, velscale=velscale)
-        templates[:,j] = tell_lib/np.median(tell_lib) # Normalizes templates  
-        print 'Approximated remaining time (s) for setup of template spectra: '+ str(len(spectral_library)*(clock() - t) -  j*(clock() - t)) + 's' 
+        templates[:,j] = tell_lib/np.median(tell_lib) # Normalizes templates
+        if j % 60 == 0:
+            print 'Approximated remaining time (s) for setup of template spectra: '+ str(len(spectral_library)*(clock() - t) -  j*(clock() - t)) + 's' 
 
     #Excluding areas of strong telluric absorbtion from fitting
     if obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "UVB":        
@@ -163,32 +163,28 @@ if __name__ == '__main__':
     sdssobject = 'SDSS1437-0147'
     sdssobjects = glob.glob(root_dir+'*/')
     #Load in Model steller spetra
-    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
-        
-    
+#    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
+    arms = ['UVB', 'VIS', 'NIR']       
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
 
 
     for i in sdssobjects:
-        print i
+        print 'Working on object: '+i
         tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
-
-
-    
-    
-        arms = ['UVB', 'VIS', 'NIR']
+        
         
         for n in arms:
-            tell_file = [i for i in tell_files if n in i]
+            print 'In arm: '+n
+            tell_file = [k for k in tell_files if n in k]
             tell_file = fits.open(tell_file[0])
             wl = 10.0*tell_file[1].data.field('WAVE')[0]
             flux = tell_file[1].data.field('FLUX')[0]
             err = tell_file[1].data.field('ERR')[0]
         
-    
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
-            trans = (gal/fit)    
-            fits.writeto(root_dir+sdssobject+'sub'+hdr['HIERARCH ESO SEQ ARM']+'.fits',trans, hdr, clobber=True)
+            trans = (gal/fit)
+            
+            fits.writeto(i+'tranmission_'+n+'.fits',trans, hdr, clobber=True)
 
         print "close the plot to continue"
         pl.show(block=True)
