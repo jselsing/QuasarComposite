@@ -23,7 +23,7 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
     obs_spectrum = flux
     obs_spectrum_header = hdr
 
-    obs_error_spectrum = err
+    obs_error_spectrum = err + 1
 #    obs_badpix = hdu[2].data
 #    print obs_badpix
     
@@ -159,48 +159,39 @@ if __name__ == '__main__':
     import glob
     import matplotlib.pyplot as pl
     #Files
-#    UVBfile = glob.glob('TELLURIC_STAR/*1D*UVB*.fits')[0]
-#    VISfile = glob.glob('TELLURIC_STAR/*1D*VIS*.fits')[0]
-#    NIRfile = glob.glob('TELLURIC_STAR/*1D*NIR*.fits')[0]
-#    
-#    respUVB = fits.open('RESPONSE_MERGE1D_SLIT_UVB.fits')[1].data.field('RESPONSE')
-#    respVIS = fits.open('RESPONSE_MERGE1D_SLIT_VIS.fits')[1].data.field('RESPONSE')
-#    respNIR = fits.open('RESPONSE_MERGE1D_SLIT_NIR.fits')[1].data.field('RESPONSE')
-    
-    tell_files = glob.glob('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/SDSS1437-0147/OBJECT/*IDP*')
-
+    root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
+    sdssobject = 'SDSS1437-0147'
+    sdssobjects = glob.glob(root_dir+'*/')
     #Load in Model steller spetra
-    #library = glob.glob('/Users/jselsing/nosync/phoenix_spectral_library/TRIAL/*.fits')
+    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
+        
+    
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
 
 
+    for i in sdssobjects:
+        print i
+        tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
 
-    arms = ['UVB', 'VIS', 'NIR']
-    
-    for n in arms:
-        tell_file = [i for i in tell_files if n in i]
-        tell_file = fits.open(tell_file[0])
-        wl = 10.0*tell_file[1].data.field('WAVE')[0]
-        flux = tell_file[1].data.field('FLUX')[0]
-        err = tell_file[1].data.field('ERR')[0]
-    
 
-        gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
-        trans = (gal/fit)    
-        fits.writeto('sub'+hdr['HIERARCH ESO SEQ ARM']+'.fits',trans, hdr, clobber=True)
+    
+    
+        arms = ['UVB', 'VIS', 'NIR']
+        
+        for n in arms:
+            tell_file = [i for i in tell_files if n in i]
+            tell_file = fits.open(tell_file[0])
+            wl = 10.0*tell_file[1].data.field('WAVE')[0]
+            flux = tell_file[1].data.field('FLUX')[0]
+            err = tell_file[1].data.field('ERR')[0]
+        
+    
+            gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
+            trans = (gal/fit)    
+            fits.writeto(root_dir+sdssobject+'sub'+hdr['HIERARCH ESO SEQ ARM']+'.fits',trans, hdr, clobber=True)
+
         print "close the plot to continue"
         pl.show(block=True)
-    pl.show(block=True)
     
-#    gal, fit, hdr = find_best_template(VISfile,respVIS,library)
-#    trans = (gal/fit)    
-#    fits.writeto('sub'+hdr['HIERARCH ESO SEQ ARM']+'.fits',trans, hdr, clobber=True)
-#    print "close the plot to continue"
-#    plt.show(block=False)
-#    
-#    gal, fit, hdr = find_best_template(NIRfile,respNIR,library)
-#    trans = (gal/fit)    
-#    fits.writeto('sub'+hdr['HIERARCH ESO SEQ ARM']+'.fits',trans, hdr, clobber=True)
-#    print "close the plot to continue"
-#    plt.show(block=True)    
+
     
