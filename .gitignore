@@ -12,6 +12,7 @@ __pycache__/
 *.log
 *.pdf
 *.png
+*.gz
 vc.tex
 
 
