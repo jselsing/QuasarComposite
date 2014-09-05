@@ -29,21 +29,6 @@ from scipy import stats
 
 
 
-def binning1d(array,bin):
-    
-    """
-    Used to bin low S/N 1D  response data from xshooter.
-    Calculates the biweighted mean (a la done in Kriek'10). 
-    Returns binned 1dimage
-    """
-#    ;--------------
-    s=len((array))
-    outsize=s/bin
-    res = np.zeros((outsize))
-    for i in np.arange(0,s-(bin+1),bin):
-             res[((i+bin)/bin-1)] = np.sum(array[i:i+bin])/bin
-    return res
-
 
 
 #================================================================================

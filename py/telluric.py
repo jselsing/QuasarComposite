@@ -184,7 +184,7 @@ if __name__ == '__main__':
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
             
-            fits.writeto(i+'tranmission_'+n+'.fits',trans, hdr, clobber=True)
+            fits.writeto(i+'transmission_'+n+'.fits',trans, hdr, clobber=True)
 
         print "close the plot to continue"
         pl.show(block=True)

@@ -125,10 +125,10 @@ SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
 
 
 
-
-
 \subsection{Telluric Correction}
-Because of the limited sample-size, it is desirable to avoid simply masking out regions of severe atmospheric absorption and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. 
+All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor.  Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are available at \footnote{http://www.eso.org/observing/etc/bin/gen/form?INS.MODE=swspectr+INS.NAME=SKYCALC}
+
+
 \subsection{Effective Resolution}
 Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution
 
