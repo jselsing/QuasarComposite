@@ -130,10 +130,12 @@ def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[
         transmission = transmission_arr[(5550 < wl_arr) & (wl_arr < 10100)]
         
     if i_arr == 'NIR':
-        wl = wl_arr[(10100< wl_arr) & (wl_arr < 20700)]
-        flux = flux_arr[(10100 < wl_arr) & (wl_arr < 20700)]
-        fluxerr = fluxerr_arr[(10100 < wl_arr) & (wl_arr < 20700)]
-        transmission = transmission_arr[(10100 < wl_arr) & (wl_arr < 20700)]
+        upper = 30700
+        lower = 10100
+        wl = wl_arr[(lower< wl_arr) & (wl_arr < upper)]
+        flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
+        fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
+        transmission = transmission_arr[(lower < wl_arr) & (wl_arr < upper)]
         
     return wl, flux, fluxerr, transmission
 
@@ -147,6 +149,7 @@ if __name__ == '__main__':
     import glob
     import matplotlib.pyplot as pl
     import numpy as np
+    import plotting.plotting as plot
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*/')
@@ -154,8 +157,11 @@ if __name__ == '__main__':
     for i in sdssobjects:
         transmissionfiles = glob.glob(i+'*tran*')
         obs = glob.glob(i+'*OBJECT*/*IDP*')
+        obj_name = i[-14:-1]
+
         wl_out = []
         flux_out = []
+        test = []
         err_out = []
         for n in arms:
 #            print 'In arm: '+n
@@ -172,22 +178,33 @@ if __name__ == '__main__':
             transmission = tran[0].data
             wl, flux, err, transmission = inter_arm_cut(wl_arr=wl, flux_arr=flux,
                                                         fluxerr_arr=err, transmission_arr=transmission, i_arr=n)
-            flux /= transmission
+                                                        
+            test.append(flux)
+            
+            fluxi = flux / transmission
             err /= transmission
 
             wl_out.append(wl)
-            flux_out.append(flux)
+            flux_out.append(fluxi)
             err_out.append(err)
+            
+
             
         wl_out = np.hstack(wl_out)
         flux_out = np.hstack(flux_out)       
         err_out = np.hstack(err_out)   
-
+        test = np.hstack(test)
+        fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name))
+#        pl.plot(wl_out,flux_out, lw=0.5, color="black")
+#        pl.plot(wl_out,test, lw=0.5, color="red")
+        
+        pl.show(block=True)
+  
         dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64)]
         data = np.array(zip(wl_out, flux_out, err_out), dtype=dt)
-        file_name = "Extracted_spec_bin_hostsub"
-        np.savetxt(file_name+".dat", data, header="wl flux fluxerror")#, fmt = ['%5.1f', '%2.15E'] )
-            
+        file_name = "Telluric_corrected_science"
+        np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror")#, fmt = ['%5.1f', '%2.15E'] )
+     
             
             
             
