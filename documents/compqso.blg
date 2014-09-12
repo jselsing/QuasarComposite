@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: compqso.aux
+The style file: plain.bst
+Database file #1: compqsoNotes.bib
+Database file #2: /Users/jselsing/Work/Papers/bibtex/library.bib.bib
+Warning--empty journal in Chen2014b
+You've used 1 entry,
+            2118 wiz_defined-function locations,
+            506 strings with 4337 characters,
+and the built_in function-call counts, 482 in all, are:
+= -- 37
+> -- 43
+< -- 0
++ -- 17
+- -- 16
+* -- 49
+:= -- 93
+add.period$ -- 3
+call.type$ -- 1
+change.case$ -- 11
+chr.to.int$ -- 0
+cite$ -- 2
+duplicate$ -- 11
+empty$ -- 23
+format.name$ -- 16
+if$ -- 86
+int.to.chr$ -- 0
+int.to.str$ -- 1
+missing$ -- 1
+newline$ -- 8
+num.names$ -- 2
+pop$ -- 11
+preamble$ -- 1
+purify$ -- 10
+quote$ -- 0
+skip$ -- 7
+stack$ -- 0
+substring$ -- 11
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 4
+warning$ -- 1
+while$ -- 3
+width$ -- 2
+write$ -- 12
+(There was 1 warning)

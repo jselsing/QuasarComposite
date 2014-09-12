@@ -123,7 +123,7 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
 
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
                        goodpixels=goodPixels, plot=False, moments=2, 
-                       degree=0, vsyst=dv, clean=True, regul=0)
+                       degree=1, vsyst=dv, clean=True, regul=0)
     
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
@@ -158,6 +158,7 @@ if __name__ == '__main__':
     from astropy.io import fits
     import glob
     import matplotlib.pyplot as pl
+    import numpy as np
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobject = 'SDSS1437-0147'
@@ -184,7 +185,13 @@ if __name__ == '__main__':
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
             
-            fits.writeto(i+'transmission_'+n+'.fits',trans, hdr, clobber=True)
+#            fits.writeto(i+'transmission_'+n+'.fits',trans, hdr, clobber=True)
+
+            dt = [("wl", np.float64), ("telluric_star", np.float64), ("Optimal_template_fit", np.float64)]
+            data = np.array(zip(wl, gal, fit), dtype=dt)
+            file_name = "Telluric_correction_QC"
+            np.savetxt(i+file_name+n+".dat", data, header="wl telluric_star Optimal_template_fit")#, fmt = ['%5.1f', '%2.15E'] )            
+            
 
         print "close the plot to continue"
         pl.show(block=True)

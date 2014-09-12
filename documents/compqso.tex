@@ -84,6 +84,9 @@ Some abstract
 
 Template spectra are useful for a wide range of purposes, e.g., the detection of features that are too weak to be detected in individual spectra, identification of objects that differ from the mean, etc. Examples of such composite spectra include template spectra of various classes of galaxies (Shapley et al. 2003, ApJ, 588, 65S; Dobos et al. 2012, MNRAS, 420, 1217), QSOs (Cristiani \& Voi 1990, A\&A, 227, 385C; Boyle 1990, MNRAS, 243, 231; Francis et al. 1991, ApJ, 373, 465; Brotherton et al. 2000, ApJ, 546, 775; Vanden Berk et al. 2001, AJ, 122, 549; Telfer et al. 2002, ApJ, 565, 773) and GRB afterglows (Christensen et al. 2011, ApJ, 727, 73). In particular, QSO composite spectra have been studied and discussed intensively since the first papers in the early 1990ies.
 
+\newpage
+
+
 
 \section{Sample description}
 To build a composite free of significant host contamination we have selected 7 SDSS detected bright blue quasars, with r-band magnitude $r \lesssim 17$ at redshifts $1 < z < 2.1$ where we can use the redshift distribution to cover the regions of strong telluric absorption. More sample description. X-Shooter description. Observing conditions. Reduction procedure. 
@@ -95,7 +98,7 @@ To build a composite free of significant host contamination we have selected 7 S
 \newcommand\tnc{\,\tablenotemark{c}}
 \newcommand\tnd{\,\tablenotemark{d}}
 
-%\clearpage
+
 \begin{deluxetable}{lllll}
 \tabletypesize{\footnotesize}
 \tablecolumns{4} 
@@ -126,7 +129,11 @@ SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
 
 
 \subsection{Telluric Correction}
-All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor.  Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are available at \footnote{http://www.eso.org/observing/etc/bin/gen/form?INS.MODE=swspectr+INS.NAME=SKYCALC}
+All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor.  Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are accessible via the web application SKYCALC developed by ESO.  Another take, MOLECFIT, at determining the transmission of the atmosphere is by directly fitting the telluric aborption region with a radiative transfer code thus simultaneously also fitting for the molecular content of the atmosphere. Here the initial guess on the atmospheric conditions are taken from the header of the observation. For a given atmospheric model the molecular content can then be varied and convolved with a instrument-specific kernel to obtain the correct instrumental profile. \\
+In the method employed by the Xshooter-Spectral-Library (XSL), \cite{Chen2014b}, a library of telluric transmission are creating from observations of featureless telluric standard stars. For each observation an optimal template is found from the POLLUX library of model stellar atmospheres, excluding the regions of telluric absorption in the fit, thus tracing the intrinsic stellar spectral shape. This optimal template is then divided by the object spectrum to create a transmission spectrum. These transmission-curves are then compiled in a library of corrections. When the telluric correction are to be made on the object the regions of telluric regions are fit for the template to find the optimal transmission, regardless of the temporal similarity of the transmission-curve and the object spectrum. The method we use
+is closely related to the one employed by XSL. We have observations of telluric standard stars close in time to the science observation. To get the transmission-curve from the telluric observations we find the optimal template among the model atmospheres of Göttingen Spectral Library \cite{Husser2013a}. Here they have used the PHOENIX model stellar atmosphere code to create a grid of synthetic spectra in terms of effective temperature, metallicity and alpha element enhancement. To find the optimal template we simultaneusly fit for the instrumental profile broadening, velocity shift and optimal template using the penalized-pixel fitting software pPXF \cite{Cappellari2014} to find the linear combination of spectra and spectral broadening that minimizes  $ \chi ^2 $. For the fitting we exclude all regions of strong telluric absorption. This way of doing the optimal template fit 
+
+
 
 
 \subsection{Effective Resolution}
@@ -141,7 +148,8 @@ Bla bla bla
 \section{Conclusion}
 
 
-
+\bibliographystyle{plain}
+\bibliography{/Users/jselsing/Work/Papers/bibtex/library.bib}
 
 %% The following command ends your manuscript. LaTeX will ignore any text
 %% that appears after it.
