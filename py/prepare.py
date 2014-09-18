@@ -194,7 +194,8 @@ if __name__ == '__main__':
         flux_out = np.hstack(flux_out)       
         err_out = np.hstack(err_out)   
         test = np.hstack(test)
-        fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name))
+        fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2)
+        fig = plot.plot_data(wl_out,test,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2, color = "red", fig=fig)
 #        pl.plot(wl_out,flux_out, lw=0.5, color="black")
 #        pl.plot(wl_out,test, lw=0.5, color="red")
         
