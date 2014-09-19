@@ -95,13 +95,13 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
 
     #Excluding areas of strong telluric absorbtion from fitting
     if obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "UVB":        
-        mask = (obs_lambda < np.log(5575)) & (obs_lambda > np.log(3500)) 
+        mask = (obs_lambda < np.log(5500)) & (obs_lambda > np.log(3100))
         goodPixels = np.where(mask == True)[0]
     elif obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "VIS":
         mask = (obs_lambda > np.log(5500)) & (obs_lambda < np.log(6860)) | (obs_lambda > np.log(7045)) & (obs_lambda < np.log(7140)) | (obs_lambda > np.log(7355)) & (obs_lambda < np.log(7570)) | (obs_lambda > np.log(7710)) & (obs_lambda < np.log(8090)) | (obs_lambda > np.log(8400)) & (obs_lambda < np.log(8900)) | (obs_lambda > np.log(9900)) & (obs_lambda < np.log(10100))
         goodPixels = np.where(mask == True)[0]     
     elif obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "NIR":   
-        mask = (obs_lambda < np.log(10950)) | (obs_lambda > np.log(12240)) & (obs_lambda < np.log(12500)) | (obs_lambda > np.log(12800)) & (obs_lambda < np.log(12950)) | (obs_lambda > np.log(15300)) & (obs_lambda < np.log(17100)) | (obs_lambda > np.log(21000)) & (obs_lambda < np.log(21700))  
+        mask = (obs_lambda < np.log(10950)) | (obs_lambda > np.log(12240)) & (obs_lambda < np.log(12500)) | (obs_lambda > np.log(12800)) & (obs_lambda < np.log(12950)) | (obs_lambda > np.log(15300)) & (obs_lambda < np.log(17100)) | (obs_lambda > np.log(21000)) & (obs_lambda < np.log(23700))  
         goodPixels = np.where(mask == True)[0]
         
         
@@ -120,11 +120,13 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
     
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
+    print np.shape(tell_obs)
+    print np.shape(goodPixels)
 
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
-                       goodpixels=goodPixels, plot=False, moments=2, 
-                       degree=1, vsyst=dv, clean=True, regul=0)
-    
+                       goodpixels=goodPixels, plot=False, moments=4, 
+                       degree=4, mdegree=4, vsyst=dv, clean=True, regul=0)
+#    plt.show(block=True)
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
     print "".join("%8.2g" % f for f in pp.error*np.sqrt(pp.chi2))
@@ -149,7 +151,33 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
 
 
 
+def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], i_arr= []):
+    wl = 0
+    flux = 0
+    fluxerr = 0
 
+    #Reformat
+    if i_arr == 'UVB':
+        upper = 5550
+        lower = 3100
+        wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
+        flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
+        fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
+    
+    if i_arr == 'VIS':
+        upper = 10100
+        lower = 5550
+        wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
+        flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
+        fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
+
+    if i_arr == 'NIR':
+        lower = 10100
+        wl = wl_arr[(lower< wl_arr)]
+        flux = flux_arr[(lower < wl_arr)]
+        fluxerr = fluxerr_arr[(lower < wl_arr)]
+
+    return wl, flux, fluxerr
 
 
 
@@ -164,7 +192,7 @@ if __name__ == '__main__':
     sdssobject = 'SDSS1437-0147'
     sdssobjects = glob.glob(root_dir+'*/')
     #Load in Model steller spetra
-#    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
+    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
     arms = ['UVB', 'VIS', 'NIR']       
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
 
@@ -181,6 +209,8 @@ if __name__ == '__main__':
             wl = 10.0*tell_file[1].data.field('WAVE')[0]
             flux = tell_file[1].data.field('FLUX')[0]
             err = tell_file[1].data.field('ERR')[0]
+            wl, flux, err = inter_arm_cut(wl_arr=wl, flux_arr=flux,
+                                            fluxerr_arr=err, i_arr=n)
         
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
