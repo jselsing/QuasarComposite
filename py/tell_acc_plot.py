@@ -60,6 +60,7 @@ if __name__ == '__main__':
 #                print 'In arm: '+n
                 
                 ob = [k for k in obs if n in k]
+                print(ob)
 
                 dat = np.genfromtxt(str(ob[0]), dtype = np.float64)
                 wl = dat[:,0]

@@ -56,7 +56,8 @@
 %% editorial office after submission.
 
 \begin{abstract}
-Some abstract
+QSO templates are important both for QSO physics and for projects using QSOs as probes. However, the current most widely used QSO template, namely the SDSS composite QSO spectrum of Vanden Berk et al. (2001) suffers from significant host galaxy contamination redwards of 5000\AA in the restframe. At these wavelenghts the SDSS template is based on intrinsically faint, low-redshift QSOs. We here propose to build a composite QSO spectrum for bright blue QSOs without this problem using X-shooter GTO time. With X-shooter we can target bright SDSS QSOs in the redshift range $1 < z < 2.3$ and hence build a composite spectrum covering the full range from Ly$\alpha$ to 8500\AA in the restframe without significant host galaxy contamination.
+
 \end{abstract}
 
 %% Keywords should appear after the \end{abstract} command. The uncommented
@@ -88,9 +89,21 @@ Template spectra are useful for a wide range of purposes, e.g., the detection of
 
 
 
-\section{Sample description}
-To build a composite free of significant host contamination we have selected 7 SDSS detected bright blue quasars, with r-band magnitude $r \lesssim 17$ at redshifts $1 < z < 2.1$ where we can use the redshift distribution to cover the regions of strong telluric absorption. More sample description. X-Shooter description. Observing conditions. Reduction procedure. 
 
+\section{Sample description}
+In order to build a QSO spectrum with no significant host galaxy contamination we select very bright ($r \lesssim 17$) SDSS QSOs at redshifts $1 < z < 2.1$ for which host galaxy contamination should be insignificant and where we can use the redshift distribution to cover the regions of strong telluric absorption. Previous QSO templates in the literature have been based on hundreds of spectra, but this is neither possible nor necessary for us. We are mainly interested in tracing the shape of the continuum with negligible host contamination and for that a smaller sample will suffice. We have consequently selected the 7 brightest SDSS QSOs at $1 < z < 2.1$ and at declinations $\lesssim +15^\circ$ that are observable in a single visitor run and that have SDSS spectra without signs of BAL activity or other strong associated absorption systems. With this sample all restframe wavelengths from Ly$\alpha$ to 8500\AA will be covered by at least ? spectra where we have corrected spectra for telluric absorption, which will give us a handle on the variance also. For all of the spectra we cover the region of [OII],3727 and [OIII],5007 , which is useful for determination of precise systemic redshifts.
+
+Spectroscopic observation of the targets have been carried out using X-shooter, a single-object cross-dispersion echelle spectrograph installed in UT2 at the Very Large Telescope (VLT). The observations were carried out March, 2013 and for each object they consists of 4 exposures in nodding mode in the sequence ABBA with a total integration time of 1800s per object, simultaneous in the UVB($3000 - 5500$\AA), VIS($5500 - 10150$\AA)  and NIR($10150 - 24800$\AA). The nominal resolving power $R = \lambda / \Delta \lambda$ for our observations is 5100 in the UVB-arm for a slit width of 1.0", 8800 and 5100 in the VIS- and NIR arms, respectively for a slit width of 0.9". For one observation, slit widths of 1.3" for UVB and 1.2" for VIS and NIR have been used thus lovering the nominal resolution.  
+
+
+
+
+The seeings were generally photometric, reaching 0.66"
+
+
+
+
+The spectra were flux calibrated using the photometric standard star LTT7987. O
 
 
 
@@ -126,12 +139,27 @@ SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
 
 \end{deluxetable}
 
+\section{Problems with the current most used template}
+The currently most widely used QSO template is the SDSS template of Vanden Berk et al. (2001, cited more than 600 times in ADS). As described very clearly in that paper the SDSS composite spectrum shows a strong change in the spectral slope around 5000  ̊A. This is mainly attributed to contaminating light from the underlying host galaxy. Other effects also contribute, e.g. emission from a hot dust component, but the dominating factor is likely the host contamination. Our main motivation for building a QSO template without this problem is the following: we have initiated a search for dust-reddened QSOs using near-IR (NIR) selection of QSOs. In stripe 82 we have studied about 50 such candidate QSOs using the NTT in P88 (088.A-0098). Whereas we searched for QSOs reddened by foreground absorber galaxies most systems we observe turn out to be QSOs reddened by dust in their host galaxies. The optical spectra can be well matched by the SDSS template spectrum reddened by SMC-like extinction, but the NIR (restframe optical) photometry from UKIDSS cannot be fitted. The problem is illustrated in Fig. 1 where we attempt to model the EFOSC2 spectrum of a dust-reddened QSO at z = 1.16 here observed in our survey. As seen, the SDSS spectrum and photometry can be well matched with the Vanden Berk template, but the photometry from UKIDSS is much too blue for even the unreddened template. This is not a unique case, but a problem that is seen for all the dust reddened QSOs found in our search.
+In the SDSS composite the QSOs contribution to the spectrum at $ > 5000$\AA have to be at fairly low redshifts ($z \lesssim  0.5$). These QSOs have absolute magnitudes that are $3-4$ magnitudes fainter than bright $z > 1.5$ QSOs (see Fig. 2 taken from in Vanden Berk et al. 2001). They are also likely to have the brightest restframe optical host galaxies and hence host contamination is not surprising. Hence, by selecting intrinsically much brighter QSOs at higher redshifts we should be able to avoid the problem with host contamination.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Telluric Correction}
 All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor.  Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are accessible via the web application SKYCALC developed by ESO.  Another take, MOLECFIT, at determining the transmission of the atmosphere is by directly fitting the telluric aborption region with a radiative transfer code thus simultaneously also fitting for the molecular content of the atmosphere. Here the initial guess on the atmospheric conditions are taken from the header of the observation. For a given atmospheric model the molecular content can then be varied and convolved with a instrument-specific kernel to obtain the correct instrumental profile. \\
-In the method employed by the Xshooter-Spectral-Library (XSL), \cite{Chen2014b}, a library of telluric transmission are creating from observations of featureless telluric standard stars. For each observation an optimal template is found from the POLLUX library of model stellar atmospheres, excluding the regions of telluric absorption in the fit, thus tracing the intrinsic stellar spectral shape. This optimal template is then divided by the object spectrum to create a transmission spectrum. These transmission-curves are then compiled in a library of corrections. When the telluric correction are to be made on the object the regions of telluric regions are fit for the template to find the optimal transmission, regardless of the temporal similarity of the transmission-curve and the object spectrum. The method we use
-is closely related to the one employed by XSL. We have observations of telluric standard stars close in time to the science observation. To get the transmission-curve from the telluric observations we find the optimal template among the model atmospheres of Göttingen Spectral Library \cite{Husser2013a}. Here they have used the PHOENIX model stellar atmosphere code to create a grid of synthetic spectra in terms of effective temperature, metallicity and alpha element enhancement. To find the optimal template we simultaneusly fit for the instrumental profile broadening, velocity shift and optimal template using the penalized-pixel fitting software pPXF \cite{Cappellari2014} to find the linear combination of spectra and spectral broadening that minimizes $\chi ^2$ between our object spectrum and the found template . For the fitting we exclude all regions of strong telluric absorption since we only want to trace the continuum. This way of doing the optimal template fit risks finding an unphysical model since we have not constrained the allowed model stellar atmospheres. The reason for doing this is that we want trace the signal as well as possible regardless of the actual shape. An alternative would be non-parametric regression, but here we would loose potential stellar features in the masked regions. !!!Investige reason for uncorrectly traced object(8400\r{A}). As can be seen in Fig. \ref{fig1}, the telluric standard spectrum is traced relatively well. The regions where the object is not found accurately will produce an erroneous transmission correction and introduce an error in the resulting composite spectrum. We review the consequences of this later. 
+In the method employed by the Xshooter-Spectral-Library (XSL), Chen2014b, a library of telluric transmission are creating from observations of featureless telluric standard stars. For each observation an optimal template is found from the POLLUX library of model stellar atmospheres, excluding the regions of telluric absorption in the fit, thus tracing the intrinsic stellar spectral shape. This optimal template is then divided by the object spectrum to create a transmission spectrum. These transmission-curves are then compiled in a library of corrections. When the telluric correction are to be made on the object the regions of telluric regions are fit for the template to find the optimal transmission, regardless of the temporal similarity of the transmission-curve and the object spectrum. The method we use
+is closely related to the one employed by XSL. We have observations of telluric standard stars close in time to the science observation. To get the transmission-curve from the telluric observations we find the optimal template among the model atmospheres of Göttingen Spectral Library Husser2013a. Here they have used the PHOENIX model stellar atmosphere code to create a grid of synthetic spectra in terms of effective temperature, metallicity and alpha element enhancement. To find the optimal template we simultaneusly fit for the instrumental profile broadening, velocity shift and optimal template using the penalized-pixel fitting software pPXF Cappellari2014 to find the linear combination of spectra and spectral broadening that minimizes $\chi ^2$ between our object spectrum and the found template . For the fitting we exclude all regions of strong telluric absorption since we only want to trace the continuum. This way of doing the optimal template fit risks finding an unphysical model since we have not constrained the allowed model stellar atmospheres. The reason for doing this is that we want trace the signal as well as possible regardless of the actual shape. An alternative would be non-parametric regression, but here we would loose potential stellar features in the masked regions. !!!Investige reason for uncorrectly traced object(8400\r{A}). As can be seen in Fig. \ref{fig1}, the telluric standard spectrum is traced relatively well. The regions where the object is not found accurately will produce an erroneous transmission correction and introduce an error in the resulting composite spectrum. We review the consequences of this later. 
 
 \begin{figure}
 \epsscale{1.25}
@@ -140,10 +168,8 @@ is closely related to the one employed by XSL. We have observations of telluric 
 \end{figure}
 
 
-\subsection{Effective Resolution}
-Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution
-
 \section{Composite Construction}
+Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution.
 Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population mean. 
 \section{Results}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
@@ -152,8 +178,10 @@ Bla bla bla
 \section{Conclusion}
 
 
-\bibliographystyle{plain}
-\bibliography{/Users/jselsing/Work/Papers/bibtex/library.bib}
+%\bibliographystyle{plain}
+%\bibliography{/Users/jselsing/Work/Papers/bibtex/Husser2013a.bib}
+%\bibliography{/Users/jselsing/Work/Papers/bibtex/Cappellari2014.bib}
+%\bibliography{/Users/jselsing/Work/Papers/bibtex/Chen2014b.bib}
 
 %% The following command ends your manuscript. LaTeX will ignore any text
 %% that appears after it.
