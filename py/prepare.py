@@ -171,7 +171,7 @@ if __name__ == '__main__':
         #test = []
         err_out = []
         print(obj_name)
-        #arms = ['VIS']
+        arms = ['VIS']
         for n in arms:
 #            print 'In arm: '+n
             obser = [k for k in obs if n in k]
@@ -188,7 +188,7 @@ if __name__ == '__main__':
             flux = ob[1].data.field('FLUX')[0]
             err = ob[1].data.field('ERR')[0]
             transmission = tran[0].data
-            wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n)
+            #wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n)
 
             #test.append(flux)
 
@@ -213,9 +213,9 @@ if __name__ == '__main__':
 #         fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2)
 #         #fig = plot.plot_data(wl_out,test,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2, color = "red", fig=fig)
 #         pl.plot(wl_out,flux_out, lw=0.5, color="black")
-#         pl.plot(wl_out,test, lw=0.5, color="red")
-#
-#         pl.show(block=True)
+#        pl.plot(wl_out,test, lw=0.5, color="red")
+
+        # pl.show(block=True)
 #
         dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64)]
         data = np.array(zip(wl_out, flux_out, err_out), dtype=dt)
