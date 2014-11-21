@@ -171,7 +171,7 @@ if __name__ == '__main__':
         #test = []
         err_out = []
         print(obj_name)
-        arms = ['VIS']
+        arms = ['NIR']
         for n in arms:
 #            print 'In arm: '+n
             obser = [k for k in obs if n in k]

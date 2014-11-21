@@ -93,17 +93,23 @@ Template spectra are useful for a wide range of purposes, e.g., the detection of
 \section{Sample description}
 In order to build a QSO spectrum with no significant host galaxy contamination we select very bright ($r \lesssim 17$) SDSS QSOs at redshifts $1 < z < 2.1$ for which host galaxy contamination should be insignificant and where we can use the redshift distribution to cover the regions of strong telluric absorption. Previous QSO templates in the literature have been based on hundreds of spectra, but this is neither possible nor necessary for us. We are mainly interested in tracing the shape of the continuum with negligible host contamination and for that a smaller sample will suffice. We have consequently selected the 7 brightest SDSS QSOs at $1 < z < 2.1$ and at declinations $\lesssim +15^\circ$ that are observable in a single visitor run and that have SDSS spectra without signs of BAL activity or other strong associated absorption systems. With this sample all restframe wavelengths from Ly$\alpha$ to 8500\AA will be covered by at least ? spectra where we have corrected spectra for telluric absorption, which will give us a handle on the variance also. For all of the spectra we cover the region of [OII],3727 and [OIII],5007 , which is useful for determination of precise systemic redshifts.
 
-Spectroscopic observation of the targets have been carried out using X-shooter, a single-object cross-dispersion echelle spectrograph installed in UT2 at the Very Large Telescope (VLT). The observations were carried out March, 2013 and for each object they consists of 4 exposures in nodding mode in the sequence ABBA with a total integration time of 1800s per object, simultaneous in the UVB($3000 - 5500$\AA), VIS($5500 - 10150$\AA)  and NIR($10150 - 24800$\AA). The nominal resolving power $R = \lambda / \Delta \lambda$ for our observations is 5100 in the UVB-arm for a slit width of 1.0", 8800 and 5100 in the VIS- and NIR arms, respectively for a slit width of 0.9". For one observation, slit widths of 1.3" for UVB and 1.2" for VIS and NIR have been used thus lovering the nominal resolution.  
+Spectroscopic observation of the targets have been carried out using X-shooter, the single-object cross-dispersion echelle spectrograph installed in UT2 at the Very Large Telescope (VLT). The observations were carried out March, 2013 and for each object they consists of 4 exposures in nodding mode in the sequence ABBA with a total integration time of 1800s per object, simultaneous in the UVB($3000 - 5500$\AA), VIS($5500 - 10150$\AA)  and NIR($10150 - 24800$\AA) arms. The nominal resolving power $R = \lambda / \Delta \lambda$ for our observations is 4350 in the UVB-arm for a slit width of 1".0, 7450 and 5300 in the VIS- and NIR arms, respectively for a slit width of 0".9. For one observation, slit widths of 1".3 for UVB and 1".2 for VIS and NIR have been used thus lovering the nominal resolution. The seeings were photometric, reaching 0".66 as determined from the width of the trace at 7825\AA and therefore the delivered effective resolution will be higher than tabulated. We determine the instrument spectral seeing FWHM using MOLECFIT where a model atmosphere is convolved with a Gaussian kernel and a fit against the telluric absorption bands in the visual arm is done for the width of the Gaussian kernel. The size of the kernel used increases linearly with wave wavelength to keep the resolution constant as is indeed the case for X-shooter and the FWHM values are related to the central wavelength, which in the case for the visual arm is at 7825\AA. 
 
+\begin{figure}
+\epsscale{1.0}
+\plotone{Seeing.eps}
+\caption{Measured spatial seeing from width of trace against effective spectral resolution. All the observations are seeing-limited and thus the effective resolution will be higher than tabulated. (see text)\label{fig1}}
+\end{figure}
 
+As can be seen from Figure \ref{fig1} our observations are done at resolutions between 11000 and 14500 in the visual arm, all of them significantly higher than the nominal values. If we assume that the ratio of measured spatial seeing FWHM to spectral seeing FWHM remains constant we get the resolution in UVB and VIS from the width of the traces in the respective arms taking into account the different pixel-scale in the NIR arm.
 
+% % %
+Insert new resolutions
+% % %
 
-The seeings were generally photometric, reaching 0.66"
+The resolution is important for the construction of the composite since we need to rebin the spectra to a common dispersion at a common redshift keeping the sampling of the pixels at the optimal Nyquist sampling (2 pixels per FWHM)
 
-
-
-
-The spectra were flux calibrated using the photometric standard star LTT7987. O
+The data were reduced using the ESO/X-shooter pipeline v2.5.2 (Modigliano), where for simplicity we have rectified all spectra on a grid with 0.2 \AA/pixel thus slightly oversampling even the highest-resolution spectra without introducing too much correlation between adjacent pixels in the rectification. The spectra were extracted in the standard way and were flux calibrated using photometric standards. Telluric observations of hot dwarfs were taken close in time to allow for an accurate telluric correction which depends heavily on the atmospheric conditions at the time of observation.
 
 
 
@@ -164,7 +170,7 @@ is closely related to the one employed by XSL. We have observations of telluric 
 \begin{figure}
 \epsscale{1.25}
 \plotone{tell_corr_QC.eps}
-\caption{VIS arm of the telluric standard Hip040217 in black. Overplotted in red is the best fit template stellar model atmosphere combination. As can be seen, at 8400\r{A}  there are local deviations in the order 5 \% - 10 \%.\label{fig1}}
+\caption{VIS arm of the telluric standard Hip040217 in black. Overplotted in red is the best fit template stellar model atmosphere combination. As can be seen, at 8400\r{A}  there are local deviations in the order 5 \% - 10 \%.\label{fig2}}
 \end{figure}
 
 
