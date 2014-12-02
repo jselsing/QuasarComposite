@@ -8,7 +8,6 @@
 
 
 
-
 import ppxf
 import ppxf_util as util
 
@@ -120,12 +119,9 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
     
     # Here the actual fit starts. The best fit is plotted on the screen.
     # Gas emission lines are excluded from the pPXF fit using the GOODPIXELS keyword.
-    print np.shape(tell_obs)
-    print np.shape(goodPixels)
-
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
                        goodpixels=goodPixels, plot=False, moments=4, 
-                       degree=4, mdegree=4, vsyst=dv, clean=True, regul=0)
+                       degree=4, mdegree=4, vsyst=dv, clean=True, regul=1)
 #    plt.show(block=True)
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
@@ -144,40 +140,40 @@ def find_best_template(wl, flux, err, hdr, spectral_library):
     import spec   
     obj_spec = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.galaxy, oversamp =1000)
     template_fit = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.bestfit, oversamp =1000)
-    plt.plot(wl_obs,obj_spec)
-    plt.plot(wl_obs, template_fit)
+    plt.plot(wl_obs,obj_spec, color='black', linestyle = 'steps-mid')
+    plt.plot(wl_obs, template_fit, color='red')
     return obj_spec,template_fit,obs_spectrum_header
 #------------------------------------------------------------------------------
 
 
 
-def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], i_arr= []):
-    wl = 0
-    flux = 0
-    fluxerr = 0
-
-    #Reformat
-    if i_arr == 'UVB':
-        upper = 5550
-        lower = 3100
-        wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
-        flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
-        fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
-    
-    if i_arr == 'VIS':
-        upper = 10100
-        lower = 5550
-        wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
-        flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
-        fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
-
-    if i_arr == 'NIR':
-        lower = 10100
-        wl = wl_arr[(lower< wl_arr)]
-        flux = flux_arr[(lower < wl_arr)]
-        fluxerr = fluxerr_arr[(lower < wl_arr)]
-
-    return wl, flux, fluxerr
+# def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], i_arr= []):
+#     wl = 0
+#     flux = 0
+#     fluxerr = 0
+#
+#     #Reformat
+#     if i_arr == 'UVB':
+#         upper = 5550
+#         lower = 3100
+#         wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
+#         flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
+#         fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
+#
+#     if i_arr == 'VIS':
+#         upper = 10100
+#         lower = 5550
+#         wl = wl_arr[(lower < wl_arr) & (wl_arr < upper)]
+#         flux = flux_arr[(lower < wl_arr) & (wl_arr < upper)]
+#         fluxerr = fluxerr_arr[(lower < wl_arr) & (wl_arr < upper)]
+#
+#     if i_arr == 'NIR':
+#         lower = 10100
+#         wl = wl_arr[(lower< wl_arr)]
+#         flux = flux_arr[(lower < wl_arr)]
+#         fluxerr = fluxerr_arr[(lower < wl_arr)]
+#
+#     return wl, flux, fluxerr
 
 
 
@@ -192,8 +188,9 @@ if __name__ == '__main__':
     sdssobject = 'SDSS1437-0147'
     sdssobjects = glob.glob(root_dir+'*/')
     #Load in Model steller spetra
-    library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
-    arms = ['UVB', 'VIS', 'NIR']       
+    #library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TRIAL/*.fits')
+    arms = ['UVB', 'VIS', 'NIR']
+    #arms = ['NIR']
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
 
 
@@ -209,13 +206,16 @@ if __name__ == '__main__':
             wl = 10.0*tell_file[1].data.field('WAVE')[0]
             flux = tell_file[1].data.field('FLUX')[0]
             err = tell_file[1].data.field('ERR')[0]
-            wl, flux, err = inter_arm_cut(wl_arr=wl, flux_arr=flux,
-                                            fluxerr_arr=err, i_arr=n)
-        
+            # wl, flux, err = inter_arm_cut(wl_arr=wl, flux_arr=flux,
+            #                                 fluxerr_arr=err, i_arr=n)
+
+
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
-            
-#            fits.writeto(i+'transmission_'+n+'.fits',trans, hdr, clobber=True)
+            fileout = np.array([wl, trans])
+            print(fileout)
+
+            fits.writeto(i+'transmission_'+n+'.fits',trans, hdr, clobber=True)
 
             dt = [("wl", np.float64), ("telluric_star", np.float64), ("Optimal_template_fit", np.float64)]
             data = np.array(zip(wl, gal, fit), dtype=dt)
@@ -223,8 +223,8 @@ if __name__ == '__main__':
             np.savetxt(i+file_name+n+".dat", data, header="wl telluric_star Optimal_template_fit")#, fmt = ['%5.1f', '%2.15E'] )            
             
 
-        print "close the plot to continue"
-        pl.show(block=True)
+            # print "close the plot to continue"
+            # pl.show(block=True)
     
 
     

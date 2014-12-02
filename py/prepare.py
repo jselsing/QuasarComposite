@@ -107,11 +107,7 @@ def cut(array_to_cut, boundary_array, lover_bound, upper_bound):
     return cut_array
 
 
-def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[], i_arr= []):
-
-    start = []
-    end = []
-
+def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[], i_arr= [], start = [], end = []):
 
     # Reformat
     if i_arr == 'UVB':
@@ -121,7 +117,8 @@ def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[
         flux_cut = cut(flux_arr, wl_arr, low, high)
         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        end = flux_cut[-50:]
+        end = np.median(flux_cut[-50:])
+
 
     if i_arr == 'VIS':
         low = 5550
@@ -130,8 +127,10 @@ def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[
         flux_cut = cut(flux_arr, wl_arr, low, high)
         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        start = flux_cut[:50]
-        end = flux_cut[-50:]
+        start = np.median(flux_cut[:50])
+        flux_cut *= end / start
+        fluxerr_cut *= end / start
+        end = np.median(flux_cut[-50:])
 
     if i_arr == 'NIR':
         low = 10100
@@ -140,8 +139,11 @@ def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[
         flux_cut = cut(flux_arr, wl_arr, low, high)
         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        start = flux_cut[:50]
-        end = flux_cut[-50:]
+        start = np.median(flux_cut[:50])
+        flux_cut *= end / start
+        fluxerr_cut *= end / start
+
+
 
     return wl_cut, flux_cut, fluxerr_cut, transmission_cut, start, end
 
@@ -162,43 +164,51 @@ if __name__ == '__main__':
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
     arms = ['UVB', 'VIS', 'NIR']     
     for i in sdssobjects:
-        transmissionfiles = glob.glob(i+'*tran*')
+        transmissionfiles = glob.glob(i+'*transmission*')
         obs = glob.glob(i+'*OBJECT*/*IDP*')
         obj_name = i[-14:-1]
 
         wl_out = []
         flux_out = []
-        #test = []
+        test = []
         err_out = []
+        start = []
+        end = []
         print(obj_name)
-        arms = ['NIR']
+        #arms = ['NIR']
         for n in arms:
-#            print 'In arm: '+n
+            print('In arm: '+n)
             obser = [k for k in obs if n in k]
             tran = [l for l in transmissionfiles if n in l]
-
             ob = fits.open(obser[0])
             #print(ob[0].header)
             print(ob[0].header["HIERARCH ESO TEL AMBI FWHM START"])
-
-
             tran = fits.open(tran[0])
-
             wl = 10.0*ob[1].data.field('WAVE')[0]
+
+
+
             flux = ob[1].data.field('FLUX')[0]
             err = ob[1].data.field('ERR')[0]
             transmission = tran[0].data
-            #wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n)
 
-            #test.append(flux)
 
-            fluxi = flux #/ transmission
-            err = err# / transmission
+            #wl_tran = tran[0].data[0]
+            #from scipy.interpolate import splrep,splev
+            #f = splrep(wl_tran,transmission,k=1)
+            #transmission = splev(wl,f)
+            wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
+
+            test.append(flux)
+
+
+            fluxi = flux / transmission
+            err = err / transmission
 
             wl_out.append(wl)
             flux_out.append(fluxi)
             err_out.append(err)
-            print(n)
+
             if n == 'VIS':
                 outfileop = obser[0]
 
@@ -207,19 +217,19 @@ if __name__ == '__main__':
         wl_out = np.hstack(wl_out)
         flux_out = np.hstack(flux_out)
         err_out = np.hstack(err_out)
-        #test = np.hstack(test)
+        test = np.hstack(test)
 
 
-#         fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2)
-#         #fig = plot.plot_data(wl_out,test,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2, color = "red", fig=fig)
-#         pl.plot(wl_out,flux_out, lw=0.5, color="black")
-#        pl.plot(wl_out,test, lw=0.5, color="red")
+        fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2)
+        fig = plot.plot_data(wl_out,test,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2, color = "red", fig=fig)
+        # pl.plot(wl_out,flux_out, lw=0.5, color="black", hold = True)
+        # pl.plot(wl_out,test, lw=1.5, color="red", hold = True)
 
-        # pl.show(block=True)
+        pl.show(block=True)
 #
         dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64)]
         data = np.array(zip(wl_out, flux_out, err_out), dtype=dt)
-        file_name = "Telluric_uncorrected_science"
+        file_name = "Telluric_corrected_science"
         np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror")#, fmt = ['%5.1f', '%2.15E'] )
      
             

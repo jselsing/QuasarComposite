@@ -88,6 +88,11 @@ Template spectra are useful for a wide range of purposes, e.g., the detection of
 \newpage
 
 
+\section{Problems with the current most used template}
+The currently most widely used QSO template is the SDSS template of Vanden Berk et al. (2001, cited more than 600 times in ADS). As described very clearly in that paper the SDSS composite spectrum shows a strong change in the spectral slope around 5000  ̊A. This is mainly attributed to contaminating light from the underlying host galaxy. Other effects also contribute, e.g. emission from a hot dust component, but the dominating factor is likely the host contamination. Our main motivation for building a QSO template without this problem is the following: we have initiated a search for dust-reddened QSOs using near-IR (NIR) selection of QSOs. In stripe 82 we have studied about 50 such candidate QSOs using the NTT in P88 (088.A-0098). Whereas we searched for QSOs reddened by foreground absorber galaxies most systems we observe turn out to be QSOs reddened by dust in their host galaxies. The optical spectra can be well matched by the SDSS template spectrum reddened by SMC-like extinction, but the NIR (restframe optical) photometry from UKIDSS cannot be fitted. The problem is illustrated in Fig. 1 where we attempt to model the EFOSC2 spectrum of a dust-reddened QSO at z = 1.16 here observed in our survey. As seen, the SDSS spectrum and photometry can be well matched with the Vanden Berk template, but the photometry from UKIDSS is much too blue for even the unreddened template. This is not a unique case, but a problem that is seen for all the dust reddened QSOs found in our search.
+In the SDSS composite the QSOs contribution to the spectrum at $ > 5000$\AA have to be at fairly low redshifts ($z \lesssim  0.5$). These QSOs have absolute magnitudes that are $3-4$ magnitudes fainter than bright $z > 1.5$ QSOs (see Fig. 2 taken from in Vanden Berk et al. 2001). They are also likely to have the brightest restframe optical host galaxies and hence host contamination is not surprising. Hence, by selecting intrinsically much brighter QSOs at higher redshifts we should be able to avoid the problem with host contamination.
+
+
 
 
 \section{Sample description}
@@ -101,15 +106,18 @@ Spectroscopic observation of the targets have been carried out using X-shooter, 
 \caption{Measured spatial seeing from width of trace against effective spectral resolution. All the observations are seeing-limited and thus the effective resolution will be higher than tabulated. (see text)\label{fig1}}
 \end{figure}
 
-As can be seen from Figure \ref{fig1} our observations are done at resolutions between 11000 and 14500 in the visual arm, all of them significantly higher than the nominal values. If we assume that the ratio of measured spatial seeing FWHM to spectral seeing FWHM remains constant we get the resolution in UVB and VIS from the width of the traces in the respective arms taking into account the different pixel-scale in the NIR arm.
-
-% % %
+As can be seen from Figure \ref{fig1} our observations are done at resolutions between 11000 and 14500 in the visual arm, all of them significantly higher than the nominal values. If we assume that the ratio of measured spatial seeing FWHM to spectral seeing FWHM remains constant we get the resolution in UVB and VIS from the width of the traces in the respective arms taking into account the different pixel-scale in the NIR arm.\\ \\
 Insert new resolutions
-% % %
+\\
 
 The resolution is important for the construction of the composite since we need to rebin the spectra to a common dispersion at a common redshift keeping the sampling of the pixels at the optimal Nyquist sampling (2 pixels per FWHM)
 
-The data were reduced using the ESO/X-shooter pipeline v2.5.2 (Modigliano), where for simplicity we have rectified all spectra on a grid with 0.2 \AA/pixel thus slightly oversampling even the highest-resolution spectra without introducing too much correlation between adjacent pixels in the rectification. The spectra were extracted in the standard way and were flux calibrated using photometric standards. Telluric observations of hot dwarfs were taken close in time to allow for an accurate telluric correction which depends heavily on the atmospheric conditions at the time of observation.
+The data were reduced using the ESO/X-shooter pipeline v2.5.2 (Modigliano), where we have rectified all spectra on a grid with 0.2 \AA/pixel thus slightly oversampling even the highest-resolution spectra without introducing too much correlation between adjacent pixels in the rectification. The spectra were extracted in the standard way and were flux calibrated using photometric standards. \\ \\
+
+Calibrate to SDSS \\
+
+
+Telluric observations of hot dwarfs were taken close in time to allow for an accurate telluric correction which depends heavily on the atmospheric conditions at the time of observation.
 
 
 
@@ -145,21 +153,6 @@ SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
 
 \end{deluxetable}
 
-\section{Problems with the current most used template}
-The currently most widely used QSO template is the SDSS template of Vanden Berk et al. (2001, cited more than 600 times in ADS). As described very clearly in that paper the SDSS composite spectrum shows a strong change in the spectral slope around 5000  ̊A. This is mainly attributed to contaminating light from the underlying host galaxy. Other effects also contribute, e.g. emission from a hot dust component, but the dominating factor is likely the host contamination. Our main motivation for building a QSO template without this problem is the following: we have initiated a search for dust-reddened QSOs using near-IR (NIR) selection of QSOs. In stripe 82 we have studied about 50 such candidate QSOs using the NTT in P88 (088.A-0098). Whereas we searched for QSOs reddened by foreground absorber galaxies most systems we observe turn out to be QSOs reddened by dust in their host galaxies. The optical spectra can be well matched by the SDSS template spectrum reddened by SMC-like extinction, but the NIR (restframe optical) photometry from UKIDSS cannot be fitted. The problem is illustrated in Fig. 1 where we attempt to model the EFOSC2 spectrum of a dust-reddened QSO at z = 1.16 here observed in our survey. As seen, the SDSS spectrum and photometry can be well matched with the Vanden Berk template, but the photometry from UKIDSS is much too blue for even the unreddened template. This is not a unique case, but a problem that is seen for all the dust reddened QSOs found in our search.
-In the SDSS composite the QSOs contribution to the spectrum at $ > 5000$\AA have to be at fairly low redshifts ($z \lesssim  0.5$). These QSOs have absolute magnitudes that are $3-4$ magnitudes fainter than bright $z > 1.5$ QSOs (see Fig. 2 taken from in Vanden Berk et al. 2001). They are also likely to have the brightest restframe optical host galaxies and hence host contamination is not surprising. Hence, by selecting intrinsically much brighter QSOs at higher redshifts we should be able to avoid the problem with host contamination.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 \subsection{Telluric Correction}
@@ -175,8 +168,13 @@ is closely related to the one employed by XSL. We have observations of telluric 
 
 
 \section{Composite Construction}
+
+
+
+\subsection{title}
 Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution.
-Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population mean. 
+Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population cl
+. 
 \section{Results}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
 \section{Discussion}
