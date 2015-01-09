@@ -12,158 +12,68 @@ rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 
 
-# def analysis(wl, flux, err, transmission, ebv, init_z, sdss, name, tell_corr_method='synthetic'):
-#     from unred import ccm_unred
+# def cut(array_to_cut, boundary_array, lover_bound, upper_bound):
+#     cut_array = array_to_cut[(lover_bound < boundary_array) & (boundary_array < upper_bound)]
+#     return cut_array
 #
 #
-#     arm = ['UVB','VIS','NIR']
-#     for n in arm:
+# def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[], i_arr= [], start = [], end = []):
 #
-#         #Deredden using E(B-V)-value from Schlegel map
-#         flux = ccm_unred(wl, flux , ebv)
-#
-#         #Load transmission curve generated from synthetic steller spectra
-# #        trans = fits.open(name+'/sub'+n+'.fits')
-#
-#         #Load transmission curve generated from direct method
-# #        transdir = fits.open(name+'/sub'+n+'dir.fits')
-#
-#
-#
-#
-#         #Masking bad values
-# #        mask = (fitsfile[0].data > 0) & (trans[0].data > 0) & (transdir[0].data > 0 ) & (fitsfile[0].data - fitsfile[1].data > 0)
+#     norm_length = 250
+#     # Reformat
+#     if i_arr == 'UVB':
+#         low = 3100
+#         high = 5550
+#         wl_cut = cut(wl_arr, wl_arr, low, high)
+#         flux_cut = cut(flux_arr, wl_arr, low, high)
+#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
+#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
+#         end = np.median(flux_cut[-norm_length:])
 #
 #
-#         if tell_corr_method == 'synth':
-#             if n == 'UVB':
-#                 mask = wl < 5575
-#                 wlUVB = wl[mask]
-#                 wlUVB /= (1.0 + z)
-#                 fluxUVB = (fitsfile[0].data)[mask]
-#                 fluxerrUVB = (fitsfile[0].data)[mask]
-#                 flux_corrUVB = (fitsfile[0].data/trans[0].data)[mask]
-#                 flux_correrrUVB = (fitsfile[1].data/trans[0].data)[mask]
+#     if i_arr == 'VIS':
+#         low = 5550
+#         high = 10100
+#         wl_cut = cut(wl_arr, wl_arr, low, high)
+#         flux_cut = cut(flux_arr, wl_arr, low, high)
+#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
+#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
+#         start = np.median(flux_cut[:norm_length])
+#         flux_cut *= end / start
+#         fluxerr_cut *= end / start
+#         end = np.median(flux_cut[-norm_length:])
 #
-#             if n == 'VIS':
-#                 mask = (wl >= 5575) & (wl < 10100)
-#                 wlVIS = wl[mask]
-#                 wlVIS /= (1.0 + z)
-#                 fluxVIS = (fitsfile[0].data)[mask]
-#                 fluxerrVIS = (fitsfile[0].data)[mask]
-#                 flux_corrVIS = (fitsfile[0].data/trans[0].data)[mask]
-#                 flux_correrrVIS = (fitsfile[1].data/trans[0].data)[mask]
-#
-#             if n == 'NIR':
-#                 mask = wl >= 10100
-#                 wlNIR = wl[mask]
-#                 wlNIR /= (1.0 + z)
-#                 fluxNIR = (fitsfile[0].data)[mask]
-#                 fluxerrNIR = (fitsfile[0].data)[mask]
-#                 flux_corrNIR = (fitsfile[0].data/trans[0].data)[mask]
-#                 flux_correrrNIR = (fitsfile[1].data/trans[0].data)[mask]
-#
-#         if tell_corr_method == 'direct':
-#             if n == 'UVB':
-#                 mask = wl < 5575
-#                 wlUVB = wl[mask]
-#                 wlUVB /= (1.0 + z)
-#                 fluxUVB = (fitsfile[0].data)[mask]
-#                 fluxerrUVB = (fitsfile[0].data)[mask]
-#                 flux_corrUVB = (fitsfile[0].data/transdir[0].data)[mask]
-#                 flux_correrrUVB = (fitsfile[1].data/transdir[0].data)[mask]
-#
-#             if n == 'VIS':
-#                 mask = (wl >= 5575) & (wl < 10100)
-#                 wlVIS = wl[mask]
-#                 wlVIS /= (1.0 + z)
-#                 fluxVIS = (fitsfile[0].data)[mask]
-#                 fluxerrVIS = (fitsfile[0].data)[mask]
-#                 flux_corrVIS = (fitsfile[0].data/transdir[0].data)[mask]
-#                 flux_correrrVIS = (fitsfile[1].data/transdir[0].data)[mask]
-#
-#             if n == 'NIR':
-#                 mask = wl >= 10100
-#                 wlNIR = wl[mask]
-#                 wlNIR /= (1.0 + z)
-#                 fluxNIR = (fitsfile[0].data)[mask]
-#                 fluxerrNIR = (fitsfile[0].data)[mask]
-#                 flux_corrNIR = (fitsfile[0].data/transdir[0].data)[mask]
-#                 flux_correrrNIR = (fitsfile[1].data/transdir[0].data)[mask]
+#     if i_arr == 'NIR':
+#         low = 10100
+#         high = 30700
+#         wl_cut = cut(wl_arr, wl_arr, low, high)
+#         flux_cut = cut(flux_arr, wl_arr, low, high)
+#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
+#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
+#         start = np.median(flux_cut[:norm_length])
+#         flux_cut *= end / start
+#         fluxerr_cut *= end / start
 #
 #
-#     from itertools import chain
-#     wl = np.asarray(list(chain(wlUVB,wlVIS,wlNIR)))
-#     flux = np.asarray(list(chain(fluxUVB,fluxVIS,fluxNIR)))
-#     fluxerr = np.asarray(list(chain(fluxerrUVB,fluxerrVIS,fluxerrNIR)))
-#     flux_corr = np.asarray(list(chain(flux_corrUVB,flux_corrVIS,flux_corrNIR)))
-#     flux_correrr = np.asarray(list(chain(flux_correrrUVB,flux_correrrVIS,flux_correrrNIR)))
 #
-#     return wl, flux , fluxerr, flux_corr, flux_correrr
-
-
-def cut(array_to_cut, boundary_array, lover_bound, upper_bound):
-    cut_array = array_to_cut[(lover_bound < boundary_array) & (boundary_array < upper_bound)]
-    return cut_array
-
-
-def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[], i_arr= [], start = [], end = []):
-
-    # Reformat
-    if i_arr == 'UVB':
-        low = 3100
-        high = 5550
-        wl_cut = cut(wl_arr, wl_arr, low, high)
-        flux_cut = cut(flux_arr, wl_arr, low, high)
-        fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-        transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        end = np.median(flux_cut[-50:])
-
-
-    if i_arr == 'VIS':
-        low = 5550
-        high = 10100
-        wl_cut = cut(wl_arr, wl_arr, low, high)
-        flux_cut = cut(flux_arr, wl_arr, low, high)
-        fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-        transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        start = np.median(flux_cut[:50])
-        flux_cut *= end / start
-        fluxerr_cut *= end / start
-        end = np.median(flux_cut[-50:])
-
-    if i_arr == 'NIR':
-        low = 10100
-        high = 30700
-        wl_cut = cut(wl_arr, wl_arr, low, high)
-        flux_cut = cut(flux_arr, wl_arr, low, high)
-        fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-        transmission_cut = cut(transmission_arr, wl_arr, low, high)
-        start = np.median(flux_cut[:50])
-        flux_cut *= end / start
-        fluxerr_cut *= end / start
+#     return wl_cut, flux_cut, fluxerr_cut, transmission_cut, start, end
 
 
 
-    return wl_cut, flux_cut, fluxerr_cut, transmission_cut, start, end
-
-
-
-
-
-    
 if __name__ == '__main__':
     from astropy.io import fits
     import glob
     import matplotlib.pyplot as pl
     import numpy as np
     import plotting.plotting as plot
+    from xshoo.combine import inter_arm_cut
 
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
-    arms = ['UVB', 'VIS', 'NIR']     
-    for i in sdssobjects:
+    arms = ['UVB', 'VIS', 'NIR']
+    redshifts = [1.1257, 1.98041, 1.57697, 1.82389, 1.51237, 2.096, 1.30914]
+    for x,i in enumerate(sdssobjects):
         transmissionfiles = glob.glob(i+'*transmission*')
         obs = glob.glob(i+'*OBJECT*/*IDP*')
         obj_name = i[-14:-1]
@@ -176,13 +86,13 @@ if __name__ == '__main__':
         end = []
         print(obj_name)
         #arms = ['NIR']
+        comb = []
         for n in arms:
             print('In arm: '+n)
             obser = [k for k in obs if n in k]
             tran = [l for l in transmissionfiles if n in l]
             ob = fits.open(obser[0])
-            #print(ob[0].header)
-            print(ob[0].header["HIERARCH ESO TEL AMBI FWHM START"])
+
             tran = fits.open(tran[0])
             wl = 10.0*ob[1].data.field('WAVE')[0]
 
@@ -192,11 +102,6 @@ if __name__ == '__main__':
             err = ob[1].data.field('ERR')[0]
             transmission = tran[0].data
 
-
-            #wl_tran = tran[0].data[0]
-            #from scipy.interpolate import splrep,splev
-            #f = splrep(wl_tran,transmission,k=1)
-            #transmission = splev(wl,f)
             wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
 
             test.append(flux)
@@ -219,18 +124,57 @@ if __name__ == '__main__':
         err_out = np.hstack(err_out)
         test = np.hstack(test)
 
+        #Get SDSS spectrum
+        imageSDSS= glob.glob(i+'*spec*.fits')
+        data1SDSS= fits.open(imageSDSS[0])
+        wl_sdss = 10.0**np.array(data1SDSS[1].data.field('loglam').flat)
+        flux_sdss =  np.array(data1SDSS[1].data.field('flux').flat) * 1.e-17
 
-        fig = plot.plot_data(wl_out,flux_out,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2)
-        fig = plot.plot_data(wl_out,test,xrng=[3000,25000], yrng=[-1e-15,4e-15], title = str(obj_name), lw=0.2, color = "red", fig=fig)
-        # pl.plot(wl_out,flux_out, lw=0.5, color="black", hold = True)
-        # pl.plot(wl_out,test, lw=1.5, color="red", hold = True)
 
-        pl.show(block=True)
+
+
+        do_plot = True
+        #Plotting
+        if do_plot:
+            fig, ax = pl.subplots()
+            ax.plot(wl_out,flux_out, lw=0.1, color = 'black', label='Corrected')
+            ax.plot(wl_out,test, lw=0.1, color = "red", label ="Uncorrected")
+            ax.plot(wl_sdss,flux_sdss, lw=0.1, color = "blue", label ="SDSS")
+            #Format axes
+            #ax.set_xlim([3000,25000])
+            #rng
+            ax.set_xlim([4000,9000])
+            #ax.set_ylim([-1e-15,4e-15])
+            mask =  (wl_out > 4000) & (wl_out < 9000)
+
+            ax.set_ylim([min(flux_out[mask] * 1.2),max(flux_out[mask] * 1.2)])
+            ax.set_xlabel(r'Observed Wavelength  [\AA]')
+            #ax.set_xlabel(r'Rest Wavelength  [\AA]')
+            ax.set_ylabel(r'FLux [erg/cm$^2$/s/\AA]')
+            ax.legend()
+            composite = np.genfromtxt('linelist.txt', dtype=None)
+            for p in range(len(composite)):
+                xcoord = composite[p,][1]*(1+redshifts[x])
+                mask = (wl_out > xcoord - 1) & (wl_out < xcoord + 1)
+                y_val = np.median(flux_out[mask])
+                ax.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.5)
+                ax.annotate(composite[p,][0],xy=(xcoord, y_val * 1.2 ),fontsize='x-small')
+            pl.title(obj_name)
+            pl.tight_layout()
+            file_name = "object"
+            #pl.savefig(i+file_name+".pdf", clobber=True)
+            pl.show(block=True)
 #
-        dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64)]
-        data = np.array(zip(wl_out, flux_out, err_out), dtype=dt)
+
+        #Make equal length for saving
+        wl_sdss = np.concatenate([wl_sdss,np.zeros(len(wl_out) - len(wl_sdss))])
+        flux_sdss = np.concatenate([flux_sdss,np.zeros(len(flux_out) - len(flux_sdss))])
+
+        #Saving to .dat file
+        dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
+        data = np.array(zip(wl_out, flux_out, err_out, wl_sdss, flux_sdss), dtype=dt)
         file_name = "Telluric_corrected_science"
-        np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror")#, fmt = ['%5.1f', '%2.15E'] )
+        np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror, sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
      
             
             
