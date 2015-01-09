@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
     import scipy.optimize as op
 
-    best_vals, covar = op.curve_fit(model, wl_fit, flux_fit - cont, sigma=fluxerr_fit - cont, absolute_sigma=True, p0=init_vals)
+    best_vals, covar = op.curve_fit(model, wl_fit, flux_fit - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
 
     z_op = best_vals[3]
     print("""Curve_fit results:
@@ -159,10 +159,10 @@ if __name__ == '__main__':
 
     #Overplot lines
     for p in range(len(fit_line_positions)):
-        xcoord = linelist[p]*(1+redshifts)
+        xcoord = linelist[p]*(1+z_op)
         mask = (wl_fit > xcoord - 1) & (wl_fit < xcoord + 1)
         y_val = np.mean(flux_fit[mask])
-        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.1)
+        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.3)
         pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.4 ),fontsize='x-small')
     pl.plot(wl_fit,flux_fit, color = 'black', lw = 0.2)
     pl.xlim((10000, 11000))
