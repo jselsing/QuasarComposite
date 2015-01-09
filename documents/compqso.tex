@@ -163,17 +163,36 @@ is closely related to the one employed by XSL. We have observations of telluric 
 \begin{figure}
 \epsscale{1.25}
 \plotone{tell_corr_QC.eps}
-\caption{VIS arm of the telluric standard Hip040217 in black. Overplotted in red is the best fit template stellar model atmosphere combination. As can be seen, at 8400\r{A}  there are local deviations in the order 5 \% - 10 \%.\label{fig2}}
+\caption{VIS arm of the telluric standard Hip040217 in black. Overplotted in red is the best fit template stellar model atmosphere combination. As can be seen, at 8400\r{A}  there are local deviations in the order 5 \%.\label{fig2}}
 \end{figure}
 
 
 \section{Composite Construction}
 
+The first challenge when combining spectra are getting accurate redshifts. For the bright blue quasars selected for our composite many of the prominent lines visible will arise in hot clouds with large peculiar velocities and will therefore be affected by systematic line-shifts. To get the systemic redshift we choose $[OIII]$($\lambda5007$\AA) arising in the narrow-line region and therefore less affected by systematic offsets   Since a myriad of Fe lines are visible many  
+
+Because the spectra have different absolute flux-scales 
+
+In order to combine the spectra we need to put them on equal grounds as not to favor one spectrum over the other. This means that we have to de-redshift the spectra to the local frame, resample 
+
+\begin{figure}
+\epsscale{1.25}
+\plotone{linefit.eps}
+\caption{Simultaneus fit of $H\beta$ and $[OIII]$.\label{fig3}}
+\end{figure}
+
+
+
+
 
 
 \subsection{title}
-Normalization. Rest-frame determination. Non-linear dispersion. Effective resolution.
-Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population cl
+
+Normalization.
+Rest-frame determination.
+Non-linear dispersion. 
+Effective resolution.
+Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population CI
 . 
 \section{Results}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
