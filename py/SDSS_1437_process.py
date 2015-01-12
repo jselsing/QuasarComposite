@@ -101,7 +101,13 @@ if __name__ == '__main__':
     cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=20)
     chebfitval = chebyshev.chebval(wl, chebfit)
 
-    pl.plot(wl, flux , color = 'black', lw = 0.2)
+
+    from xshoo.binning import binning1d
+    flux_bin = binning1d(flux, 20, err=fluxerr)
+    wl_bin = chebyshev.chebfit(wl,flux_bin)
+
+    # pl.plot(binning1d(wl, 20), binning1d(flux, 20, err=fluxerr), color = 'black', lw = 0.2)
+    pl.plot(wl, flux, color = 'black', lw = 0.2)
     pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
     #pl.show()
 

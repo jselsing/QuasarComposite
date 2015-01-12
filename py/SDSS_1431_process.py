@@ -64,9 +64,9 @@ if __name__ == '__main__':
     fluxerr_new = []
     for j, (k, l) in enumerate(zip(flux,fluxerr)):
         if k > 2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
+            fluxerr_new.append(100*l)
         elif k < 1/2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
+            fluxerr_new.append(100*l)
         else:
             fluxerr_new.append(l)
     from gen_methods import smooth
@@ -75,6 +75,8 @@ if __name__ == '__main__':
 
     sdss_wl = (obs[:,3])[np.where(obs[:,3] != 0)]
     sdss_flux = (obs[:,4])[np.where(obs[:,3] != 0)]
+    pl.plot(sdss_wl, sdss_flux)
+
     redshifts = 2.096
 
     # Load linelist
@@ -148,4 +150,5 @@ if __name__ == '__main__':
     pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     pl.xlim((15300, 15700))
     pl.ylim((0, 4e-16))
+    pl.semilogx()
     pl.show()

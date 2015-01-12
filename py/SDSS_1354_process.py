@@ -64,9 +64,9 @@ if __name__ == '__main__':
     fluxerr_new = []
     for j, (k, l) in enumerate(zip(flux,fluxerr)):
         if k > 2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
+            fluxerr_new.append(100*l)
         elif k < 1/2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
+            fluxerr_new.append(100*l)
         else:
             fluxerr_new.append(l)
     from gen_methods import smooth
@@ -115,7 +115,7 @@ if __name__ == '__main__':
             tmp = gauss(t, abs(amp2), (1+z)*linelist[3], sig22g)
             return tmp
 
-    init_vals = [6e-17,10, redshifts-0.0002]
+    init_vals = [6e-17,100, redshifts-0.0002]
 
     y_fit_guess = model2(wl_fit, *init_vals) + cont
 
