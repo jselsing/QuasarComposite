@@ -11,55 +11,6 @@ from matplotlib import rc_file
 rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 
-
-# def cut(array_to_cut, boundary_array, lover_bound, upper_bound):
-#     cut_array = array_to_cut[(lover_bound < boundary_array) & (boundary_array < upper_bound)]
-#     return cut_array
-#
-#
-# def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[], i_arr= [], start = [], end = []):
-#
-#     norm_length = 250
-#     # Reformat
-#     if i_arr == 'UVB':
-#         low = 3100
-#         high = 5550
-#         wl_cut = cut(wl_arr, wl_arr, low, high)
-#         flux_cut = cut(flux_arr, wl_arr, low, high)
-#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-#         end = np.median(flux_cut[-norm_length:])
-#
-#
-#     if i_arr == 'VIS':
-#         low = 5550
-#         high = 10100
-#         wl_cut = cut(wl_arr, wl_arr, low, high)
-#         flux_cut = cut(flux_arr, wl_arr, low, high)
-#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-#         start = np.median(flux_cut[:norm_length])
-#         flux_cut *= end / start
-#         fluxerr_cut *= end / start
-#         end = np.median(flux_cut[-norm_length:])
-#
-#     if i_arr == 'NIR':
-#         low = 10100
-#         high = 30700
-#         wl_cut = cut(wl_arr, wl_arr, low, high)
-#         flux_cut = cut(flux_arr, wl_arr, low, high)
-#         fluxerr_cut = cut(fluxerr_arr, wl_arr, low, high)
-#         transmission_cut = cut(transmission_arr, wl_arr, low, high)
-#         start = np.median(flux_cut[:norm_length])
-#         flux_cut *= end / start
-#         fluxerr_cut *= end / start
-#
-#
-#
-#     return wl_cut, flux_cut, fluxerr_cut, transmission_cut, start, end
-
-
-
 if __name__ == '__main__':
     from astropy.io import fits
     import glob
@@ -92,23 +43,29 @@ if __name__ == '__main__':
             obser = [k for k in obs if n in k]
             tran = [l for l in transmissionfiles if n in l]
             ob = fits.open(obser[0])
-
             tran = fits.open(tran[0])
+
             wl = 10.0*ob[1].data.field('WAVE')[0]
-
-
-
             flux = ob[1].data.field('FLUX')[0]
             err = ob[1].data.field('ERR')[0]
             transmission = tran[0].data
-
-            wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
-
-            test.append(flux)
-
+            #trans_new = []
+            for j, k in enumerate(transmission):
+                if k <= 1e-10:
+                    transmission[j] = 1
+            print(min(transmission))
+            #fluxerr = np.array(fluxerr_new)
 
             fluxi = flux / transmission
             err = err / transmission
+
+
+            wl_tmp, fluxi, err_tmp, transmission_tmp, start_tmp, end_tmp = inter_arm_cut(wl, fluxi, err, transmission, n, start, end)
+            wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
+            test.append(flux)
+
+
+
 
             wl_out.append(wl)
             flux_out.append(fluxi)
@@ -139,7 +96,7 @@ if __name__ == '__main__':
             fig, ax = pl.subplots()
             ax.plot(wl_out,flux_out, lw=0.1, color = 'black', label='Corrected')
             ax.plot(wl_out,test, lw=0.1, color = "red", label ="Uncorrected")
-            ax.plot(wl_sdss,flux_sdss, lw=0.1, color = "blue", label ="SDSS")
+            # ax.plot(wl_sdss,flux_sdss, lw=0.1, color = "blue", label ="SDSS")
             #Format axes
             #ax.set_xlim([3000,25000])
             #rng
@@ -152,13 +109,13 @@ if __name__ == '__main__':
             #ax.set_xlabel(r'Rest Wavelength  [\AA]')
             ax.set_ylabel(r'FLux [erg/cm$^2$/s/\AA]')
             ax.legend()
-            composite = np.genfromtxt('linelist.txt', dtype=None)
-            for p in range(len(composite)):
-                xcoord = composite[p,][1]*(1+redshifts[x])
-                mask = (wl_out > xcoord - 1) & (wl_out < xcoord + 1)
-                y_val = np.median(flux_out[mask])
-                ax.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.5)
-                ax.annotate(composite[p,][0],xy=(xcoord, y_val * 1.2 ),fontsize='x-small')
+            # composite = np.genfromtxt('linelist.txt', dtype=None)
+            # for p in range(len(composite)):
+            #     xcoord = composite[p,][1]*(1+redshifts[x])
+            #     mask = (wl_out > xcoord - 1) & (wl_out < xcoord + 1)
+            #     y_val = np.median(flux_out[mask])
+            #     ax.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.5)
+            #     ax.annotate(composite[p,][0],xy=(xcoord, y_val * 1.2 ),fontsize='x-small')
             pl.title(obj_name)
             pl.tight_layout()
             file_name = "object"

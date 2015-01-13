@@ -46,7 +46,9 @@ import numpy as np
 import glob
 import matplotlib.pyplot as pl
 from numpy.polynomial import chebyshev
-
+import george
+from george import kernels
+import emcee
 
 
 
@@ -99,40 +101,36 @@ if __name__ == '__main__':
     cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=20)
     chebfitval = chebyshev.chebval(wl, chebfit)
 
-    pl.plot(wl, flux , color = 'black', lw = 0.2)
-    pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
-    #pl.show()
-
+    #Define models to use
     from methods import voigt,gauss
-
     def model1(t,  amp2, sig22g, sig22l, z):
-            tmp = voigt(t, abs(amp2), (1+z)*linelist[3], sig22g, sig22l)
+            tmp = voigt(t, abs(amp2), (1+z)*linelist[2], sig22g, sig22l)
             return tmp
 
     def model2(t, amp2, sig22g, z):
-            tmp = gauss(t, abs(amp2), (1+z)*linelist[3], sig22g)
+            tmp = gauss(t, abs(amp2), (1+z)*linelist[2], sig22g)
             return tmp
 
-    init_vals = [3e-17,300, redshifts+0.02]
 
+    #Initial parameters
+    init_vals = [6e-17,10, redshifts]
     y_fit_guess = model2(wl_fit, *init_vals) + cont
 
-    pl.plot(wl_fit, y_fit_guess)
-    # pl.show()
 
+    #Fit
     import scipy.optimize as op
-
     best_vals, covar = op.curve_fit(model2, wl_fit, flux_fit - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
-
-    z_op = best_vals[2]
+    print(best_vals)
+    z_op = best_vals[-1]
     print("""Curve_fit results:
         Redshift = {0} +- {1} (SDSS: {2})
+    """.format(z_op, np.sqrt(covar[-1,-1]), redshifts))
 
-    """.format(z_op, np.sqrt(covar[2,2]), redshifts))
+    #Calculate best fit values + confidence values
+    y_op = model2(wl, *best_vals) + chebfitval
 
-    y_op = model2(wl, *best_vals)
-
-    pl.plot(wl, y_op + chebfitval, 'r-')
+    from methods import ConfInt
+    y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
     #Overplot lines
     for p in range(len(fit_line_positions)):
@@ -143,7 +141,12 @@ if __name__ == '__main__':
         pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.4 ),fontsize='x-small')
 
 
-    pl.plot(wl_fit,flux_fit, color = 'black', lw = 0.2)
+    pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
+    #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
+    #pl.plot(wl_fit, y_fit_guess)
+    pl.plot(wl, y_op, 'r-')
+    pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((13250, 14700))
     pl.ylim((0, 4e-16))
     pl.show()

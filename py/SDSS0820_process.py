@@ -123,48 +123,54 @@ if __name__ == '__main__':
 
     #Fit continuum and subtract
     cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=2)
-
     chebfitval = chebyshev.chebval(wl, chebfit)
 
-    # pl.plot(wl, chebfitval)
-    pl.plot(wl, flux , color = 'black', lw = 0.2)
-    #pl.plot(wl_fit, flux_fit, color = 'black', lw = 0.2)
-    # pl.show()
+    #Define models to use
+    from methods import voigt,gauss
+    def model1(t,  amp2, sig22g, sig22l, z):
+            tmp = voigt(t, abs(amp2), (1+z)*linelist[2], sig22g, sig22l)
+            return tmp
+
+    def model2(t, amp2, sig22g, z):
+            tmp = gauss(t, abs(amp2), (1+z)*linelist[2], sig22g)
+            return tmp
 
 
-    def model(t,  amp2, sig22g, sig22l, z):
-            func = voigt(t, abs(amp2), (1+z)*linelist[3], sig22g, sig22l)
-            return func
+    #Initial parameters
+    init_vals = [6e-17,10, redshifts]
+    y_fit_guess = model2(wl_fit, *init_vals) + cont
 
-    init_vals = [1e-16,30, 1, redshifts]
 
-    y_fit_guess = model(wl_fit, *init_vals)
-
-    # pl.plot(wl_fit, y_fit_guess)
-    # pl.show()
-
+    #Fit
     import scipy.optimize as op
-
-    best_vals, covar = op.curve_fit(model, wl_fit, flux_fit - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
-
-    z_op = best_vals[3]
+    best_vals, covar = op.curve_fit(model2, wl_fit, flux_fit - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
+    print(best_vals)
+    z_op = best_vals[-1]
     print("""Curve_fit results:
         Redshift = {0} +- {1} (SDSS: {2})
+    """.format(z_op, np.sqrt(covar[-1,-1]), redshifts))
 
-    """.format(z_op, np.sqrt(covar[3,3]), redshifts))
+    #Calculate best fit values + confidence values
+    y_op = model2(wl, *best_vals) + chebfitval
 
-    y_op = model(wl, *best_vals)
-
-    pl.plot(wl, y_op + chebfitval, 'r-')
+    from methods import ConfInt
+    y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
     #Overplot lines
     for p in range(len(fit_line_positions)):
         xcoord = linelist[p]*(1+z_op)
-        mask = (wl_fit > xcoord - 1) & (wl_fit < xcoord + 1)
-        y_val = np.mean(flux_fit[mask])
-        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.3)
+        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+        y_val = np.mean(flux[mask])
+        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
         pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.4 ),fontsize='x-small')
-    pl.plot(wl_fit,flux_fit, color = 'black', lw = 0.2)
+
+
+    pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
+    #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
+    #pl.plot(wl_fit, y_fit_guess)
+    pl.plot(wl, y_op, 'r-')
+    pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((10000, 11000))
     pl.ylim((3e-16, 8e-16))
     pl.show()

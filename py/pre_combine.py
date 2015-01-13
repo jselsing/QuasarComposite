@@ -288,7 +288,7 @@ if __name__ == '__main__':
                      1e-16, redshifts[x]]
         from gen_methods import smooth
 #smooth(flux_fit, window_len=10, window='hanning')
-        best_vals, covar = op.curve_fit(modelllshboiii, wl_fit, flux_fit - chebfitval, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
+        best_vals, covar = op.curve_fit(modelllshboiii, wl_fit, flux_fit - chebfitval, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals, maxfev=100000)
         amp_op, mu_op, sig2g_op, sig2l_op, amp2_op, sig22g_op, sig22l_op, amp3_op, amp4_op, z_op = best_vals
 
         print("""Curve_fit results:
@@ -318,8 +318,9 @@ if __name__ == '__main__':
 
         from gen_methods import smooth
         #smooth(flux_fit, window_len=10, window='hanning')
-        pl.plot(wl,smooth(flux, window_len=1, window='hanning'), lw=0.5, color = 'black', label='Corrected')
-
+        # pl.plot(wl,smooth(flux, window_len=1, window='hanning'), lw=0.5, color = 'black', label='Corrected')
+        from xshoo.binning import binning1d
+        pl.plot(binning1d(wl, 5), smooth(binning1d(flux, 5, err= fluxerr)[0], window_len=2, window='hanning') , color = 'black', lw = 0.5, alpha=0.7)
         pl.xlabel(r'Observed Wavelength  [\AA]')
         pl.ylabel(r'FLux Error [erg/cm$^2$/s/\AA]')
         pl.title('Line-fit')
