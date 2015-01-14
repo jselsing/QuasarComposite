@@ -131,8 +131,8 @@ if __name__ == '__main__':
             tmp = voigt(t, abs(amp2), (1+z)*linelist[2], sig22g, sig22l)
             return tmp
 
-    def model2(t, amp2, sig22g, z):
-            tmp = gauss(t, abs(amp2), (1+z)*linelist[2], sig22g)
+    def model2(t, amp, sig2, z):
+            tmp = gauss(t, abs(amp), (1+z)*linelist[2], sig2)
             return tmp
 
 
@@ -151,10 +151,51 @@ if __name__ == '__main__':
     """.format(z_op, np.sqrt(covar[-1,-1]), redshifts))
 
     #Calculate best fit values + confidence values
-    y_op = model2(wl, *best_vals) + chebfitval
+    y_op = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
     y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
+
+
+    from plotting import plotting
+    xrng = (10100, 10800)
+    yrng = (3.75e-16, 7.4e-16)
+    fig = plotting.plot_data(wl, flux, xrng=xrng, yrng=yrng, lw=0.8,
+            label='SDSS0820+1306', label_error='Error',
+            plot_top_tick=True, z=z_op)
+    ax1, ax2, ax3 = fig.axes
+
+    ax1.plot(wl_fit, y_op, 'r-', label='[OIII] fit')
+    ax1.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
+
+    for p in range(len(fit_line_positions)):
+        xcoord = linelist[p]*(1+z_op)
+        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+        y_val = np.mean(flux[mask])
+        ax1.axvline(x=xcoord,color='green',linestyle='dashed', lw=1.2)
+        #ax2.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
+        ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
+
+    ax1.legend()
+    import matplotlib
+    x1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
+    ax1.xaxis.set_major_formatter(x1_formatter)
+    y1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
+    ax1.yaxis.set_major_formatter(y1_formatter)
+    for item in ([ax1.title, ax1.xaxis.label, ax1.yaxis.label] + ax1.get_xticklabels() + ax3.get_yticklabels() + [ax3.title, ax3.xaxis.label, ax3.yaxis.label] + ax3.get_xticklabels() + ax2.get_yticklabels()):
+        item.set_fontsize(22)
+    # t = pl.title('SDSS0820')
+    # t.set_y(1.11)
+    #pl.tight_layout()
+
+    pl.savefig("LineFit.pdf", clobber=True)
+    pl.show(block=True)
+
+
+
+
+
+
 
     #Overplot lines
     for p in range(len(fit_line_positions)):
@@ -162,15 +203,19 @@ if __name__ == '__main__':
         mask = (wl > xcoord - 1) & (wl < xcoord + 1)
         y_val = np.mean(flux[mask])
         pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
-        pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.4 ),fontsize='x-small')
+        pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
 
 
     pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
     pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
-    pl.plot(wl, y_op, 'r-')
+    pl.plot(wl_fit, y_op, 'r-')
     pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
-    pl.xlim((10000, 11000))
-    pl.ylim((3e-16, 8e-16))
-    pl.show()
+    pl.xlim((10100, 10800))
+    pl.ylim((3.75e-16, 7.4e-16))
+    pl.xlabel(r'Observed Wavelength  [\AA]')
+    pl.ylabel(r'FLux [erg/cm$^2$/s/\AA]')
+    pl.tight_layout()
+    pl.savefig("Line-fit.pdf", dpi= 150)
+    #pl.show()
