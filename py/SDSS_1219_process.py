@@ -59,9 +59,28 @@ if __name__ == '__main__':
     wl = obs[:,0]
     flux = obs[:,1]
     fluxerr = obs[:,2]
+
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux,fluxerr)):
+        if k > 2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        elif k < 1/2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
+
+
+
     sdss_wl = (obs[:,3])[np.where(obs[:,3] != 0)]
     sdss_flux = (obs[:,4])[np.where(obs[:,3] != 0)]
     redshifts = 1.57697
+
+
+
+
 
     # Load linelist
     fit_line_positions = np.genfromtxt('fitlinelist.txt', dtype=None)

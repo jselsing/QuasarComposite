@@ -62,13 +62,19 @@ if __name__ == '__main__':
 
 
     fluxerr_new = []
-    for j, (k, l) in enumerate(zip(flux,fluxerr)):
+    for j , (k, l) in enumerate(zip(flux[:-2],fluxerr[:-2])):
         if k > 2 * flux[j-1] and k > 0:
-            fluxerr_new.append(abs(100*l))
+            fluxerr_new.append(abs(100*fluxerr[j+2]))
         elif k < 1/2 * flux[j-1] and k > 0:
-            fluxerr_new.append(abs(100*l))
+            fluxerr_new.append(abs(100*fluxerr[j+2]))
         else:
-            fluxerr_new.append(abs(l))
+            fluxerr_new.append(abs(fluxerr[j+2]))
+    fluxerr_new.append(1)
+    fluxerr_new.append(1)
+
+
+
+
     from gen_methods import smooth
     fluxerr = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
 

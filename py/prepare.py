@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
 
 
-        do_plot = True
+        do_plot = False
         #Plotting
         if do_plot:
             fig, ax = pl.subplots()
@@ -126,6 +126,36 @@ if __name__ == '__main__':
         #Make equal length for saving
         wl_sdss = np.concatenate([wl_sdss,np.zeros(len(wl_out) - len(wl_sdss))])
         flux_sdss = np.concatenate([flux_sdss,np.zeros(len(flux_out) - len(flux_sdss))])
+
+        # fluxerr_new = []
+        # for j, (k, l) in enumerate(zip(flux_out,err_out)):
+        #     if k > 2 * flux_out[j-2] and k > 0:
+        #         fluxerr_new.append(100*l)
+        #     elif k < 1/2 * flux_out[j-2] and k > 0:
+        #         fluxerr_new.append(100*l)
+        #     else:
+        #         fluxerr_new.append(l)
+        # from gen_methods import smooth
+        # err_out = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
+
+        fluxerr_new = []
+        for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
+            if k > 1.5 * flux_out[j-1] and k > 0:
+                fluxerr_new.append(abs(1000*err_out[j+1]))
+            elif k < 0.75 * flux_out[j-1] and k > 0:
+                fluxerr_new.append(abs(1000*err_out[j+1]))
+            else:
+                fluxerr_new.append(abs(err_out[j+1]))
+        fluxerr_new.append(0)
+        from gen_methods import smooth
+        err_out = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
+
+
+
+
+
 
         #Saving to .dat file
         dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]

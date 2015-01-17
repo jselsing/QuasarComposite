@@ -47,47 +47,6 @@ import glob
 import matplotlib.pyplot as pl
 from numpy.polynomial import chebyshev
 
-def test():
-    """ Testing Docstring"""
-    pass
-
-def voigt(xarr,amp,xcen,Gfwhm,Lfwhm):
-    from scipy.special import wofz
-
-    """
-    voigt profile
-
-    V(x,sig,gam) = Re(w(z))/(sig*sqrt(2*pi))
-    z = (x+i*gam)/(sig*sqrt(2))
-
-    Converted from
-    http://mail.scipy.org/pipermail/scipy-user/2011-January/028327.html
-    """
-    tmp = 1.0/wofz(np.zeros((len(xarr)))+1j*np.sqrt(np.log(2.0))*Lfwhm).real
-    tmp = tmp*amp*wofz(2*np.sqrt(np.log(2.0))*(xarr-xcen)/Gfwhm+1j*np.sqrt(np.log(2.0))*Lfwhm).real
-    return tmp
-
-
-def continuum_fit(wl, flux, fluxerr, edge_mask_len = 300):
-    """
-    Small function to estimate continuum. Takes spectrum and uses only the edges, as specified by edge_mask_len, fits
-    a polynomial and returns the fit.
-    :param wl: Wavelenght array in which to estimate continuum
-    :param flux: Corresponding flux array
-    :param fluxerr: Corresponding array containing flux errors
-    :param edge_mask_len: Size of edges to use to interpolate continuum
-    :return: Interpolated continuum
-    """
-    wl_chebfit = np.hstack((wl[:edge_mask_len],wl[-edge_mask_len:]))
-    mask_cont = np.array([i for i,n in enumerate(wl) if n in wl_chebfit])
-    chebfit = chebyshev.chebfit(wl_chebfit, flux[mask_cont], deg = 1, w=1/fluxerr[mask_cont]**2)
-    chebfitval = chebyshev.chebval(wl, chebfit)
-    return chebfitval, chebfit
-
-
-
-
-
 
 
 
@@ -100,6 +59,20 @@ if __name__ == '__main__':
     wl = obs[:,0]
     flux = obs[:,1]
     fluxerr = obs[:,2]
+
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux,fluxerr)):
+        if k > 2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        elif k < 1/2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
+
+
     sdss_wl = (obs[:,3])[np.where(obs[:,3] != 0)]
     sdss_flux = (obs[:,4])[np.where(obs[:,3] != 0)]
     redshifts = 1.98041
@@ -122,6 +95,7 @@ if __name__ == '__main__':
     fluxerr_fit = fluxerr[mask]
 
     #Fit continuum and subtract
+    from methods import continuum_fit
     cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=2)
     chebfitval = chebyshev.chebval(wl, chebfit)
 

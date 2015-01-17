@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
 
     #Cut out fitting region
-    mask = np.logical_and(wl > 12400, (wl < 12700))
+    mask = np.logical_and(wl > 12300, (wl < 12700))
     wl_fit = wl[mask]
     flux_fit = flux[mask]
     fluxerr_fit = fluxerr[mask]

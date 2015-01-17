@@ -188,6 +188,7 @@ if __name__ == '__main__':
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
     redshifts = [1.1257, 1.98041, 1.57697, 1.82389, 1.51237, 2.096, 1.30914]
+    print(np.mean(redshifts))
     for x,i in enumerate(sdssobjects):
 
         obs = np.genfromtxt(glob.glob(i+'Telluric_corrected_science.dat')[0])

@@ -47,48 +47,6 @@ import glob
 import matplotlib.pyplot as pl
 from numpy.polynomial import chebyshev
 
-def test():
-    """ Testing Docstring"""
-    pass
-
-def voigt(xarr,amp,xcen,Gfwhm,Lfwhm):
-    from scipy.special import wofz
-
-    """
-    voigt profile
-
-    V(x,sig,gam) = Re(w(z))/(sig*sqrt(2*pi))
-    z = (x+i*gam)/(sig*sqrt(2))
-
-    Converted from
-    http://mail.scipy.org/pipermail/scipy-user/2011-January/028327.html
-    """
-    tmp = 1.0/wofz(np.zeros((len(xarr)))+1j*np.sqrt(np.log(2.0))*Lfwhm).real
-    tmp = tmp*amp*wofz(2*np.sqrt(np.log(2.0))*(xarr-xcen)/Gfwhm+1j*np.sqrt(np.log(2.0))*Lfwhm).real
-    return tmp
-
-
-def continuum_fit(wl, flux, fluxerr, edge_mask_len = 300):
-    """
-    Small function to estimate continuum. Takes spectrum and uses only the edges, as specified by edge_mask_len, fits
-    a polynomial and returns the fit.
-    :param wl: Wavelenght array in which to estimate continuum
-    :param flux: Corresponding flux array
-    :param fluxerr: Corresponding array containing flux errors
-    :param edge_mask_len: Size of edges to use to interpolate continuum
-    :return: Interpolated continuum
-    """
-    wl_chebfit = np.hstack((wl[:edge_mask_len],wl[-edge_mask_len:]))
-    mask_cont = np.array([i for i,n in enumerate(wl) if n in wl_chebfit])
-    chebfit = chebyshev.chebfit(wl_chebfit, flux[mask_cont], deg = 1, w=1/fluxerr[mask_cont]**2)
-    chebfitval = chebyshev.chebval(wl, chebfit)
-    return chebfitval, chebfit
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -100,6 +58,18 @@ if __name__ == '__main__':
     wl = obs[:,0]
     flux = obs[:,1]
     fluxerr = obs[:,2]
+
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux,fluxerr)):
+        if k > 2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        elif k < 1/2 * flux[j-2] and k > 0:
+            fluxerr_new.append(l + 2e-16)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
     sdss_wl = (obs[:,3])[np.where(obs[:,3] != 0)]
     sdss_flux = (obs[:,4])[np.where(obs[:,3] != 0)]
     redshifts = 1.1257
@@ -122,6 +92,7 @@ if __name__ == '__main__':
     fluxerr_fit = fluxerr[mask]
 
     #Fit continuum and subtract
+    from methods import continuum_fit
     cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=2)
     chebfitval = chebyshev.chebval(wl, chebfit)
 
@@ -156,56 +127,51 @@ if __name__ == '__main__':
     from methods import ConfInt
     y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
-
-    from plotting import plotting
-    xrng = (10100, 10800)
-    yrng = (3.75e-16, 7.4e-16)
-    fig = plotting.plot_data(wl, flux, xrng=xrng, yrng=yrng, lw=0.8,
-            label='SDSS0820+1306', label_error='Error',
-            plot_top_tick=True, z=z_op)
-    ax1, ax2, ax3 = fig.axes
-
-    ax1.plot(wl_fit, y_op, 'r-', label='[OIII] fit')
-    ax1.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
-
-    for p in range(len(fit_line_positions)):
-        xcoord = linelist[p]*(1+z_op)
-        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
-        y_val = np.mean(flux[mask])
-        ax1.axvline(x=xcoord,color='green',linestyle='dashed', lw=1.2)
-        #ax2.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
-        ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
-
-    ax1.legend()
-    import matplotlib
-    x1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
-    ax1.xaxis.set_major_formatter(x1_formatter)
-    y1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
-    ax1.yaxis.set_major_formatter(y1_formatter)
-    for item in ([ax1.title, ax1.xaxis.label, ax1.yaxis.label] + ax1.get_xticklabels() + ax3.get_yticklabels() + [ax3.title, ax3.xaxis.label, ax3.yaxis.label] + ax3.get_xticklabels() + ax2.get_yticklabels()):
-        item.set_fontsize(22)
-    # t = pl.title('SDSS0820')
-    # t.set_y(1.11)
-    #pl.tight_layout()
-
-    pl.savefig("LineFit.pdf", clobber=True)
-    pl.show(block=True)
-
-
+    # Plotting for the paper
+    # from plotting import plotting
+    # xrng = (10100, 10800)
+    # yrng = (3.75e-16, 7.4e-16)
+    # fig = plotting.plot_data(wl, flux, xrng=xrng, yrng=yrng, lw=0.8,
+    #         label='SDSS0820+1306', label_error='Error',
+    #         plot_top_tick=True, z=z_op)
+    # ax1, ax2, ax3 = fig.axes
+    #
+    # ax1.plot(wl_fit, y_op, 'r-', label='[OIII] fit')
+    # ax1.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
+    #
+    # for p in range(len(fit_line_positions)):
+    #     xcoord = linelist[p]*(1+z_op)
+    #     mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+    #     y_val = np.mean(flux[mask])
+    #     ax1.axvline(x=xcoord,color='green',linestyle='dashed', lw=1.2)
+    #     #ax2.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
+    #     ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
+    #
+    # ax1.legend()
+    # import matplotlib
+    # x1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
+    # ax1.xaxis.set_major_formatter(x1_formatter)
+    # y1_formatter = matplotlib.ticker.ScalarFormatter(useOffset=False)
+    # ax1.yaxis.set_major_formatter(y1_formatter)
+    # for item in ([ax1.title, ax1.xaxis.label, ax1.yaxis.label] + ax1.get_xticklabels() + ax3.get_yticklabels() + [ax3.title, ax3.xaxis.label, ax3.yaxis.label] + ax3.get_xticklabels() + ax2.get_yticklabels()):
+    #     item.set_fontsize(22)
+    # # t = pl.title('SDSS0820')
+    # # t.set_y(1.11)
+    # #pl.tight_layout()
+    #
+    # pl.savefig("LineFit.pdf", clobber=True)
+    # pl.show(block=True)
 
 
-
-
-
-    #Overplot lines
-    for p in range(len(fit_line_positions)):
-        xcoord = linelist[p]*(1+z_op)
-        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
-        y_val = np.mean(flux[mask])
-        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
-        pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
-
-
+    # #Overplot lines
+    # for p in range(len(fit_line_positions)):
+    #     xcoord = linelist[p]*(1+z_op)
+    #     mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+    #     y_val = np.mean(flux[mask])
+    #     pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
+    #     pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.15 ),fontsize='small')
+    #
+    #
     pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
     pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
@@ -218,4 +184,9 @@ if __name__ == '__main__':
     pl.ylabel(r'FLux [erg/cm$^2$/s/\AA]')
     pl.tight_layout()
     pl.savefig("Line-fit.pdf", dpi= 150)
-    #pl.show()
+    pl.show()
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
+    data = np.array(zip(wl, flux, err_out, wl_sdss, flux_sdss), dtype=dt)
+    file_name = "Telluric_corrected_science"
+    np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror, sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
