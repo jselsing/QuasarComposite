@@ -170,6 +170,8 @@ In the method employed by the Xshooter-Spectral-Library (XSL), Chen2014b, a libr
 
 
 \section{Composite Construction}
+
+\subsection{Determine redshift}
 Getting the systemic redshift of quasars from emission lines is complicated by the complex physical structure in which they emitted. For the bright blue quasars selected for our composite many of the prominent high-ionization lines visible will arise in hot clouds with large peculiar velocities and will therefore be affected by systematic line-shifts (reference). To get a redshift closer to the systemic we choose [OIII] $\lambda$5007,  arising in the narrow-line region and therefore less affected by systematic offsets, (reference) to fit for the redshift. [OIII] is situated on a broad Fe-complex and slightly blended with [OIII] $\lambda$4959 and H$\beta$, with H$\beta$ both containing broad and narrow components. To get an accurate estimate of the redshift we mark both sides of the line belonging to [OIII] $\lambda$5007 where it starts to become blended, do a low order polynomial fit to the edges and subtract this pseudo-continuum. We define a Gaussian in terms of the rest wavelenght of [OIII] and leave the redshift as a free parameter and then fit to the line where a weighted minimization of the residuals is done using least squares and the confidence intervals on the best-fit parameters is determined by resampling from a multivariate Gaussian with best-fit values as the mean and a covariance matrix which is the estimated Hessian at the minimum. The weights used are the inverse variance, $\frac{1}{\sigma^2}$, where $\sigma$ is the statistical error of the spectrum. The 1$\sigma$ confidence intervals on the fit parameters are set by the 16th and 84th percentile of the resampling realizations. Least squares minimization do not guarantee to find the global minimum of the residuals, but we check visually that the fit is satisfactory. [OIII] $\lambda$5007 is visible in all of our spectra so additional refinement is not needed. As a starting guess for the redshift we use redshifts queried from SDSS. For all of our spectra we find slight corrections to the redshift.
 
 \begin{figure}
@@ -178,25 +180,19 @@ Getting the systemic redshift of quasars from emission lines is complicated by t
 \caption{Gaussian fit of [OIII] $\lambda$5007. The red solid line is the linear-least-squared best fit with 1$\sigma$ confidence interval. Green dashed lines indicate the position of neighboring lines at the redshift of [OIII]. It can be seen that H$\beta$ is red-shifted as compared with the redshift of [OIII], indicative of large peculiar velocities.\label{fig3}}
 \end{figure}
 
+\subsection{Rebin}
 Before we can combine the spectra we need to move then to their local frame and because of the varying redshifts of the objects, the spectra will have their arms overlap at different locations. X-shooter, being a cross-dispersion echelle spectrograph, will have a non-linear dispersion solution and order to conserve the most information without oversampling we need to choose a representative bin size on which to interpolate our spectra to. The largest sampling in the NIR arm is $0.6$\r{A}/pix and for an average redshift of $z_{avg} = 1.6$ gives us the conservative bin size of $0.4$\r{A}/pix at the rest-frame. Since our spectra have significantly better resolution than the nominal values and the UVB and VIS arms have a sampling of $0.2$\r{A}/pix we will be throwing away spectral information to make sure that we are not oversampling. We create a wavelength grid from 1000-11665\r{A} in steps of 0.4\r{A} giving $\sim$ 26500 spectral elements on which we linearly interpolate our shifted spectra. Since the constituent spectra have higher sampling than the target grid (elaborate here?)
 
-In order to combine the spectra in a meaningful way, we need to put them on equal grounds as not to favor one spectrum over the other and biasing our final spectrum towards a certain kind. Depending on the type of features we are interested in and on the combination method employed, there are different ways to achieve this normalization. Because the spectra have different absolute flux-scales, a popular way to normalize is to choose an area of overlapping wavelength and then scale the entire spectrum by the median value of the flux in the overlapping region and then combine the spectra consecutively, always scaling to overlapping region.
+\subsection{Normalisation and combination}
+In order to combine the spectra in a meaningful way, we need to put them on equal grounds as not to favor one spectrum over the other and biasing our final spectrum towards a certain kind of shape. Depending on the type of features we are interested in and on the combination method employed, there are different ways to achieve this normalization. Because the spectra have different absolute flux-scales, a popular way to normalize is to choose an area of overlapping wavelength and then scale the entire spectrum by the median value of the flux in the overlapping region and then combine the spectra consecutively, always scaling to overlapping region. The region chosen will affect how the final spectrum will look. 
 
 
-
-
-\subsection{title}
-
-Normalization.
-Rest-frame determination.
-Non-linear dispersion. 
-Effective resolution.
 Combination method. Weighted average. Variance of weighted average is a bias estimator. Bootstrap to get variance. Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. Potentially also bootstrapping to estimate true population CI
 . 
 \section{Results}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
 \section{Discussion}
-Bla bla bla
+Something extremely profound
 \section{Conclusion}
 
 
