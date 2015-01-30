@@ -22,13 +22,16 @@ if __name__ == '__main__':
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
+    sdssobjects = ['SDSS0021+0043/', 'SDSS0022+0124/', 'SDSS0820+1306/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1249-0559/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/', 'SDSS2123-0050/', 'SDSS2313+0034/']
+    sdssobjects = ['SDSS0820+1306/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/']
+    sdssobjects = ['SDSS1431+0535/']
+
     arms = ['UVB', 'VIS', 'NIR']
     redshifts = [1.1257, 1.98041, 1.57697, 1.82389, 1.51237, 2.096, 1.30914]
     for x,i in enumerate(sdssobjects):
-        transmissionfiles = glob.glob(i+'*transmission*')
-        obs = glob.glob(i+'*OBJECT*/*IDP*')
+        transmissionfiles = glob.glob(root_dir+i+'*transmission*')
+        obs = glob.glob(root_dir+i+'*OBJECT*/*IDP*')
         obj_name = i[-14:-1]
-
         wl_out = []
         flux_out = []
         test = []
@@ -49,6 +52,11 @@ if __name__ == '__main__':
             flux = ob[1].data.field('FLUX')[0]
             err = ob[1].data.field('ERR')[0]
             transmission = tran[0].data
+            # pl.plot(wl,flux)
+
+            pl.plot(wl,flux, lw = 0.5, linestyle='steps-mid')
+
+
             #trans_new = []
             for j, k in enumerate(transmission):
                 if k <= 1e-10:
@@ -58,7 +66,9 @@ if __name__ == '__main__':
 
             fluxi = flux / transmission
             err = err / transmission
-
+            pl.plot(wl,transmission*np.median(flux), lw = 0.5, linestyle='steps-mid')
+            pl.plot(wl,fluxi, lw = 0.5, linestyle='steps-mid')
+            pl.show()
 
             wl_tmp, fluxi, err_tmp, transmission_tmp, start_tmp, end_tmp = inter_arm_cut(wl, fluxi, err, transmission, n, start, end)
             wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
@@ -82,7 +92,7 @@ if __name__ == '__main__':
         test = np.hstack(test)
 
         #Get SDSS spectrum
-        imageSDSS= glob.glob(i+'*spec*.fits')
+        imageSDSS= glob.glob(root_dir+i+'*spec*.fits')
         data1SDSS= fits.open(imageSDSS[0])
         wl_sdss = 10.0**np.array(data1SDSS[1].data.field('loglam').flat)
         flux_sdss =  np.array(data1SDSS[1].data.field('flux').flat) * 1.e-17
@@ -139,29 +149,60 @@ if __name__ == '__main__':
         # err_out = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
 
 
-        fluxerr_new = []
+        # fluxerr_new = []
+        # for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
+        #     if k > 1.5 * flux_out[j-1] and k > 0:
+        #         fluxerr_new.append(abs(1000*err_out[j+1]))
+        #     elif k < 0.75 * flux_out[j-1] and k > 0:
+        #         fluxerr_new.append(abs(1000*err_out[j+1]))
+        #     else:
+        #         fluxerr_new.append(abs(err_out[j+1]))
+        # fluxerr_new.append(0)
+        # from gen_methods import smooth
+        # err_out = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+
+
+        # fluxerr_new = []
+        # for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
+        #     if k > 1.2 * flux_out[j-1] or k < 0:
+        #        fluxerr_new.append(abs(1000*err_out[j+1]))
+        #     elif k < 0.80 * flux_out[j-1] or k < 0:
+        #         fluxerr_new.append(abs(1000*err_out[j+1]))
+        #     else:
+        #         fluxerr_new.append(abs(err_out[j+1]))
+        # fluxerr_new.append(0)
+        # from gen_methods import smooth
+        # fluxerr_new = smooth(np.array(fluxerr_new), window_len=1, window='hanning')
+
+
+        bp_map = []
         for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
-            if k > 1.5 * flux_out[j-1] and k > 0:
-                fluxerr_new.append(abs(1000*err_out[j+1]))
-            elif k < 0.75 * flux_out[j-1] and k > 0:
-                fluxerr_new.append(abs(1000*err_out[j+1]))
+            if k > 1.1 * flux_out[j-1] or k < 0:
+               bp_map.append(1)
+            elif k < 0.90 * flux_out[j-1] or k < 0:
+               bp_map.append(1)
             else:
-                fluxerr_new.append(abs(err_out[j+1]))
-        fluxerr_new.append(0)
-        from gen_methods import smooth
-        err_out = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+               bp_map.append(0)
+        bp_map.append(1)
 
 
 
 
 
+
+        # print(len(wl_out))
+        # print(len(fluxerr_new))
+        # print(len(flux_out))
+        # pl.plot(wl_out, flux_out, linestyle='steps-mid')
+        # pl.plot(wl_out, bp_map, linestyle='steps-mid')
+        # pl.show()
 
 
         #Saving to .dat file
-        dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
-        data = np.array(zip(wl_out, flux_out, err_out, wl_sdss, flux_sdss), dtype=dt)
+        dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
+        data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
         file_name = "Telluric_corrected_science"
-        np.savetxt(i+file_name+".dat", data, header="wl flux fluxerror, sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
+        np.savetxt(root_dir+i+file_name+".dat", data, header="wl flux fluxerror bp_map sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
      
             
             

@@ -93,8 +93,8 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
     
     # Here the actual fit starts.
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
-                       goodpixels=goodPixels, plot=False, moments=4, 
-                       degree=4, mdegree=4, vsyst=dv, clean=True, regul=1)
+                       goodpixels=goodPixels, plot=False, moments=4,
+                       degree=20, mdegree=20, vsyst=dv, clean=True)
 
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     import numpy as np
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
-    sdssobject = 'SDSS1437-0147'
+    sdssobject = glob.glob(root_dir+'SDSS1431+0535/')
     sdssobjects = glob.glob(root_dir+'*/')
     #Load in Model steller spetra
 
@@ -137,7 +137,7 @@ if __name__ == '__main__':
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
 
 
-    for i in sdssobjects:
+    for i in sdssobject:
         print 'Working on object: '+i
         tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
         

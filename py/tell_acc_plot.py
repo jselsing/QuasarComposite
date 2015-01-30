@@ -51,6 +51,8 @@ if __name__ == '__main__':
     arms = ['UVB', 'VIS', 'NIR']     
     for i in sdssobjects:
         obs = glob.glob(i+'*QC*')
+        obs_check = glob.glob((i + '*uncorrected*'))
+
         obj_name = i[-14:-1]
 
 #        fig = None
@@ -60,14 +62,21 @@ if __name__ == '__main__':
 #                print 'In arm: '+n
                 
                 ob = [k for k in obs if n in k]
-                print(ob)
+
 
                 dat = np.genfromtxt(str(ob[0]), dtype = np.float64)
                 wl = dat[:,0]
                 tell = dat[:,1]
                 fit = dat[:,2]
-                fig = plot.plot_data(wl,tell, lw=0.2)
-                fig = plot.plot_data(wl,fit, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
+                corr = fit/tell
+
+                dat_check = np.genfromtxt(str(obs_check[0]), dtype = np.float64)
+                wl_check = dat_check[:,0]
+                flux_check = dat_check[:,1] / np.median(dat_check[:,1])
+
+                fig = plot.plot_data(wl, corr, lw=0.2)
+                fig = plot.plot_data(wl_check, flux_check, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
+                # fig = plot.plot_data(wl,fit, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
                 if n == 'VIS':
 #                    print fig.axes                    
 #                    .set_xlim((6200,10130))
