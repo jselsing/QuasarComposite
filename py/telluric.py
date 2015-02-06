@@ -78,10 +78,10 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
         mask = (obs_lambda < np.log(5500)) & (obs_lambda > np.log(3100))
         goodPixels = np.where(mask == True)[0]
     elif obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "VIS":
-        mask = (obs_lambda > np.log(5500)) & (obs_lambda < np.log(6860)) | (obs_lambda > np.log(7045)) & (obs_lambda < np.log(7140)) | (obs_lambda > np.log(7355)) & (obs_lambda < np.log(7570)) | (obs_lambda > np.log(7710)) & (obs_lambda < np.log(8090)) | (obs_lambda > np.log(8400)) & (obs_lambda < np.log(8900)) | (obs_lambda > np.log(9900)) & (obs_lambda < np.log(10100))
+        mask = (obs_lambda > np.log(5500)) & (obs_lambda < np.log(6350)) | (obs_lambda > np.log(6380)) & (obs_lambda < np.log(6860)) | (obs_lambda > np.log(7045)) & (obs_lambda < np.log(7140)) | (obs_lambda > np.log(7355)) & (obs_lambda < np.log(7570)) | (obs_lambda > np.log(7710)) & (obs_lambda < np.log(8090)) | (obs_lambda > np.log(8400)) & (obs_lambda < np.log(8900)) | (obs_lambda > np.log(9900)) & (obs_lambda < np.log(10100))
         goodPixels = np.where(mask == True)[0]     
     elif obs_spectrum_header['HIERARCH ESO SEQ ARM'] == "NIR":   
-        mask = (obs_lambda < np.log(10950)) | (obs_lambda > np.log(12240)) & (obs_lambda < np.log(12500)) | (obs_lambda > np.log(12800)) & (obs_lambda < np.log(12950)) | (obs_lambda > np.log(15300)) & (obs_lambda < np.log(17100)) | (obs_lambda > np.log(21000)) & (obs_lambda < np.log(23700))  
+        mask = (obs_lambda > np.log(10000)) & (obs_lambda < np.log(10950)) | (obs_lambda > np.log(12240)) & (obs_lambda < np.log(12500)) | (obs_lambda > np.log(12800)) & (obs_lambda < np.log(12950)) | (obs_lambda > np.log(15300)) & (obs_lambda < np.log(17100)) | (obs_lambda > np.log(21000)) & (obs_lambda < np.log(23700))
         goodPixels = np.where(mask == True)[0]
         
 
@@ -89,12 +89,12 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
     c = 299792.458
     dv = 0# (logLam2[0]-logLam1[0])*c # km/s
     vel = 0 # Initial estimate of the LOSVD km/s
-    start = [vel, 50.] # (km/s), starting guess for [V,sigma]
+    start = [vel, 10.] # (km/s), starting guess for [V,sigma]
     
     # Here the actual fit starts.
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
-                       goodpixels=goodPixels, plot=False, moments=4,
-                       degree=20, mdegree=20, vsyst=dv, clean=True)
+                       goodpixels=goodPixels, plot=True, moments=4,
+                       degree=5, mdegree=5, vsyst=dv)
 
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
@@ -112,8 +112,8 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
     import spec   
     obj_spec = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.galaxy, oversamp =1000)
     template_fit = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.bestfit, oversamp =1000)
-    plt.plot(wl_obs,obj_spec, color='black', linestyle = 'steps-mid')
-    plt.plot(wl_obs, template_fit, color='red')
+    # plt.plot(wl_obs,obj_spec, color='black', linestyle = 'steps-mid')
+    # plt.plot(wl_obs, template_fit, color='red')
 
     return obj_spec,template_fit,obs_spectrum_header
 #------------------------------------------------------------------------------
@@ -126,29 +126,46 @@ if __name__ == '__main__':
     import glob
     import matplotlib.pyplot as pl
     import numpy as np
+    from scipy.interpolate import splrep,splev
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobject = glob.glob(root_dir+'SDSS1431+0535/')
     sdssobjects = glob.glob(root_dir+'*/')
+    sdssobjects = ['SDSS0022+0124/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1249-0559/']
+    #sdssobjects = ['SDSS1249-0559/']
     #Load in Model steller spetra
 
-    arms = ['UVB', 'VIS', 'NIR']
+    arms = ['VIS', 'NIR']
+    # arms = ['NIR']
 
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
+    # library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TEMPLATES/*/*.fits')
 
-
-    for i in sdssobject:
+    for i in sdssobjects:
+        i = root_dir + i
         print 'Working on object: '+i
-        tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
+        tell_files = glob.glob(i+'TELLURIC_STAR/*/*IDP*')
+        print(tell_files)
+        master_response = glob.glob(i+'M.X*.fits')
         
-        
-        for n in arms:
+        for l,n in enumerate(arms):
             print 'In arm: '+n
             tell_file = [k for k in tell_files if n in k]
             tell_file = fits.open(tell_file[0])
             wl = 10.0*tell_file[1].data.field('WAVE')[0]
-            flux = tell_file[1].data.field('FLUX')[0]
-            err = tell_file[1].data.field('ERR')[0]
+
+            resp = fits.open(master_response[l+1])
+            response_wl = resp[1].data.field('LAMBDA')*10.0
+            response = (resp[1].data.field('RESPONSE'))
+            interp = splrep(response_wl,response)
+            response_interp = splev(wl,interp)
+
+
+
+
+
+            flux = tell_file[1].data.field('FLUX')[0] * response_interp
+            err = tell_file[1].data.field('ERR')[0] * response_interp
 
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
@@ -163,7 +180,7 @@ if __name__ == '__main__':
             
 
             print("close the plot to continue")
-            pl.show(block=True)
+            # pl.show(block=True)
     
 
     

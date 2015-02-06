@@ -218,8 +218,44 @@ Bootstrapping to estimate true population CI? - Not viable for weighted average,
 
 \section{Results}
 
-To check whether we have addressed the near-infrared excess, we start checking if we can adequately fit for the amount of intrinsic visual extinction in one of heavily extincted quasars, where we know the existing composite to be insufficient. We use the gordon-parametrisation with smc-like dust and fit for $A_V$
-Comparison with composite constructed from SDSS spectra. Comparison with mean composite without weights to ensure that we are not biased towards spectra with low variance. Geometric mean. 
+We show the weighted mean composite in Fig. \ref{composite}. Characteristic features of quasars are readily visible, where plotted on log-log scale the continuum shows the broken power-law shape with the break around 5000 \r{A} a is usually detected. We see several prominent emission lines across the entire spectral range which includes both very broad high-ionization lines and narrower lower-ionization lines as is very typical for quasar spectra.  
+
+
+
+ We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \r{A} up to H$\gamma$ at 4340 \r{A}. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
+
+\subsection{Consequence of combination/sampling/telluric/ methods}
+To test effect of the $\sim$ 10 \% variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate the composite from the SDSS spectra. We see a very close agreement between the two composites and estimate that the error in the flux-calibration is within 10\%.
+% Do this
+
+To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
+%Do this
+
+To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
+%Do this
+
+
+
+ To ensure that we are not biasing the composite towards the spectra with the highest signal-to-noise we compare the error-weighted mean composite with the composite generated from the mean.
+ %Do this
+ 
+  
+In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
+%Do this
+
+
+
+
+
+\subsection{The case of Q0918+1636}
+To check whether we have addressed the problem
+ with the near-infrared excess, we start checking if we can adequately fit for the amount of intrinsic visual extinction in one of heavily extincted quasars, where we know the existing composite to be insufficient. We use the gordon-parametrisation with smc-like dust and fit for $A_V$
+ 
+ \subsection{The case of Q2222-0946}
+Here we redo the analysis of the previous subsection on the object Q2222-0946.
+
+
+\subsection{Comparison to existing composites}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
 
  \begin{figure*}

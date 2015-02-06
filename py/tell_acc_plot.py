@@ -48,6 +48,7 @@ if __name__ == '__main__':
     
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*/')
+    print(sdssobjects)
     arms = ['UVB', 'VIS', 'NIR']     
     for i in sdssobjects:
         obs = glob.glob(i+'*QC*')

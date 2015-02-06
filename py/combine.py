@@ -4,7 +4,7 @@
 """
 SYNOPSIS
 
-    TODO helloworld [-h,--help] [-v,--verbose] [--version]
+   TODO helloworld [-h,--help] [-v,--verbose] [--version]
 
 DESCRIPTION
 
@@ -56,6 +56,7 @@ def main():
     sdssobjects = glob.glob(root_dir+'*SDSS*/Telluric_corrected_science.dat')
     redshifts = [1.1250, 1.9798, 1.5826, 1.8458, 1.5123, 2.0998, 1.3092]
     ebv = [0.0253, 0.0201, 0.0279, 0.0268, 0.0330, 0.0274, 0.0378]
+    # TODO Is there a better way to import the txt files?
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 
     wl = np.array([sdss_data_files[i][:,0] / (1 + redshifts[i]) for i in range(len(sdssobjects))])
@@ -64,6 +65,9 @@ def main():
     fluxerr = np.array([sdss_data_files[i][:,2] for i in range(len(sdssobjects))])
     bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
 
+
+
+    # TODO Implement this interpolation as a more general method
     # Interpolate to a common wavelength:
     short = []
     tall = []
@@ -100,13 +104,17 @@ def main():
     bp_map = bp_map_new
 
 
+
+
     #------------------------- Combination -------------------------
+    # TODO Methodize this to avoid microchangning
     # Weighted average:
     wmean = np.zeros(np.shape(wl))
     mean = np.zeros(np.shape(wl))
     geo_mean = np.zeros(np.shape(wl))
     median = np.zeros(np.shape(wl))
     errofmean = np.zeros(np.shape(wl))
+    errofwmean = np.zeros(np.shape(wl))
     import scipy
     import scikits.bootstrap as bootstrap
     CI_low = np.zeros(np.shape(mean))
@@ -117,12 +125,12 @@ def main():
             #Weighted mean
             weight = 1./(np.array(fluxerr.transpose()[i][mask])**2)
             wmean[i] = np.average(k[mask], axis = 0, weights = weight)
-            errofmean[i] = np.sqrt(1./np.sum(np.array(fluxerr.transpose()[i][mask])**-2.,axis=0))
+            errofwmean[i] = np.sqrt(1./np.sum(np.array(fluxerr.transpose()[i][mask])**-2.,axis=0))
 
 
             #Mean
             mean[i] = np.mean(k[mask])
-            # errofmean[i] = np.std(fluxerr.transpose()[i][mask])
+            errofmean[i] = np.std(fluxerr.transpose()[i][mask])
 
 
             #Geometric mean
@@ -140,48 +148,18 @@ def main():
             #     print(i)
         else:
             mean[i] = 0
+            errofmean[i] = 0
+            wmean[i] = 0
+            errofwmean[i] = 0
             geo_mean[i] = 0
             median[i] = 0
             CI_low[i], CI_high[i] = 0, 0
 
-    pl.plot(wl, mean/errofmean, lw=0.5, color = 'black')
-    pl.xlabel(r'Rest wavelength [\AA]')
-    pl.ylabel(r'S/N')
-    pl.savefig("../documents/signal_to_noise.pdf", dpi= 150)
-    pl.clf()
-
-    #Calculation of unmasked weighted mean
-    # weight = 1./(np.array(fluxerr)**2)
-    # mean = np.average(flux, axis = 0, weights = weight)
-    # errofmean = np.sqrt(1./np.sum(np.array(fluxerr)**-2.,axis=0))
-    # mean = np.median(flux, axis = 0)
 
 
 
-    # Bootstrapping to get confidence intervals
-    # import scipy
-    # import scikits.bootstrap as bootstrap
-    # CI_low = np.zeros(np.shape(mean))
-    # CI_high = np.zeros(np.shape(mean))
-    # for i,j in enumerate(flux.transpose()[:-1]):
-    #     CI_low[i], CI_high[i] = bootstrap.ci(data=j, statfunction=scipy.average, n_samples=100, method='abc', epsilon=weight.transpose()[i])
-    #     if (i % 1000==0):
-    #         print(i)
-    # boot_mean = (CI_high + CI_low)/2
-    # from xshoo.binning import binning1d
-    # wl_ci = binning1d(wl, 5)
-    # CI_low = binning1d(CI_low, 5)
-    # CI_high = binning1d(CI_high, 5)
-    # pl.plot(wl, median, color='black', lw=0.3)
-    # pl.plot(wl, boot_mean, color='red', lw=0.6)
-    # pl.fill_between(wl_ci, CI_low , CI_high, color= 'red', alpha = 0.2)
-    # pl.show()
-    # pl.plot(wl, mean, color='black', lw = 0.5)
-    # pl.show()
-
-
-
-    #Calculating the number of spectra that goes into the composite and appending to n_spec.
+    # TODO Methodize this?
+    # Calculating the number of spectra that goes into the composite and appending to n_spec.
     n_spec = np.zeros(np.shape(mean))
     spec = []
     for i, n in enumerate(flux.transpose()):
@@ -190,11 +168,14 @@ def main():
         if len(n[np.where(n != 0)]) == 7:
             spec.append(n / np.median(n))
 
-    pl.plot(wl, n_spec, lw = 0.5, color = 'black')
-    pl.xlabel(r'Rest wavelength [\AA]')
-    pl.ylabel(r'Number of spectra')
-    pl.savefig("../documents/number_spec.pdf", dpi= 150)
-    pl.clf()
+    errofmean = errofmean / np.sqrt(n_spec)
+
+
+    # pl.plot(wl, n_spec, lw = 0.5, color = 'black')
+    # pl.xlabel(r'Rest wavelength [\AA]')
+    # pl.ylabel(r'Number of spectra')
+    # pl.savefig("../documents/number_spec.pdf", dpi= 150)
+    # pl.clf()
 
     # Checking for normality
     # from matplotlib import pyplot as plt
@@ -224,20 +205,64 @@ def main():
     # bins = 5
     # wl = binning1d(wl, bins)
     # mean, std = binning1d(mean, bins, err=errofmean)
-    mean = medfilt(mean, 5)
+    # mean = medfilt(mean, 5)
+    errofmean = medfilt(errofmean, 5)
     wmean = medfilt(wmean, 5)
+    errofwmean = medfilt(errofwmean, 5)
     geo_mean = medfilt(geo_mean, 5)
     median = medfilt(median, 5)
     #mean = smooth(np.array(mean), window_len=5, window='hanning')
 
 
 
+
+    #Fitting power laws
+    from scipy import optimize
+
+    def power_law(x_tmp, a_tmp, k_tmp):
+
+        tmp = a_tmp * x_tmp ** k_tmp
+        return tmp
+
+    def power_law2(x_tmp, a1_tmp, k1_tmp, a2_tmp, k2_tmp):
+
+        tmp1 = power_law(x_tmp, a1_tmp,k1_tmp)[x_tmp<5000]
+
+        tmp2 = power_law(x_tmp, a2_tmp,k2_tmp)[x_tmp>= 5000]
+
+        return np.concatenate((tmp1,tmp2))
+
+    par_guess = [1, -1.54, 1, -1.46]
+
+
+    # pl.plot(wl, power_law2(wl, par_guess))
+    # pl.show()
+    wmean[np.where(np.isnan(wmean) == True)] = 0
+
+    mask = (wl > 1350) & (wl < 1365) | (wl > 4200) & (wl < 4230) | (wl > 6005) & (wl < 6035) | (wl > 7160) & (wl < 7180)
+    print(mask)
+    popt, pcov = optimize.curve_fit(power_law2, wl[mask], wmean[mask], p0=par_guess)
+
+
+    print(*popt)
+
+
+
+
+    # pl.plot(wl, wmean/errofwmean, lw=0.5, color = 'black')
+    # pl.xlabel(r'Rest wavelength [\AA]')
+    # pl.ylabel(r'S/N')
+    # pl.savefig("../documents/signal_to_noise.pdf", dpi= 150)
+    # pl.show()
+    # pl.clf()
+
     #Plotting
+    pl.plot(wl, power_law2(wl, *popt))
     pl.plot(wl, wmean, color = 'black', lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
     # pl.plot(wl, mean, color = 'black', lw = 0.5, linestyle = 'steps-mid', label='X-shooter mean composite')
     # pl.plot(wl, geo_mean, color = 'red', lw = 0.5, linestyle = 'steps-mid', label='X-shooter geometric composite')
     # pl.plot(wl, median, color = 'green', lw = 0.5, linestyle = 'steps-mid', label='X-shooter median composite')
-    #pl.plot(wl_new, errofmean, color = 'black', lw = 0.5, linestyle = 'steps-mid')
+    # pl.plot(wl_new, errofmean, color = 'black', lw = 0.5, linestyle = 'steps-mid')
 
     #Overplot lines
     fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
@@ -257,7 +282,7 @@ def main():
         pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
 
 
-    #------------------------- Auxilliary products -------------------------
+    # ------------------------- Auxilliary products -------------------------
     # Johans Composite:
     vandenberk = np.loadtxt('Glikman.data')
     mask = (wl > 3600) & (wl < 3700)
@@ -268,7 +293,7 @@ def main():
     mask = (wl > 3600) & (wl < 3700)
     maskVB = (vandenberk2[:,0] > 3600) & (vandenberk2[:,0] < 3700)
     norm2 = np.median(vandenberk2[:,1][maskVB]) / np.median(mean[mask])
-    # pl.plot(vandenberk[:,0],vandenberk[:,1]/norm,drawstyle='steps-mid',label='Glikman Composite')
+    pl.plot(vandenberk[:,0],vandenberk[:,1]/norm,drawstyle='steps-mid',label='Glikman Composite')
     # pl.plot(vandenberk2[:,0],vandenberk2[:,1]/norm2,drawstyle='steps-mid',label='Vanden Berk Composite')
 
 
@@ -276,7 +301,9 @@ def main():
     pl.xlim((0.95*short, 1.01*tall))
     pl.xlabel(r'Rest Wavelength  [\AA]')
     pl.ylabel(r'Normalised FLux [unitless]')
-    pl.semilogy()
+    # pl.semilogy()
+    # pl.semilogx()
+    pl.loglog()
     pl.legend()
     pl.tight_layout()
     fig = pl.gcf()

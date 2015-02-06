@@ -22,19 +22,21 @@ if __name__ == '__main__':
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
-    sdssobjects = ['SDSS0021+0043/', 'SDSS0022+0124/', 'SDSS0820+1306/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1249-0559/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/', 'SDSS2123-0050/', 'SDSS2313+0034/']
+    # sdssobjects = ['SDSS0021+0043/', 'SDSS0022+0124/', 'SDSS0820+1306/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1249-0559/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/', 'SDSS2123-0050/', 'SDSS2313+0034/']
+    # sdssobjects = [ 'SDSS0022+0124/', 'SDSS0820+1306/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1249-0559/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/', 'SDSS2123-0050/', 'SDSS2313+0034/']
+
     sdssobjects = ['SDSS0820+1306/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/', 'SDSS1354-0013/', 'SDSS1431+0535/', 'SDSS1437-0147/']
-    sdssobjects = ['SDSS1431+0535/']
+    # sdssobjects = ['SDSS1431+0535/']
 
     arms = ['UVB', 'VIS', 'NIR']
-    redshifts = [1.1257, 1.98041, 1.57697, 1.82389, 1.51237, 2.096, 1.30914]
+    # arms = [ 'VIS', 'NIR']
     for x,i in enumerate(sdssobjects):
         transmissionfiles = glob.glob(root_dir+i+'*transmission*')
         obs = glob.glob(root_dir+i+'*OBJECT*/*IDP*')
         obj_name = i[-14:-1]
         wl_out = []
         flux_out = []
-        test = []
+        flux_uncorr = []
         err_out = []
         start = []
         end = []
@@ -72,7 +74,7 @@ if __name__ == '__main__':
 
             wl_tmp, fluxi, err_tmp, transmission_tmp, start_tmp, end_tmp = inter_arm_cut(wl, fluxi, err, transmission, n, start, end)
             wl, flux, err, transmission, start, end = inter_arm_cut(wl, flux, err, transmission, n, start, end)
-            test.append(flux)
+            flux_uncorr.append(flux)
 
 
 
@@ -89,7 +91,7 @@ if __name__ == '__main__':
         wl_out = np.hstack(wl_out)
         flux_out = np.hstack(flux_out)
         err_out = np.hstack(err_out)
-        test = np.hstack(test)
+        flux_uncorr = np.hstack(flux_uncorr)
 
         #Get SDSS spectrum
         imageSDSS= glob.glob(root_dir+i+'*spec*.fits')
@@ -105,7 +107,7 @@ if __name__ == '__main__':
         if do_plot:
             fig, ax = pl.subplots()
             ax.plot(wl_out,flux_out, lw=0.1, color = 'black', label='Corrected')
-            ax.plot(wl_out,test, lw=0.1, color = "red", label ="Uncorrected")
+            ax.plot(wl_out,flux_uncorr, lw=0.1, color = "red", label ="Uncorrected")
             # ax.plot(wl_sdss,flux_sdss, lw=0.1, color = "blue", label ="SDSS")
             #Format axes
             #ax.set_xlim([3000,25000])
@@ -200,12 +202,20 @@ if __name__ == '__main__':
 
         #Saving to .dat file
         dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
+        data = np.array(zip(wl_out, flux_uncorr, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
+        file_name = "Telluric_uncorrected_science"
+        np.savetxt(root_dir+i+file_name+".dat", data, header="wl flux fluxerror bp_map sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
+
+
+        #Saving to .dat file
+        dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64), ("wl sdss", np.float64), ("flux sdss", np.float64) ]
         data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
         file_name = "Telluric_corrected_science"
         np.savetxt(root_dir+i+file_name+".dat", data, header="wl flux fluxerror bp_map sdss_wl, sdss_flux")#, fmt = ['%5.1f', '%2.15E'] )
-     
-            
-            
+
+
+
+
             
             
             
