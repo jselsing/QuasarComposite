@@ -163,6 +163,17 @@ def main():
     fluxerr_fit = err_out[mask]
 
 
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux_fit,fluxerr_fit)):
+        if k > 1.5 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        elif k < 0.75 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr_fit = smooth(np.array(fluxerr_new), window_len=15, window='hanning')
+
     #Fit continuum and subtract
     from methods import continuum_fit
     from numpy.polynomial import chebyshev
@@ -198,6 +209,8 @@ def main():
 
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
+    best_vals[2] = z_sdss
+    y_sdss = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
     # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
@@ -207,6 +220,7 @@ def main():
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
     pl.plot(wl_fit, y_op, 'r-')
+    pl.plot(wl_fit, y_sdss, 'b-')
     # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((14000, 15300))
     pl.ylim((1e-17, 5e-16))

@@ -223,15 +223,18 @@ def main():
 
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
+    best_vals[2] = z_sdss
+    y_sdss = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
     # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
-    pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
-    pl.plot(wl, err, color = 'black', lw = 0.2)
+    pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    pl.plot(wl_out, err_out, color = 'black', lw = 0.2)
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
     pl.plot(wl_fit, y_op, 'r-')
+    pl.plot(wl_fit, y_sdss, 'b-')
     # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((12000, 13500))
     pl.ylim((0, 2e-13))

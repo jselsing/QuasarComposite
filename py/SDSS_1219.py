@@ -159,6 +159,17 @@ def main():
     flux_fit = flux_out[mask]
     fluxerr_fit = err_out[mask]
 
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux_fit,fluxerr_fit)):
+        if k > 1.5 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        elif k < 0.75 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr_fit = smooth(np.array(fluxerr_new), window_len=15, window='hanning')
+
     #Fit continuum and subtract
     from methods import continuum_fit
     from numpy.polynomial import chebyshev

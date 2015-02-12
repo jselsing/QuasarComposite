@@ -189,6 +189,16 @@ def main():
     flux_fit = flux_out[mask]
     fluxerr_fit = err_out[mask]
 
+    fluxerr_new = []
+    for j, (k, l) in enumerate(zip(flux_fit,fluxerr_fit)):
+        if k > 1.5 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        elif k < 0.75 * flux_fit[j-2] and k > 0:
+            fluxerr_new.append(l*50)
+        else:
+            fluxerr_new.append(l)
+    from gen_methods import smooth
+    fluxerr_fit = smooth(np.array(fluxerr_new), window_len=15, window='hanning')
 
     #Fit continuum and subtract
     from methods import continuum_fit
@@ -225,6 +235,8 @@ def main():
 
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
+    best_vals[2] = z_sdss
+    y_sdss = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
     # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
@@ -234,11 +246,12 @@ def main():
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
     pl.plot(wl_fit, y_op, 'r-')
+    pl.plot(wl_fit, y_sdss, 'b-')
     # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((12000, 13500))
     pl.ylim((0, 2e-13))
     pl.show()
-    flag = 0
+    flag = 1
 
 
     from astroquery.irsa_dust import IrsaDust
@@ -259,12 +272,10 @@ def main():
     file_name = "Telluric_uncorrected_science"
     np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl sdss flux sdss ")#, fmt = ['%5.1f', '%2.15E'] )
 
-
     #Saving to .dat file
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
           ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
     data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
-
     file_name = "Telluric_corrected_science"
     np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss ")#, fmt = ['%5.1f', '%2.15E'] )
 
