@@ -131,11 +131,11 @@ if __name__ == '__main__':
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobject = glob.glob(root_dir+'SDSS1431+0535/')
     sdssobjects = glob.glob(root_dir+'*/')
-    sdssobjects = ['SDSS0022+0124/', 'SDSS1013+0851/', 'SDSS1101+0548/', 'SDSS1249-0559/']
-    #sdssobjects = ['SDSS1249-0559/']
+    # sdssobjects = ['SDSS0209-0947/', 'SDSS0043+0114/', 'SDSS0155-1023/',]
+    sdssobjects = [ 'SDSS0303+0027/', 'SDSS0323-0029/', 'SDSS0842+0151/', 'SDSS1002+0331/' , 'SDSS1158-0322/']
     #Load in Model steller spetra
 
-    arms = ['VIS', 'NIR']
+    arms = [ 'VIS', 'NIR']
     # arms = ['NIR']
 
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     for i in sdssobjects:
         i = root_dir + i
         print 'Working on object: '+i
-        tell_files = glob.glob(i+'TELLURIC_STAR/*/*IDP*')
+        tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
         print(tell_files)
         master_response = glob.glob(i+'M.X*.fits')
         

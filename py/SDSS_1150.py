@@ -1,3 +1,5 @@
+
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -39,43 +41,107 @@ __all__ = ["Module Name"]
 __version__ = "0.0.0"
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
-
-import numpy as np
-import glob
-import matplotlib.pyplot as pl
-from numpy.polynomial import chebyshev
 
 
+def main():
+    """Main script to prepare x-shooter observations for combination"""
+    from matplotlib import rc_file
+    rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+    from astropy.io import fits
+    import glob
+    import matplotlib.pyplot as pl
+    import numpy as np
+    import plotting.plotting as plot
+    from xshoo.combine import inter_arm_cut
+    from scipy.interpolate import splrep,splev
+
+    #Files
+    obj_name = 'SDSS1150-0023'
+    root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+obj_name
+    object_files = glob.glob(root_dir+'/OBJECT/*IDP*.fits')
+    transmission_files = glob.glob(root_dir+'/transmission*.fits')
+    arms = ['UVB', 'VIS', 'NIR']
+    wl_out = []
+    flux_out = []
+    flux_uncorr_out = []
+    err_out = []
+    start = []
+    end = []
+
+    for n in arms:
+        print('In arm: '+n)
 
 
-if __name__ == '__main__':
+        #Read in object spectrum
+        obser = [k for k in object_files if n in k]
+        ob = fits.open(obser[0])
+        wl = 10.0*ob[1].data.field('WAVE')[0]
+        flux = ob[1].data.field('FLUX')[0]
+        err = ob[1].data.field('ERR')[0]
 
-    #Get spectrum
-    object = []
-    root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/SDSS1150-0023/'
-    obs = np.genfromtxt(glob.glob(root_dir+'Telluric_corrected_science.dat')[0])
-    wl = obs[:,0]
-    flux = obs[:,1]
-    fluxerr = obs[:,2]
+        wl_tmp, flux_uncorr, err_tmp, start_tmp, end_tmp = inter_arm_cut(wl, flux, err, n, start, end)
+        if n== 'VIS' or n== 'NIR':
+            transmission = fits.open([k for k in transmission_files if n in k][0])[0].data
+            for j, k in enumerate(transmission):
+                if k <= 1e-10:
+                    transmission[j] = 1
+            flux /= transmission
+            err /= transmission
+        wl, flux, err, start, end = inter_arm_cut(wl, flux, err, n, start, end)
 
-    fluxerr_new = []
-    for j, (k, l) in enumerate(zip(flux,fluxerr)):
-        if k > 2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
-        elif k < 1/2 * flux[j-2] and k > 0:
-            fluxerr_new.append(l + 2e-16)
+        wl_out.append(wl)
+        flux_out.append(flux)
+        err_out.append(err)
+        flux_uncorr_out.append(flux_uncorr)
+
+    wl_out = np.hstack(wl_out)
+    flux_out = np.hstack(flux_out)
+    err_out = np.hstack(err_out)
+    flux_uncorr_out = np.hstack(flux_uncorr_out)
+
+    bp_map = []
+    for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
+        if k > 1.1 * flux_out[j-1] or k < 0:
+           bp_map.append(1)
+        elif k < 0.90 * flux_out[j-1] or k < 0:
+           bp_map.append(1)
         else:
-            fluxerr_new.append(l)
-    from gen_methods import smooth
-    fluxerr = smooth(np.array(fluxerr_new), window_len=5, window='hanning')
+           bp_map.append(0)
+    bp_map.append(1)
+
+    import json
+    import urllib2
+
+    query_terms = dict()
+    query_terms["ra"] = str(ob[0].header['RA'])+'d' #"185.1d"
+    query_terms["dec"] = str(ob[0].header['DEC'])  #"56.78"
+    query_terms["radius"] = "5.0"
+
+    url = "http://api.sdss3.org/spectrumQuery?" + '&'.join(["{0}={1}".format(key, value) for key, value in query_terms.items()])
+    print(url)
+    # make call to API
+    response = urllib2.urlopen(url)
+
+    # read response, converting JSON format to Python list
+    matching_ids = json.loads(response.read())
+    print(json.dumps(matching_ids, indent=4))
+
+    # get the first id
+    spec_id = matching_ids[0]
+
+    url = "http://api.sdss3.org/spectrum?id={0}&format=json".format(spec_id)
+
+    response = urllib2.urlopen(url)
+    result = json.loads(response.read())
+    SDSS_spectrum = result[spec_id]
+
+    wl_sdss = np.array(SDSS_spectrum["wavelengths"])
+    flux_sdss =  np.array(SDSS_spectrum["flux"])
+    z_sdss = (np.array(SDSS_spectrum["z"]))
 
 
-
-    sdss_wl = (obs[:,3])[np.where(obs[:,3] != 0)]
-    sdss_flux = (obs[:,4])[np.where(obs[:,3] != 0)]
-    redshifts = 1.98041
+    wl_sdss = np.concatenate([wl_sdss,np.zeros(len(wl_out) - len(wl_sdss))])
+    flux_sdss = np.concatenate([flux_sdss,np.zeros(len(flux_out) - len(flux_sdss))])
 
 
     # Load linelist
@@ -84,20 +150,25 @@ if __name__ == '__main__':
     for n in fit_line_positions:
         linelist.append(n[1])
     linelist = np.array(linelist)
-    linelist = linelist / (1.0 + 2.735182E-4 + 131.4182 / linelist**2 + 2.76249E8 / linelist**4)
 
+
+    from methods import wavelength_conversion
+    linelist = wavelength_conversion(linelist, conversion='vacuum_to_air')
 
 
     #Cut out fitting region
-    mask = np.logical_and(wl > 14800, (wl < 15000))
-    wl_fit = wl[mask]
-    flux_fit = flux[mask]
-    fluxerr_fit = fluxerr[mask]
+    mask = np.logical_and(wl_out > 14800, (wl_out < 15000))
+    wl_fit = wl_out[mask]
+    flux_fit = flux_out[mask]
+    fluxerr_fit = err_out[mask]
+
 
     #Fit continuum and subtract
     from methods import continuum_fit
-    cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=2)
+    from numpy.polynomial import chebyshev
+    cont, chebfit = continuum_fit(wl_fit, flux_fit, fluxerr_fit, edge_mask_len=20)
     chebfitval = chebyshev.chebval(wl, chebfit)
+
 
     #Define models to use
     from methods import voigt,gauss
@@ -111,7 +182,7 @@ if __name__ == '__main__':
 
 
     #Initial parameters
-    init_vals = [6e-17,10, redshifts]
+    init_vals = [6e-12,100, z_sdss]
     y_fit_guess = model2(wl_fit, *init_vals) + cont
 
 
@@ -122,29 +193,63 @@ if __name__ == '__main__':
     z_op = best_vals[-1]
     print("""Curve_fit results:
         Redshift = {0} +- {1} (SDSS: {2})
-    """.format(z_op, np.sqrt(covar[-1,-1]), redshifts))
+    """.format(z_op, np.sqrt(covar[-1,-1]), z_sdss))
+
 
     #Calculate best fit values + confidence values
-    y_op = model2(wl, *best_vals) + chebfitval
+    y_op = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
-    y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
+    # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
-    #Overplot lines
-    for p in range(len(fit_line_positions)):
-        xcoord = linelist[p]*(1+z_op)
-        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
-        y_val = np.mean(flux[mask])
-        pl.axvline(x=xcoord,color='green',linestyle='dashed', lw=0.75)
-        pl.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 1.4 ),fontsize='x-small')
-
-
-    pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
-    pl.plot(wl, fluxerr, color = 'black', lw = 0.2)
+    pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    pl.plot(wl_out, err_out, color = 'black', lw = 0.2)
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
-    pl.plot(wl, y_op, 'r-')
-    pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
+    pl.plot(wl_fit, y_op, 'r-')
+    # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((14000, 15300))
     pl.ylim((1e-17, 5e-16))
     pl.show()
+    flag = 1
+
+
+    from astroquery.irsa_dust import IrsaDust
+    import astropy.coordinates as coord
+    import astropy.units as u
+    C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
+    dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
+    ebv = np.mean(dust_image[0].data)
+
+
+
+
+
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
+          ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
+    data = np.array(zip(wl_out, flux_uncorr_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
+    file_name = "Telluric_uncorrected_science"
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl sdss flux sdss ")#, fmt = ['%5.1f', '%2.15E'] )
+
+
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
+          ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
+    data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
+
+    file_name = "Telluric_corrected_science"
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss ")#, fmt = ['%5.1f', '%2.15E'] )
+
+
+    #Saving to .dat file
+    dt = [("z_op", np.float64), ("z_sdss", np.float64), ("flag", np.float64), ("ebv", np.float64)]
+    data = np.array(zip([z_op], [z_sdss], [flag], [ebv]), dtype=dt)
+    file_name = "Object_info"
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="z_op z_sdss flag ebv ") #, fmt = ['%5.1f', '%2.15E'] )
+
+
+
+
+if __name__ == '__main__':
+    main()

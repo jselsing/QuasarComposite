@@ -54,7 +54,7 @@ def main():
     from scipy.interpolate import splrep,splev
 
     #Files
-    obj_name = 'SDSS0043+0114'
+    obj_name = 'SDSS0155-1023'
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+obj_name
     object_files = glob.glob(root_dir+'/OBJECT/*IDP*.fits')
     respose_files = glob.glob(root_dir+'/M.X*.fits')
@@ -182,7 +182,7 @@ def main():
 
 
     #Cut out fitting region
-    mask = np.logical_and(wl_out > 12750, (wl_out < 13000))
+    mask = np.logical_and(wl_out > 12600, (wl_out < 13000))
     wl_fit = wl_out[mask]
     flux_fit = flux_out[mask]
     fluxerr_fit = err_out[mask]
@@ -224,19 +224,19 @@ def main():
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
 
-    # from methods import ConfInt
+    from methods import ConfInt
     # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
-    # pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
-    # pl.plot(wl, err, color = 'black', lw = 0.2)
-    # #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
-    # #pl.plot(wl_fit, y_fit_guess)
-    # pl.plot(wl_fit, y_op, 'r-')
-    # # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
-    # pl.xlim((12000, 13500))
-    # pl.ylim((0, 2e-13))
-    # pl.show()
-    flag = 1
+    pl.plot(wl, flux , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    pl.plot(wl, err, color = 'black', lw = 0.2)
+    #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
+    #pl.plot(wl_fit, y_fit_guess)
+    pl.plot(wl_fit, y_op, 'r-')
+    # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
+    pl.xlim((12000, 13500))
+    pl.ylim((0, 2e-13))
+    pl.show()
+    flag = 0
 
 
     from astroquery.irsa_dust import IrsaDust

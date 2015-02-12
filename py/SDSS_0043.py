@@ -236,7 +236,7 @@ def main():
     # pl.xlim((12000, 13500))
     # pl.ylim((0, 2e-13))
     # pl.show()
-    flag = 1
+    flag = 0
 
 
     from astroquery.irsa_dust import IrsaDust

@@ -1,6 +1,5 @@
 
 
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -57,9 +56,10 @@ def main():
     from scipy.interpolate import splrep,splev
 
     #Files
-    obj_name = 'SDSS1437-0147'
+    obj_name = 'SDSS1158-0322'
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+obj_name
     object_files = glob.glob(root_dir+'/OBJECT/*IDP*.fits')
+    respose_files = glob.glob(root_dir+'/M.X*.fits')
     transmission_files = glob.glob(root_dir+'/transmission*.fits')
     arms = ['UVB', 'VIS', 'NIR']
     wl_out = []
@@ -80,25 +80,44 @@ def main():
         flux = ob[1].data.field('FLUX')[0]
         err = ob[1].data.field('ERR')[0]
 
+
+        #Read in master response curve
+        master_response = [k for k in respose_files if n in fits.open(k)[0].header['HIERARCH ESO SEQ ARM']]
+        resp = fits.open(master_response[0])
+        response_wl = resp[1].data.field('LAMBDA')*10.0
+        response = (resp[1].data.field('RESPONSE'))
+        response_wl = response_wl
+        interp = splrep(response_wl,response)
+
+        #Apply master response function
+        flux *= splev(wl,interp)
+        err *= splev(wl,interp)
+
         wl_tmp, flux_uncorr, err_tmp, start_tmp, end_tmp = inter_arm_cut(wl, flux, err, n, start, end)
         if n== 'VIS' or n== 'NIR':
             transmission = fits.open([k for k in transmission_files if n in k][0])[0].data
+
             for j, k in enumerate(transmission):
                 if k <= 1e-10:
                     transmission[j] = 1
+
             flux /= transmission
             err /= transmission
+
         wl, flux, err, start, end = inter_arm_cut(wl, flux, err, n, start, end)
+
 
         wl_out.append(wl)
         flux_out.append(flux)
         err_out.append(err)
         flux_uncorr_out.append(flux_uncorr)
 
+
     wl_out = np.hstack(wl_out)
     flux_out = np.hstack(flux_out)
     err_out = np.hstack(err_out)
     flux_uncorr_out = np.hstack(flux_uncorr_out)
+
 
     bp_map = []
     for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
@@ -110,6 +129,12 @@ def main():
            bp_map.append(0)
     bp_map.append(1)
 
+
+    #Get SDSS spectrum
+    # imageSDSS= glob.glob(root_dir+i+'*spec*.fits')
+    # data1SDSS= fits.open(imageSDSS[0])
+
+
     import json
     import urllib2
 
@@ -117,6 +142,7 @@ def main():
     query_terms["ra"] = str(ob[0].header['RA'])+'d' #"185.1d"
     query_terms["dec"] = str(ob[0].header['DEC'])  #"56.78"
     query_terms["radius"] = "5.0"
+
 
     url = "http://api.sdss3.org/spectrumQuery?" + '&'.join(["{0}={1}".format(key, value) for key, value in query_terms.items()])
     print(url)
@@ -140,9 +166,10 @@ def main():
     flux_sdss =  np.array(SDSS_spectrum["flux"])
     z_sdss = (np.array(SDSS_spectrum["z"]))
 
-    #Insert zeros
+
     wl_sdss = np.concatenate([wl_sdss,np.zeros(len(wl_out) - len(wl_sdss))])
     flux_sdss = np.concatenate([flux_sdss,np.zeros(len(flux_out) - len(flux_sdss))])
+
 
     # Load linelist
     fit_line_positions = np.genfromtxt('fitlinelist.txt', dtype=None)
@@ -151,25 +178,17 @@ def main():
         linelist.append(n[1])
     linelist = np.array(linelist)
 
+
     from methods import wavelength_conversion
     linelist = wavelength_conversion(linelist, conversion='vacuum_to_air')
 
+
     #Cut out fitting region
-    mask = np.logical_and(wl_out > 11350, (wl_out < 11750))
+    mask = np.logical_and(wl_out > 12800, (wl_out < 13060))
     wl_fit = wl_out[mask]
     flux_fit = flux_out[mask]
     fluxerr_fit = err_out[mask]
 
-    fluxerr_new = []
-    for j, (k, l) in enumerate(zip(flux_fit,fluxerr_fit)):
-        if k > 1.5 * flux_fit[j-2] and k > 0:
-            fluxerr_new.append(l*50)
-        elif k < 0.75 * flux_fit[j-2] and k > 0:
-            fluxerr_new.append(l*50)
-        else:
-            fluxerr_new.append(l)
-    from gen_methods import smooth
-    fluxerr_fit = smooth(np.array(fluxerr_new), window_len=15, window='hanning')
 
     #Fit continuum and subtract
     from methods import continuum_fit
@@ -188,9 +207,11 @@ def main():
             tmp = gauss(t, abs(amp2), (1+z)*linelist[2], sig22g)
             return tmp
 
+
     #Initial parameters
     init_vals = [6e-12,100, z_sdss]
     y_fit_guess = model2(wl_fit, *init_vals) + cont
+
 
     #Fit
     import scipy.optimize as op
@@ -200,6 +221,7 @@ def main():
     print("""Curve_fit results:
         Redshift = {0} +- {1} (SDSS: {2})
     """.format(z_op, np.sqrt(covar[-1,-1]), z_sdss))
+
 
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
@@ -212,12 +234,12 @@ def main():
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
     pl.plot(wl_fit, y_op, 'r-')
-    pl.plot(wl_fit, fluxerr_fit)
     # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
-    pl.xlim((11000, 11700))
-    pl.ylim((0, 2e-15))
+    pl.xlim((12000, 13500))
+    pl.ylim((0, 2e-13))
     pl.show()
     flag = 1
+
 
     from astroquery.irsa_dust import IrsaDust
     import astropy.coordinates as coord
@@ -225,6 +247,10 @@ def main():
     C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
     dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
     ebv = np.mean(dust_image[0].data)
+
+
+
+
 
     #Saving to .dat file
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
@@ -251,6 +277,6 @@ def main():
 
 
 
+
 if __name__ == '__main__':
     main()
-
