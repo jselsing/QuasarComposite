@@ -94,7 +94,7 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
     # Here the actual fit starts.
     pp = ppxf.ppxf(templates, tell_obs, tell_obs_err, velscale, start,
                        goodpixels=goodPixels, plot=True, moments=4,
-                       degree=5, mdegree=5, vsyst=dv)
+                       degree=5, mdegree=5, vsyst=dv, regul = 10)
 
     print "Formal errors:"    
     print "     dV    dsigma   dh3      dh4"
@@ -132,11 +132,14 @@ if __name__ == '__main__':
     sdssobject = glob.glob(root_dir+'SDSS1431+0535/')
     sdssobjects = glob.glob(root_dir+'*/')
     # sdssobjects = ['SDSS0209-0947/', 'SDSS0043+0114/', 'SDSS0155-1023/',]
-    sdssobjects = [ 'SDSS0303+0027/', 'SDSS0323-0029/', 'SDSS0842+0151/', 'SDSS1002+0331/' , 'SDSS1158-0322/']
+    # sdssobjects = [ 'SDSS0303+0027/', 'SDSS0323-0029/', 'SDSS0842+0151/', 'SDSS1002+0331/' , 'SDSS1158-0322/']
+    # sdssobjects = [ 'SDSS0820+1306/', 'SDSS1150-0023/', 'SDSS1219-0100/', 'SDSS1236-0331/' , 'SDSS1354-0013/',
+    #                 'SDSS1431+0535/', 'SDSS1437-0147/']
+    sdssobjects = ['SDSS1150-0023/']
     #Load in Model steller spetra
 
-    arms = [ 'VIS', 'NIR']
-    # arms = ['NIR']
+    # arms = [ 'VIS', 'NIR']
+    arms = ['NIR']
 
     library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/R10000RES/*/*.fits')
     # library = glob.glob('/Users/jselsing/nosync/spectral_libraries/phoenix_spectral_library/TEMPLATES/*/*.fits')
@@ -145,27 +148,26 @@ if __name__ == '__main__':
         i = root_dir + i
         print 'Working on object: '+i
         tell_files = glob.glob(i+'TELLURIC_STAR/*IDP*')
-        print(tell_files)
-        master_response = glob.glob(i+'M.X*.fits')
+        # print(tell_files)
+        # master_response = glob.glob(i+'M.X*.fits')
         
         for l,n in enumerate(arms):
             print 'In arm: '+n
             tell_file = [k for k in tell_files if n in k]
             tell_file = fits.open(tell_file[0])
             wl = 10.0*tell_file[1].data.field('WAVE')[0]
-
-            resp = fits.open(master_response[l+1])
-            response_wl = resp[1].data.field('LAMBDA')*10.0
-            response = (resp[1].data.field('RESPONSE'))
-            interp = splrep(response_wl,response)
-            response_interp = splev(wl,interp)
-
+            # resp = fits.open(master_response[l+1])
+            # response_wl = resp[1].data.field('LAMBDA')*10.0
+            # response = (resp[1].data.field('RESPONSE'))
+            # interp = splrep(response_wl,response)
+            # response_interp = splev(wl,interp)
 
 
 
 
-            flux = tell_file[1].data.field('FLUX')[0] * response_interp
-            err = tell_file[1].data.field('ERR')[0] * response_interp
+
+            flux = tell_file[1].data.field('FLUX')[0] #* response_interp
+            err = tell_file[1].data.field('ERR')[0] #* response_interp
 
             gal, fit, hdr = find_best_template(wl, flux, err, tell_file[0].header, library)
             trans = (gal/fit)
@@ -180,7 +182,7 @@ if __name__ == '__main__':
             
 
             print("close the plot to continue")
-            # pl.show(block=True)
+            pl.show(block=True)
     
 
     

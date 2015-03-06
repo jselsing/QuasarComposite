@@ -44,6 +44,11 @@ __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
 
 
+
+
+
+
+
 def main():
     """Main script to prepare x-shooter observations for combination"""
     from matplotlib import rc_file
@@ -79,6 +84,7 @@ def main():
         wl = 10.0*ob[1].data.field('WAVE')[0]
         flux = ob[1].data.field('FLUX')[0]
         err = ob[1].data.field('ERR')[0]
+
 
         wl_tmp, flux_uncorr, err_tmp, start_tmp, end_tmp = inter_arm_cut(wl, flux, err, n, start, end)
         if n== 'VIS' or n== 'NIR':
@@ -139,6 +145,7 @@ def main():
     wl_sdss = np.array(SDSS_spectrum["wavelengths"])
     flux_sdss =  np.array(SDSS_spectrum["flux"])
     z_sdss = (np.array(SDSS_spectrum["z"]))
+    z_sdss_err = ((np.array(SDSS_spectrum["z_err"])))
 
     #Insert zeros
     wl_sdss = np.concatenate([wl_sdss,np.zeros(len(wl_out) - len(wl_sdss))])
@@ -199,23 +206,63 @@ def main():
     print(best_vals)
     z_op = best_vals[-1]
     print("""Curve_fit results:
-        Redshift = {0} +- {1} (SDSS: {2})
-    """.format(z_op, np.sqrt(covar[-1,-1]), z_sdss))
+        Redshift = {0} +- {1} (SDSS: {2} +- {3})
+    """.format(z_op, np.sqrt(covar[-1,-1]), z_sdss, z_sdss_err))
 
     #Calculate best fit values + confidence values
     y_op = model2(wl_fit, *best_vals) + cont
+    best_vals[2] = z_sdss
+    y_sdss = model2(wl_fit, *best_vals) + cont
 
     from methods import ConfInt
     # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
 
+
+
+
+
+    #Overplot lines
+    fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    linelist = []
+    for n in fit_line_positions:
+        linelist.append(n[1])
+    linelist = np.array(linelist)
+
+    # # print((1+z_op)*linelist[1])
+    # mask = (wl_out < (1+z_op)*linelist[1] + 300)
+    # wave = wl_out[mask]
+    # flux = flux_out[mask]
+    # import continuum_mark.interactive
+    # normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
+    # normalise.exclude_width = 1 #float(raw_input('Exclude_width (default = 20) = '))
+    # normalise.sigma_mask = 10 # float(raw_input('Sigma_mask (default = 3) = '))
+    # normalise.lover_mask = 0 #float(raw_input('Lover bound mask (default = 0) = '))
+    # normalise.tolerance = 0.05#float(raw_input('Filtering tolerance (default = 0.15) = '))
+    # # normalise.leg_order = float(raw_input('Filtering Chebyshev Order (default = 2) = '))
+    # normalise.spacing = 25 #float(raw_input('Spacing in pixels between spline points (default = 100) = '))
+    # normalise.division = 200 #float(raw_input('Maximum number of allowed points (default = 100) = '))
+    # # normalise.endpoint_order = float(raw_input('Order of polynomial used for placing endpoints (default = 4) = '))
+    # normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
+    #
+    # normalise.run()
+    # pl.show()
+    # cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
+
+
+
+
+
     pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')
     pl.plot(wl_out, err_out, color = 'black', lw = 0.2)
+    # pl.plot(wl_out, cont_out, color = 'red', lw = 0.2)
     #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
     #pl.plot(wl_fit, y_fit_guess)
     pl.plot(wl_fit, y_op, 'r-')
+    pl.plot(wl_fit, y_sdss, 'b-')
     pl.plot(wl_fit, fluxerr_fit)
     # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
     pl.xlim((15300, 15700))
+    # pl.xlim((3000, 4500))
     pl.ylim((1e-18, 4e-16))
     pl.show()
     flag = 1
@@ -226,22 +273,32 @@ def main():
     C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
     dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
     ebv = np.mean(dust_image[0].data)
+    print(ebv)
+
+    v_bary = ob[0].header['HIERARCH ESO QC VRAD BARYCOR']
+    c_km = (2.99792458e8/1000.0)
+    print("""Curve_fit results:
+        Redshift = {0} +- {1} (SDSS: {2} +- {3})
+    """.format(z_op + v_bary /c_km, np.sqrt(covar[-1,-1]), z_sdss, z_sdss_err))
+
+
+
 
     #Saving to .dat file
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
-          ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
-    data = np.array(zip(wl_out, flux_uncorr_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
+          ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
+    data = np.array(zip(wl_out, flux_uncorr_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
     file_name = "Telluric_uncorrected_science"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl sdss flux sdss ")#, fmt = ['%5.1f', '%2.15E'] )
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
+
 
 
     #Saving to .dat file
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
-          ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
-    data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
-
+          ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
+    data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
     file_name = "Telluric_corrected_science"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss ")#, fmt = ['%5.1f', '%2.15E'] )
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
 
 
     #Saving to .dat file

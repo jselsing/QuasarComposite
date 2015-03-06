@@ -47,7 +47,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as pl
     
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
-    sdssobjects = glob.glob(root_dir+'*/')
+    sdssobjects = glob.glob(root_dir+'*SDSS1431*/')
     print(sdssobjects)
     arms = ['UVB', 'VIS', 'NIR']     
     for i in sdssobjects:
@@ -56,14 +56,12 @@ if __name__ == '__main__':
 
         obj_name = i[-14:-1]
 
-#        fig = None
+        fig = None
 
         if obs != []:
             for n in arms:
 #                print 'In arm: '+n
-                
                 ob = [k for k in obs if n in k]
-
 
                 dat = np.genfromtxt(str(ob[0]), dtype = np.float64)
                 wl = dat[:,0]
@@ -75,13 +73,16 @@ if __name__ == '__main__':
                 wl_check = dat_check[:,0]
                 flux_check = dat_check[:,1] / np.median(dat_check[:,1])
 
-                fig = plot.plot_data(wl, corr, lw=0.2)
-                fig = plot.plot_data(wl_check, flux_check, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
-                # fig = plot.plot_data(wl,fit, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
+                fig = plot.plot_data(wl, tell, lw=0.2)
+                # fig = plot.plot_data(wl_check, flux_check, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
+                fig = plot.plot_data(wl,fit, lw=0.6, color = "red", fig=fig, title = 'Hip040217', ylabel = 'Normalised Flux')
                 if n == 'VIS':
 #                    print fig.axes                    
-#                    .set_xlim((6200,10130))
-                    fig.savefig('tell_corr_QC_'+n+'.eps', format='eps')
-            pl.show(block=True)
-            print fig.axes
+#                     fig.xlim((6200,10130))
+#                     fig.savefig('tell_corr_QC_'+n+'.eps', format='eps')
+                    fig.savefig("../documents/figs/tell_corr_QC_"+n+".pdf", clobber=True)
+                    # pl.show
+
+                pl.show(block=True)
+            # print fig.axes
                 

@@ -16,7 +16,7 @@
 %% head is a modified title of up to roughly 44 characters.
 %% Running heads will not print in the manuscript style.
 
-\shorttitle{Contamination-Free Quasar Composite}
+\shorttitle{Host-Free Quasar Composite}
 \shortauthors{Selsing et al.}
 
 %% This is the end of the preamble.  Indicate the beginning of the
@@ -28,7 +28,7 @@
 %% one line. However, you may use \\ to force a line break if
 %% you desire.
 
-\title{Contamination-Free Quasar Composite Spectrum}
+\title{Host-Free Quasar Composite Spectrum}
 
 %% Use \author, \affil, and the \and command to format
 %% author and affiliation information.
@@ -37,7 +37,7 @@
 %% anywhere in the paper, not just in the front matter.
 %% As in the title, use \\ to force line breaks.
 
-\author{J. Selsing\altaffilmark{1}, J. P. U. Fynbo\altaffilmark{1}, L. Christensen\altaffilmark{1}}
+\author{J. Selsing\altaffilmark{1}, J. P. U. Fynbo\altaffilmark{1}, L. Christensen\altaffilmark{1}, J. K. Kroager\altaffilmark{1}}
 \email{jselsing@dark-comoslogy.dk}
 
 
@@ -134,17 +134,25 @@ Telluric observations of hot dwarfs were taken close in time to allow for an acc
 \tablehead{\colhead{Quasar name}                                 			   &
            \colhead{$\alpha$(J2000)}                           				    	  &
            \colhead{$\delta$(J2000)}                   &
+           \colhead{$r$}                   &
 %           \mu
-           \colhead{$z$\,\tablenotemark{a}}                                   }
+           \colhead{$z_{SDSS}$\,\tablenotemark{a}}                                   }
 \startdata
-
-SDSS0820+1306  & 08 20 45.39 & $+$13 06 18.99 & 1.12        \\
-SDSS1150-0023  & 11 50 43.88 & $-$00 23 54.07 & 1.98         \\
-SDSS1219-0100  & 12 19 40.37& $-$01 00 07.49& 1.57           \\
-SDSS1236-0331  & 12 36 02.34 & $-$03 31 29.94 & 1.82          \\
-SDSS1354-0013  & 13 54 25.24 & $-$00 13 58.06 & 1.51          \\
-SDSS1431+0535  & 14 31 48.09 & $+$05 35 58.10 & 2.10         \\
-SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 1.31          \\
+%SDSS0043+0114  & 00:43:15.08 & $+$01:14:45.56 & 17.58 & 1.564      \\
+%SDSS0155-1023  & 01:55:04.73 & $-$10:23:28.38 & 17.35 & 1.549        \\
+%SDSS0209-0947  & 02:09:51.08 & $-$09:47:27.34 & 17.90 & 1.568       \\
+%SDSS0303+0027  & 03:03:42.78 & $+$00:27:00.50 & 17.84 & 1.647       \\
+%SDSS0323-0029  & 03:23:49.53 & $-$00:29:49.88 & 17.81 & 1.628      \\
+SDSS0820+1306  & 08 20 45.39 & $+$13 06 18.99 & 15.91 & 1.126        \\
+%SDSS0842+0151  & 08:42:40.63 & $+$01:51:34.14 & 17.62 & 1.485       \\
+%SDSS1002+0331  & 10:02:48.15 & $+$03:31:55.98 & 17.74 & 1.482      \\
+SDSS1150-0023  & 11 50 43.88 & $-$00 23 54.07 & 17.00 & 1.980         \\
+%SDSS1158-0322   & 11:58:41.37 & $-$03:22:39.93 & 17.56 & 1.576        \\
+SDSS1219-0100  & 12 19 40.37& $-$01 00 07.49& 16.82 & 1.577           \\
+SDSS1236-0331  & 12 36 02.34 & $-$03 31 29.94 & 16.91 & 1.824          \\
+SDSS1354-0013  & 13 54 25.24 & $-$00 13 58.06 & 16.68 & 1.512          \\
+SDSS1431+0535  & 14 31 48.09 & $+$05 35 58.10 & 16.74 & 2.096      \\
+SDSS1437-0147  & 14 37 48.29 & $-$01 47 10.79 & 15.44 & 1.309          \\
 
 \enddata
 
@@ -196,7 +204,7 @@ Choosing the right combination method is tricky business and each method has it'
  \caption{Test for normality in individual pixels.\label{normality}}
  \end{figure}
 
-In the case for uncorrelated pixels the minimal variance combination method is the inverse variance weighted mean, given again that the pixels can be treated as stochastic variables that follow a normal distribution $\mathcal{N}(\mu, \sigma_i^2)$ with mean $\mu$ and variance $\sigma_i^2$. The inverse variance weighted mean is calculated as:
+In the case for uncorrelated pixels the minimal variance point estimation for the sample mean is the inverse variance weighted mean, given again that the pixels can be treated as stochastic variables that follow a normal distribution $\mathcal{N}(\mu, \sigma_i^2)$ with mean $\mu$ and variance $\sigma_i^2$. The inverse variance weighted mean is calculated as:
 
 \begin{equation}
 \
@@ -222,7 +230,9 @@ We show the weighted mean composite in Fig. \ref{composite}. Characteristic feat
 
 
 
- We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \r{A} up to H$\gamma$ at 4340 \r{A}. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
+ We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \r{A} up to H$\gamma$ at 4340 \r{A}. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Expand this section a lot. Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
+ 
+ This should be described in greater detail.
 
 \subsection{Consequence of combination/sampling/telluric/ methods}
 To test effect of the $\sim$ 10 \% variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate the composite from the SDSS spectra. We see a very close agreement between the two composites and estimate that the error in the flux-calibration is within 10\%.
@@ -241,7 +251,7 @@ To test the effect of the sampling step size chosen we do all the combinations w
  
   
 In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
-%Do this
+%Do this. Maybe push further up.
 
 
 
@@ -254,9 +264,7 @@ To check whether we have addressed the problem
  \subsection{The case of Q2222-0946}
 Here we redo the analysis of the previous subsection on the object Q2222-0946.
 
-
-\subsection{Comparison to existing composites}
-Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman)
+ 
 
  \begin{figure*}
   \epsscale{1.25}
@@ -276,10 +284,40 @@ Continuum shape. Emission and absorption lines. Comparison with existing composi
  \caption{Number of spectra contributing to the composite.\label{number}}
  \end{figure}
 
+ \begin{figure}
+ \epsscale{1.25}
+ \plotone{std.pdf}
+ \caption{Variation in spectra.\label{number}}
+ \end{figure}
+
+
 \section{Discussion}
 Something extremely profound.
+
+
+
+\subsection{Comparison to existing composites}
+Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 
+
+
+\subsection{Consequences of application to Q0918+1636 and Q2222-0946}
+We see that we adequately can match the infrared photometry by deredding the composite we have constructed
+
+
+\subsection{Discussion of systematic}
+
+Selection effects always play a role in the result. We now discuss the possible effects selection has on our results. We have selected quasar at $r \lesssim 17.5$ and at z = 1-2. 
+
+\subsection{Discussion of systematic effects from the choice of targets}
+
+
+
+
 \section{Conclusion}
 We have reinvented the wheel.
+
+We have generated a quasar composite from 1000 \r{A} to 11000 \r{A} based on X-shooter observations of bright blue quasars at z = 1 - 2. We have confirmed that there is significant host-contamination in the widely employed Vanden Berk composite, and showed the difference this makes for the matching of photometry of red quasars
+
 
 %\bibliographystyle{plain}
 %\bibliography{/Users/jselsing/Work/Papers/bibtex/Husser2013a.bib}

@@ -91,6 +91,10 @@ def main():
         flux *= splev(wl,interp)
         err *= splev(wl,interp)
 
+
+
+
+
         wl_tmp, flux_uncorr, err_tmp, start_tmp, end_tmp = inter_arm_cut(wl, flux, err, n, start, end)
         if n== 'VIS' or n== 'NIR':
             transmission = fits.open([k for k in transmission_files if n in k][0])[0].data
@@ -252,7 +256,6 @@ def main():
 
 
 
-
     #Saving to .dat file
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
           ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
@@ -266,7 +269,6 @@ def main():
     dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
           ("wl_sdss", np.float64), ("flux_sdss", np.float64) ]
     data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss), dtype=dt)
-
     file_name = "Telluric_corrected_science"
     np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss "
                                                            + str(z_op) +" " + str(z_sdss) +" "+ str(ebv))#, fmt = ['%5.1f', '%2.15E'] )

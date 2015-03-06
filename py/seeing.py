@@ -27,6 +27,13 @@ if __name__ == '__main__':
     #Files
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     sdssobjects = glob.glob(root_dir+'*SDSS*/')
+    # print(sdssobjects)
+    obj_list =   [ 'SDSS0820+1306', 'SDSS1150-0023', 'SDSS1219-0100', 'SDSS1236-0331' , 'SDSS1354-0013',
+               'SDSS1431+0535', 'SDSS1437-0147']
+    # print(sdssobjects[0][-14:-1])
+    sdssobjects = [i for i in sdssobjects if i[-14:-1] in obj_list]
+
+
     arms = ['UVB', 'VIS', 'NIR']
     spat_fwhmUVB = []
     spat_fwhm_errUVB = []
@@ -37,6 +44,7 @@ if __name__ == '__main__':
     for i in sdssobjects:
         transmissionfiles = glob.glob(i+'*tran*')
         obs = glob.glob(i+'*OBJECT*/*2D*')
+
         obj_name = i[-14:-1]
 
         wl_out = []
@@ -154,26 +162,34 @@ if __name__ == '__main__':
     print(spec_fwhmNIR)
     spec_fwhmNIR = (spat_fwhmNIR / spat_fwhmVIS) * spec_fwhmVIS * 4.5
     print(spec_fwhmNIR)
-    # R =  spec_fwhm
-    # pl.scatter(np.array(spat_fwhm), R, s= 4)
+
+    spec_fwhm = spec_fwhmVIS
+    spat_fwhm = spat_fwhmVIS
+    spat_fwhm_err = spat_fwhm_errVIS
+    spec_fwhm_err = 0.01 * spec_fwhm
+
+    R =  spec_fwhm
+    pl.scatter(np.array(spat_fwhm), R, s= 4)
+
+    # x = [124.46, 8.20, 52.55, 4.33]
+    # y = [124.46, 50.2, 78.3, 778.8]
+    # xerr = [54.2, 0.1, 2.41, 1.78]
+    # yerr = [22.55, 0.37, 3.77, 0.14]
     #
-    # # x = [124.46, 8.20, 52.55, 4.33]
-    # # y = [124.46, 50.2, 78.3, 778.8]
-    # # xerr = [54.2, 0.1, 2.41, 1.78]
-    # # yerr = [22.55, 0.37, 3.77, 0.14]
-    # #
-    # descrip = ['SDSS0820+1306', 'SDSS1150-0023', 'SDSS1219-0100', 'SDSS1236-0331', 'SDSS1354-0013', 'SDSS1431+0535', 'SDSS1437-0147']
-    #
-    #
-    # pl.errorbar(spat_fwhm, R, xerr=spat_fwhm_err, capsize=0, ls='none', color='black',
-    #             elinewidth=1)
-    # s = [2 + 2 * n for n in range(len(spat_fwhm))]
-    # for xpos, ypos, name, yoff in zip(spat_fwhm, R, descrip, s):
-    #     pl.annotate(name, xy =[xpos, ypos], xytext=[xpos - 25, ypos + yoff], va='bottom',
-    #                 textcoords='offset points', fontsize=10)
-    # pl.title("Spatial - Spectral Seeing ")
-    # pl.xlabel("Spatial FWHM [arcsec]")
-    # pl.ylabel(r"Spectral FWHM [\AA]")
-    # pl.tight_layout()
-    # pl.savefig("Seeing.eps", dpi= 150)
-    #pl.show()
+    descrip = ['SDSS0820+1306', 'SDSS1150-0023', 'SDSS1219-0100', 'SDSS1236-0331', 'SDSS1354-0013', 'SDSS1431+0535', 'SDSS1437-0147']
+
+
+    pl.errorbar(spat_fwhm, R, xerr=spat_fwhm_err, yerr=spec_fwhm_err, capsize=1, ls='none', color='black',
+                elinewidth=1)
+    s = [3 - 3 * n for n in range(len(spat_fwhm))]
+    for xpos, ypos, name, yoff in zip(spat_fwhm, R, descrip, s):
+        pl.annotate(name, xy =[xpos, ypos], xytext=[xpos - 25, ypos + yoff], va='bottom',
+                    textcoords='offset points', fontsize=10)
+    pl.title("Spatial - Spectral Seeing ")
+    pl.xlabel("Spatial FWHM [arcsec]")
+    pl.ylabel(r"Spectral FWHM [\AA]")
+    pl.ylim((0.5, 0.8))
+    pl.xlim((0.6, 0.9))
+    pl.tight_layout()
+    pl.savefig("../documents/figs/Seeing.pdf", dpi= 150)
+    pl.show()
