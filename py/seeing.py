@@ -5,8 +5,77 @@ from __future__ import division, print_function
 
 __author__ = 'jselsing'
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import matplotlib
+
+from math import sqrt
+SPINE_COLOR = 'gray'
+
+def latexify(fig_width=None, fig_height=None, columns=1):
+    """Set up matplotlib's RC params for LaTeX plotting.
+    Call this before plotting a figure.
+
+    Parameters
+    ----------
+    fig_width : float, optional, inches
+    fig_height : float,  optional, inches
+    columns : {1, 2}
+    """
+
+    # code adapted from http://www.scipy.org/Cookbook/Matplotlib/LaTeX_Examples
+
+    # Width and max height in inches for IEEE journals taken from
+    # computer.org/cms/Computer.org/Journal%20templates/transactions_art_guide.pdf
+
+    assert(columns in [1,2])
+
+    if fig_width is None:
+        fig_width = 3.39 if columns==1 else 6.9 # width in inches
+
+    if fig_height is None:
+        golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
+        fig_height = fig_width*golden_mean # height in inches
+
+    MAX_HEIGHT_INCHES = 8.0
+    if fig_height > MAX_HEIGHT_INCHES:
+        print("WARNING: fig_height too large:" + fig_height +
+              "so will reduce to" + MAX_HEIGHT_INCHES + "inches.")
+        fig_height = MAX_HEIGHT_INCHES
+
+    params = {'backend': 'Qt4Agg',
+              'text.latex.preamble': ['\usepackage{gensymb}'],
+              'axes.labelsize': 8, # fontsize for x and y labels (was 10)
+              'axes.titlesize': 8,
+              'text.fontsize': 8, # was 10
+              'legend.fontsize': 8, # was 10
+              'xtick.labelsize': 8,
+              'ytick.labelsize': 8,
+              'text.usetex': True,
+              'figure.figsize': [fig_width,fig_height],
+              'font.family': 'serif'
+    }
+
+    matplotlib.rcParams.update(params)
 
 
+def format_axes(ax):
+
+    for spine in ['top', 'right']:
+        ax.spines[spine].set_visible(True)
+
+    for spine in ['left', 'bottom', 'top', 'right']:
+        ax.spines[spine].set_color(SPINE_COLOR)
+        ax.spines[spine].set_linewidth(0.5)
+
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+
+    for axis in [ax.xaxis, ax.yaxis]:
+        axis.set_tick_params(direction='out', color=SPINE_COLOR)
+
+    return ax
 
 
 
@@ -17,8 +86,7 @@ __author__ = 'jselsing'
 
 
 if __name__ == '__main__':
-    from matplotlib import rc_file
-    rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+    latexify()
     from astropy.io import fits
     import glob
     import matplotlib.pyplot as pl
@@ -129,14 +197,13 @@ if __name__ == '__main__':
             fwhm_err = np.sqrt(( dfdl**2) * (cov[3,3]**2) + ( dfdg**2) * (cov[2,2]**2))
             print(fwhm)
             print("Seeing FWHM (arcsec): ")
-
-
             print(fwhm * conv )
             print("Queried seeing (arcsec): ")
             print(ob[0].header["HIERARCH ESO TEL AMBI FWHM START"])
             print(ob[0].header["HIERARCH ESO TEL AMBI FWHM END"])
             print(ob[0].header["HIERARCH ESO TEL IA FWHMLINOBS"])
             print()
+
             if n == 'UVB':
                 spat_fwhmUVB.append(fwhm * conv )
                 spat_fwhm_errUVB.append(fwhm_err*conv)
@@ -147,8 +214,8 @@ if __name__ == '__main__':
                 spat_fwhmNIR.append(fwhm * conv )
                 spat_fwhm_errNIR.append(fwhm_err*conv)
 
-    # #spat_fwhm = np.array([5.03741617638 , 4.5151829206, 4.16988640786, 4.12277668042, 4.39278362164, 4.3089644867, 5.13016814353])
-    spec_fwhmVIS = 0.2 *  np.array([3.434 , 3.238, 2.663, 3.292, 3.115, 2.659, 3.322])
+    # spat_fwhmVIS = np.array([5.03741617638 , 4.5151829206, 4.16988640786, 4.12277668042, 4.39278362164, 4.3089644867, 5.13016814353])
+    spec_fwhmVIS = 0.2 * np.array([3.434 , 3.238, 2.663, 3.292, 3.115, 2.659, 3.322])
 
     spat_fwhmUVB = np.array(spat_fwhmUVB)
     spat_fwhmVIS = np.array(spat_fwhmVIS)
@@ -169,27 +236,31 @@ if __name__ == '__main__':
     spec_fwhm_err = 0.01 * spec_fwhm
 
     R =  spec_fwhm
-    pl.scatter(np.array(spat_fwhm), R, s= 4)
 
-    # x = [124.46, 8.20, 52.55, 4.33]
-    # y = [124.46, 50.2, 78.3, 778.8]
-    # xerr = [54.2, 0.1, 2.41, 1.78]
-    # yerr = [22.55, 0.37, 3.77, 0.14]
+    fig, ax = pl.subplots(1, 1)
+    import seaborn as sns
+    sns.set(context='paper', palette='deep')
+
     #
     descrip = ['SDSS0820+1306', 'SDSS1150-0023', 'SDSS1219-0100', 'SDSS1236-0331', 'SDSS1354-0013', 'SDSS1431+0535', 'SDSS1437-0147']
+    # descrip = ['1', '2', '3', '4', '5', '6', '7']
+    # ax.scatter(np.array(spat_fwhm), R, s= 4)
+    for i, n in enumerate(descrip):
+        # ax.scatter(spat_fwhm[i], R[i], label=n)
+        ax.errorbar(spat_fwhm[i], R[i], xerr=5*spat_fwhm_err[i], yerr=spec_fwhm_err[i],
+                    elinewidth=0.5, marker='o', capsize=0.5, ms=2, mew=0.5, color='black', label=n)
+    # s = [0 - 0 * n for n in range(len(spat_fwhm))]
+    # for xpos, ypos, name, yoff in zip(spat_fwhm, R, descrip, s):
+    #     ax.annotate(name, xy =[xpos, ypos], xytext=[xpos, ypos + yoff], va='bottom',
+    #                 textcoords='offset points')
+    # pl.title("Spatial - Spectral Seeing ")
+    ax.set_xlabel("Spatial FWHM [arcsec]")
+    ax.set_ylabel(r"Spectral FWHM [\AA]")
+    # ax.set_ylim((0.5, 0.8))
+    # ax.set_xlim((0.6, 0.9))
+    # pl.legend()
 
-
-    pl.errorbar(spat_fwhm, R, xerr=spat_fwhm_err, yerr=spec_fwhm_err, capsize=1, ls='none', color='black',
-                elinewidth=1)
-    s = [3 - 3 * n for n in range(len(spat_fwhm))]
-    for xpos, ypos, name, yoff in zip(spat_fwhm, R, descrip, s):
-        pl.annotate(name, xy =[xpos, ypos], xytext=[xpos - 25, ypos + yoff], va='bottom',
-                    textcoords='offset points', fontsize=10)
-    pl.title("Spatial - Spectral Seeing ")
-    pl.xlabel("Spatial FWHM [arcsec]")
-    pl.ylabel(r"Spectral FWHM [\AA]")
-    pl.ylim((0.5, 0.8))
-    pl.xlim((0.6, 0.9))
     pl.tight_layout()
-    pl.savefig("../documents/figs/Seeing.pdf", dpi= 150)
-    pl.show()
+    format_axes(ax)
+    pl.savefig("../documents/figs/Seeing.pdf")
+    # pl.show()

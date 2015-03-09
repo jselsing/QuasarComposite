@@ -218,7 +218,8 @@ def main():
         mask = (wl > xcoord - 1) & (wl < xcoord + 1)
         y_val = np.mean(wmean_cont[mask])
         ax1.axvline(x=xcoord, ymin=(np.log(y_val) + 1.30) / (( np.log(ymax) - np.log(ymin))), color='red',linestyle='dashed', lw=0.75)
-        ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
+        trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
+        ann = ax1.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
 
 
     # ------------------------- Auxilliary products -------------------------
@@ -294,9 +295,9 @@ def main():
         xcoord = linelist[p]
         mask = (wl > xcoord - 1) & (wl < xcoord + 1)
         y_val = np.mean(wmean_cont[mask])
-        ax1.axvline(x=xcoord, ymin=(np.log(y_val) + 1.30) / (( np.log(ymax) - np.log(ymin))), color='red',linestyle='dashed', lw=0.75)
+        pl.axvline(x=xcoord, ymin=(np.log(y_val) + 1.30) / (( np.log(ymax) - np.log(ymin))), color='red',linestyle='dashed', lw=0.75)
         trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
-        # ann = ax1.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.55 ), fontsize='x-small', rotation = 90, xycoords=trans)
+        ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
         # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
 
 
