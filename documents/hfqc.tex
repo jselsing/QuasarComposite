@@ -146,35 +146,91 @@ QSO templates are important both for QSO physics and for projects using QSOs as 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}     \sectlabel{introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%The optical-to-ultraviolet emission mechanism of quasars are by now quite well understood \citep{Elvis1994}. A supermassive black hole at the center of a galaxy is surrounded by a hot accretion disc which emits a featureless thermal continuum. The central continuum photoionizes a region of hot clouds, and further out, cold clouds which gives rise to lines with both broad and narrow components \citep{Elvis2001}.  Varying conditions in the clouds ensure that each ionic species have optimal conditions to produce line emission \citep{Baldwin1995}. Despite the apparent different conditions in which the emission arises, the overall shape of most quasar spectra look similar {\color{red} Reference needed}. The remarkable uniformity of the average spectral properties across luminosity and redshift indicate very similar underlying physical mechanisms which can be understood in terms of Eigenvector 1 (\citep{Boroson1992}; \cite{Francis1992}) where the Eddington ratio drives the relative strength of the lines and orientation effects influences the observed kinematics of the lines \citep{Shen2014a} accounting for the majority of the inter-quasar variation. This means that the accretion rate and the mass of the black hole largely determines the spectral appearance of a given quasar. 
+%
+%Template spectra are useful for a wide range of purposes, e.g., the detection of features that are too weak to be detected in individual spectra, identification of objects that differ from the mean, etc. Examples of such composite spectra include template spectra of various classes of galaxies (\cite{Shapley2003}; \cite{Dobos2012}), QSOs (\cite{CristianiS.andVio1990}; \cite{Boyle1990}; \cite{Francis1991}; \cite{Zheng1997} \cite{Brotherton2000}; \cite{VandenBerk2001}; \cite{Telfer2002}; \cite{Richards2006}; \cite{Glikman2006}) and GRB afterglows \citep{Christensen2011}. In particular, QSO composite spectra have been studied and discussed intensively since the first papers in the early 1990ies.
+%
+%When investigating dust in quasars, templates can be used to determine the amount of extinction by artificially reddening to match an observed spectrum (\cite{Glikman2007}; \cite{Urrutia2009}; \cite{Wang2012}; \cite{Fynbo2013}; \cite{Krogager2015}). The amount of extinction inferred will depend on what kind of dust is assumed,  which for quasars has been found to be SMC-like (\cite{Richards2003}; \cite{Hopkins2004}),  the parametrization chosen (\cite{Gordon2003};\cite{Fitzpatrick2005} ) and the template spectrum used. 
+%
+%The wavelength coverage of a single instrument is always limited and therefore templates from different telescopes cover different regions. The redshift distribution of quasars are exploited to extend the wavelength coverage of a single instrument while covering bad atmospheric windows, but because of the this, different parts of the template will be attributed to different redshifts. Several instruments can be combined to extend the wavelength coverage of a single template as is done in \citep{Glikman2006} where SDSS \citep{Gunn2006} and IRTF, SpeX \citep{Rayner2003} spectra are combined to cover the range from 2700 \AA~ to 37000 \AA, or several templates can be combined to cover regions of interest as done in \citep{Zhou2010} where the template of \citep{VandenBerk2001} 800 - 9200 \AA~ is stitched together at 3000 \AA~ with the \citep{Glikman2006} template. 
+%
+%The wide wavelength coverage of the template by \citep{Glikman2006} is used in studies of quasar SEDs (\cite{Richards2006}; \cite{Shang2011}), extinction measures (\cite{Glikman2007}; \cite{Wang2012}; \cite{Fynbo2013}) and AGN contamination in photo-z determinations \citep{MacDonald2010}.
+%\jstodo{Something more to this paragraph}
+%
+%
+%The general applicability of the template by \cite{VandenBerk2001} is widely used for almost all studies involving quasars, where it has seen great use as a cross-correlation template to determine redshifts (\cite{Stoughton2002}; \cite{Rafiee2011}), as a model for the optical quasar SEDs (\cite{Croom2004}; \cite{Hopkins2006}; \cite{Hopkins2007}) and for studies of the host galaxies of AGN (\cite{Kauffmann2003b}).
+%\jstodo{Something more to this paragraph}
+%
+%
+%
+%The goal of this paper is select a few, intrinsically very bright blue quasars
+%\jstodo{Goal?}
+%
+%
+%
+%The paper is structured as follows: In \sect{problem} we highlight the problems with the current most used template and our need for a new template. In \sect{sample} we give the sample description and the observational considerations. \sect{construct} is a description of the composite construction and \sect{results} is the results obtained. In \sect{discuss} we do a comparison to existing composites and \sect{conclusion} is devoted to a conclusion.
+%
+%
+%
+%
+%\qtodo{Am I missing anything important? Any missing important references? I don't feel the point of the paper is quite clear from the introduction.}
 
-The optical-to-ultraviolet emission mechanism of quasars are by now quite well understood \citep{Elvis1994}. A supermassive black hole at the center of a galaxy is surrounded by a hot accretion disc which emits a featureless thermal continuum. The central continuum photoionizes a region of hot clouds, and further out, cold clouds which gives rise to lines with both broad and narrow components \citep{Elvis2001}.  Varying conditions in the clouds ensure that each ionic species have optimal conditions to produce line emission \citep{Baldwin1995}. Despite the apparent different conditions in which the emission arises, the overall shape of most quasar spectra look similar {\color{red} Reference needed}. The remarkable uniformity of the average spectral properties across luminosity and redshift indicate very similar underlying physical mechanisms which can be understood in terms of Eigenvector 1 (\citep{Boroson1992}; \cite{Francis1992}) where the Eddington ratio drives the relative strength of the lines and orientation effects influences the observed kinematics of the lines \citep{Shen2014a} accounting for the majority of the inter-quasar variation. This means that the accretion rate and the mass of the black hole largely determines the spectral appearance of a given quasar. 
+Template spectra build as composites of many carefully selected individual spectra
+are useful for a wide range of purposes, e.g., the detection
+of features that are too weak to be detected in individual spectra,
+identification of objects that differ from the template, etc. Examples of such
+composite spectra include template spectra of various classes of galaxies
+(\cite{Shapley2003}; \cite{Dobos2012}), QSOs (\cite{CristianiS.andVio1990};
+\cite{Boyle1990}; \cite{Francis1991}; \cite{Zheng1997} \cite{Brotherton2000};
+\cite{VandenBerk2001}; \cite{Telfer2002}; \cite{Richards2006};
+\cite{Glikman2006}) and GRB afterglows \citep{Christensen2011}.
+Here we are in particular interested in  
+QSO composite spectra.
 
-Template spectra are useful for a wide range of purposes, e.g., the detection of features that are too weak to be detected in individual spectra, identification of objects that differ from the mean, etc. Examples of such composite spectra include template spectra of various classes of galaxies (\cite{Shapley2003}; \cite{Dobos2012}), QSOs (\cite{CristianiS.andVio1990}; \cite{Boyle1990}; \cite{Francis1991}; \cite{Zheng1997} \cite{Brotherton2000}; \cite{VandenBerk2001}; \cite{Telfer2002}; \cite{Richards2006}; \cite{Glikman2006}) and GRB afterglows \citep{Christensen2011}. In particular, QSO composite spectra have been studied and discussed intensively since the first papers in the early 1990ies.
+When investigating dust in QSOs, templates are used to determine the
+amount of extinction by artificially reddening the template 
+to match an observed spectrum 
+\citep[e.g.,][]{Glikman2007,Urrutia2009,Wang2012,Fynbo2013,Krogager2015}. 
+The amount of extinction inferred will of course depend on the
+assumed extinction curve. Many studies find that SMC-like extinction provides
+a good match \citep{Richards2003,Hopkins2004}. In some cases steeper extinction
+curves are required \citep{Fynbo2013,2013AJ....145..157J,2014ApJ...788..123L}.
 
-When investigating dust in quasars, templates can be used to determine the amount of extinction by artificially reddening to match an observed spectrum (\cite{Glikman2007}; \cite{Urrutia2009}; \cite{Wang2012}; \cite{Fynbo2013}; \cite{Krogager2015}). The amount of extinction inferred will depend on what kind of dust is assumed,  which for quasars has been found to be SMC-like (\cite{Richards2003}; \cite{Hopkins2004}),  the parametrization chosen (\cite{Gordon2003};\cite{Fitzpatrick2005} ) and the template spectrum used. 
+The wavelength coverage of a single instrument is always limited and therefore
+templates from different telescopes cover different regions. The redshift
+distribution of QSOs are exploited to extend the wavelength coverage of a
+single instrument while covering bad atmospheric windows, but because of the
+this, different parts of the template will be attributed to different
+redshifts. Several instruments can be combined to extend the wavelength
+coverage of a single template as is done in \citep{Glikman2006} where SDSS
+\citep{Gunn2006} and IRTF, SpeX \citep{Rayner2003} spectra of UV-excess selected
+QSOs in the redshift range 0.118--0.418 are combined to
+cover the range from 2700 \AA~ to 37000 \AA, or several templates can be
+combined to cover regions of interest as done in \citep{Zhou2010} where the
+template of \citep{VandenBerk2001} 800 - 9200 \AA~ is stitched together at 3000
+\AA~ with the \citep{Glikman2006} template. 
 
-The wavelength coverage of a single instrument is always limited and therefore templates from different telescopes cover different regions. The redshift distribution of quasars are exploited to extend the wavelength coverage of a single instrument while covering bad atmospheric windows, but because of the this, different parts of the template will be attributed to different redshifts. Several instruments can be combined to extend the wavelength coverage of a single template as is done in \citep{Glikman2006} where SDSS \citep{Gunn2006} and IRTF, SpeX \citep{Rayner2003} spectra are combined to cover the range from 2700 \AA~ to 37000 \AA, or several templates can be combined to cover regions of interest as done in \citep{Zhou2010} where the template of \citep{VandenBerk2001} 800 - 9200 \AA~ is stitched together at 3000 \AA~ with the \citep{Glikman2006} template. 
+The template by \cite{VandenBerk2001} is widely
+used in studies involving QSOs, where it has seen great use as a
+cross-correlation template to determine redshifts (\cite{Stoughton2002};
+\cite{Rafiee2011}), as a model for the optical QSO SEDs (\cite{Croom2004};
+\cite{Hopkins2006}; \cite{Hopkins2007}) and for studies of the host galaxies of
+AGN (\cite{Kauffmann2003b}). When using the \citet{VandenBerk2001} template
+it is important to know that it contains significant host galaxy contamination
+\citep[e.g.,][their Fig.~5]{Fynbo2013}. The 
+goal of this paper is to use the X-shooter spectrograph to build a new 
+QSO template that covers the full range from Ly$\beta$ to H$\alpha$ based on bright
+SDSS QSOs and observed with a single instrument over the full spectral range.
 
-The wide wavelength coverage of the template by \citep{Glikman2006} is used in studies of quasar SEDs (\cite{Richards2006}; \cite{Shang2011}), extinction measures (\cite{Glikman2007}; \cite{Wang2012}; \cite{Fynbo2013}) and AGN contamination in photo-z determinations \citep{MacDonald2010}.
-\jstodo{Something more to this paragraph}
+In
+\sect{sample} we descrine the sample selection and provide the datails 
+of the observations.
+\sect{construct} describes the constrution of the composite spectrum
+and \sect{results} presents the resulting composite. In \sect{discuss} we do a
+comparison to existing composites and \sect{conclusion} is devoted to a
+conclusion.
 
-
-The general applicability of the template by \cite{VandenBerk2001} is widely used for almost all studies involving quasars, where it has seen great use as a cross-correlation template to determine redshifts (\cite{Stoughton2002}; \cite{Rafiee2011}), as a model for the optical quasar SEDs (\cite{Croom2004}; \cite{Hopkins2006}; \cite{Hopkins2007}) and for studies of the host galaxies of AGN (\cite{Kauffmann2003b}).
-\jstodo{Something more to this paragraph}
-
-
-
-The goal of this paper is select a few, intrinsically very bright blue quasars
-\jstodo{Goal?}
-
-
-
-The paper is structured as follows: In \sect{problem} we highlight the problems with the current most used template and our need for a new template. In \sect{sample} we give the sample description and the observational considerations. \sect{construct} is a description of the composite construction and \sect{results} is the results obtained. In \sect{discuss} we do a comparison to existing composites and \sect{conclusion} is devoted to a conclusion.
-
-
-
-
-\qtodo{Am I missing anything important? Any missing important references? I don't feel the point of the paper is quite clear from the introduction.}
 
 
 
@@ -298,7 +354,13 @@ We convert all laboratory wavelengths to air wavelengths and transform all redsh
 \subsection{Resampling} \sectlabel{rebin}
 %====================================================================
 
+
 Before combination of the spectra can be done, we need to move them to their local frame. Because of the varying redshifts of the objects, the spectra will have their spectral arms of X-shooter overlap at different wavelengths. X-shooter, being a cross-dispersion echelle spectrograph, will have a non-linear dispersion solution and order to conserve the most information without oversampling, we need to choose a representative bin size on which to interpolate our spectra. The largest sampling is in the NIR arm and is $0.6$\r{A}/pix with an average redshift of $z_{avg} = 1.6$ gives us the conservative bin size of $0.4$\r{A}/pix in the rest-frame. Since our spectra have significantly better resolution than the nominal values and the UVB and VIS arms have a sampling of $0.2$\r{A}/pix we will be throwing away spectral information to make sure that we are not oversampling. We create a wavelength grid from 1000-11665\r{A} in steps of 0.4\r{A} giving $\sim$ 16000 spectral elements on which we linearly interpolate our shifted spectra. Since the constituent spectra have different sampling than the target grid, we will introduce additional correlations between neighboring pixels. This is not taken into account in the reported statistical error of each spectrum.  \qtodo{What is the consequence of this?}
+
+
+Move to restframe. Linearly interpolate \jstodo{This section should be cleared up!}
+
+\qtodo{Lusso et al. 2015 multiply flux-density by $(1+z)$. Should we do this?}
 
 %====================================================================
 \subsection{Extinction} \sectlabel{extinct}
@@ -314,6 +376,8 @@ The spectra are all corrected for galactic extinction. Extinction values are que
 At redshifts higher than $\sim1.5$, the rest-frame coverage of x-shooter goes to \lyb~and are therefore heavily affected by \lya-forest absorption, blueward of the \lya-line. To recover the continuum we insert evenly spaced points every 50 pixels, blueward of \lya, each point calculated from the median value of the constituent pixel values. This procedure equals binning the spectrum by 50 pixels and using the median value. We then manually delete points that are not sufficiently smoothly varying, signifying points affected by \lya-forest absorption. When the points represents the visually estimated continuum, a linear spline is the used to interpolate between the points onto the sampling of the original wavelength array. We then concatenate this new continuum estimate with the original spectrum, at \lya. The objects SDSS1150-0023, SDSS1236-0331 and SDSS1431+0535 are the ones contributing the compostite at these wavelengths. 
 
 \qtodo{I'm not sure, that this is the right way. Are there any references to support this way?}
+
+
 
 %====================================================================
 \subsection{Normalisation}  \sectlabel{norm}
@@ -455,12 +519,12 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
  
  
   %===========================================================================
-  \begin{figure}[hbtp]
+  \begin{figure*}[hbtp]
     \centering
-    \includegraphics[width=0.99\columnwidth]{Figs/Composite.pdf}
+    \includegraphics[width=1.98\columnwidth]{Figs/Composite.pdf}
     \caption[]{Powerlaw fit to the composite.}
     \figlabel{composite}
-  \end{figure}
+  \end{figure*}
   %===========================================================================
  
 %  %===========================================================================
@@ -499,6 +563,8 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
 Something extremely profound.
 
 
+Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at $~920 \AA$ is found to move towards shorter wavelengths as you go to higher black-hole mass.
+Shakura sunyaev predict 
 
 \subsection{Comparison to existing composites} \sectlabel{comparison}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 

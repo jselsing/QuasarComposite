@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: hfqc.aux
 The style file: aa-note.bst
 Database file #1: /Users/jselsing/Work/Papers/bibtex/library.bib
-You've used 56 entries,
+Warning--I didn't find a database entry for "2013AJ....145..157J"
+Warning--I didn't find a database entry for "2014ApJ...788..123L"
+You've used 47 entries,
             2959 wiz_defined-function locations,
-            1017 strings with 30752 characters,
-and the built_in function-call counts, 63197 in all, are:
-= -- 4538
-> -- 9038
-< -- 13
-+ -- 3020
-- -- 2964
-* -- 6102
-:= -- 11928
-add.period$ -- 56
-call.type$ -- 56
-change.case$ -- 1212
-chr.to.int$ -- 56
-cite$ -- 168
-duplicate$ -- 1008
-empty$ -- 1412
-format.name$ -- 3101
-if$ -- 12110
+            963 strings with 30383 characters,
+and the built_in function-call counts, 61366 in all, are:
+= -- 4339
+> -- 9195
+< -- 7
++ -- 3074
+- -- 3027
+* -- 6019
+:= -- 11621
+add.period$ -- 47
+call.type$ -- 47
+change.case$ -- 1197
+chr.to.int$ -- 47
+cite$ -- 141
+duplicate$ -- 841
+empty$ -- 1177
+format.name$ -- 3133
+if$ -- 11745
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 51
-newline$ -- 172
-num.names$ -- 224
-pop$ -- 1211
+missing$ -- 42
+newline$ -- 145
+num.names$ -- 188
+pop$ -- 1194
 preamble$ -- 1
-purify$ -- 1212
+purify$ -- 1197
 quote$ -- 0
-skip$ -- 843
+skip$ -- 694
 stack$ -- 0
-substring$ -- 1086
+substring$ -- 894
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 504
+type$ -- 423
 warning$ -- 0
-while$ -- 218
+while$ -- 182
 width$ -- 0
-write$ -- 891
+write$ -- 747
+(There were 2 warnings)

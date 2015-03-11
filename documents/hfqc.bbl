@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{47}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -36,17 +36,6 @@
 Ahn, C.~P., Alexandroff, R., {Allende Prieto}, C., {et~al.} 2014, The
   Astrophysical Journal Supplement Series, 211, 17 \csname
   Ahn2014link\endcsname~\csname Ahn2014note\endcsname
-
-\bibitem[{Baldwin {et~al.}(1995)Baldwin, Ferland, Korista, \&
-  Verner}]{Baldwin1995}
-Baldwin, J., Ferland, G., Korista, K., \& Verner, D. 1995, The Astrophysical
-  Journal, 455, L119  \csname Baldwin1995link\endcsname~\csname
-  Baldwin1995note\endcsname
-
-\bibitem[{Boroson \& Green(1992)}]{Boroson1992}
-Boroson, T.~A. \& Green, R.~F. 1992, The Astrophysical Journal Supplement
-  Series, 80, 109 \csname Boroson1992link\endcsname~\csname
-  Boroson1992note\endcsname
 
 \bibitem[{Boyle(1990)}]{Boyle1990}
 Boyle, B.~J. 1990, Monthly Notices of the Royal Astronomical Society, 243, 231
@@ -86,40 +75,16 @@ Croom, S.~M., Smith, R.~J., Boyle, B.~J., {et~al.} 2004, Monthly Notices of the
   Royal Astronomical Society, 349, 1397 \csname Croom2004link\endcsname~\csname
   Croom2004note\endcsname
 
-\bibitem[{{Daniel E. Vanden Berk et al.}(2001)}]{VandenBerk2001}
-{Daniel E. Vanden Berk et al.} 2001, The Astronomical Journal, 122, 549 \csname
-  VandenBerk2001link\endcsname~\csname VandenBerk2001note\endcsname
-
 \bibitem[{Dobos {et~al.}(2012)Dobos, Csabai, Yip, Budav\'{a}ri, Wild, \&
   Szalay}]{Dobos2012}
 Dobos, L., Csabai, I., Yip, C.~W., {et~al.} 2012, {A high-resolution atlas of
   composite Sloan Digital Sky Survey galaxy spectra} \csname
   Dobos2012link\endcsname~\csname Dobos2012note\endcsname
 
-\bibitem[{Elvis(2001)}]{Elvis2001}
-Elvis, M. 2001, The Astrophysical Journal, 545, 63 \csname
-  Elvis2001link\endcsname~\csname Elvis2001note\endcsname
-
-\bibitem[{Elvis {et~al.}(1994)Elvis, Wilkes, Mcdowell, Green, Bechtold,
-  Willner, Oey, Polomski, \& Cutri}]{Elvis1994}
-Elvis, M., Wilkes, B.~J., Mcdowell, J.~C., {et~al.} 1994, The Astrophysical
-  Journal Supplement Series, 95, 1 \csname Elvis1994link\endcsname~\csname
-  Elvis1994note\endcsname
-
 \bibitem[{Fitzpatrick(1999)}]{Fitzpatrick1999}
 Fitzpatrick, E.~L. 1999, Publications of the Astronomical Society of the
   Pacific, 111, 63 \csname Fitzpatrick1999link\endcsname~\csname
   Fitzpatrick1999note\endcsname
-
-\bibitem[{Fitzpatrick \& Massa(2005)}]{Fitzpatrick2005}
-Fitzpatrick, E.~L. \& Massa, D. 2005, The Astronomical Journal, 130, 1127
-  \csname Fitzpatrick2005link\endcsname~\csname Fitzpatrick2005note\endcsname
-
-\bibitem[{Francis {et~al.}(1992)Francis, Hewett, Foltz, \&
-  Chaffee}]{Francis1992}
-Francis, P.~J., Hewett, P.~C., Foltz, C.~B., \& Chaffee, F.~H. 1992, The
-  Astrophysical Journal, 398, 476 \csname Francis1992link\endcsname~\csname
-  Francis1992note\endcsname
 
 \bibitem[{Francis {et~al.}(1991)Francis, Hewett, Foltz, Chaffee, Weymann, \&
   Morris}]{Francis1991}
@@ -149,12 +114,6 @@ Glikman, E., Helfand, D.~J., \& White, R.~L. 2006, The Astronomy and
 Glikman, E., Helfand, D.~J., White, R.~L., {et~al.} 2007, The Astrophysical
   Journal, 667, 673 \csname Glikman2007link\endcsname~\csname
   Glikman2007note\endcsname
-
-\bibitem[{Gordon {et~al.}(2003)Gordon, Clayton, Misselt, Landolt, \&
-  Wolff}]{Gordon2003}
-Gordon, K.~D., Clayton, G.~C., Misselt, K.~A., Landolt, A.~U., \& Wolff, M.~J.
-  2003, The Astrophysical Journal, 594, 279 \csname
-  Gordon2003link\endcsname~\csname Gordon2003note\endcsname
 
 \bibitem[{Gunn {et~al.}(2006)Gunn, Siegmund, Mannery, Owen, Hull, Leger, Carey,
   Knapp, York, Boroski, Kent, Lupton, Rockosi, Evans, Waddell, Anderson, Annis,
@@ -220,10 +179,10 @@ Krogager, J.-K., Geier, S., Fynbo, J. P.~U., {et~al.} 2015, The Astrophysical
   Journal Supplement Series, 1 \csname Krogager2015link\endcsname~\csname
   Krogager2015note\endcsname
 
-\bibitem[{MacDonald \& Bernstein(2010)}]{MacDonald2010}
-MacDonald, C.~J. \& Bernstein, G. 2010, Publications of the Astronomical
-  Society of the Pacific, 122, 485 \csname MacDonald2010link\endcsname~\csname
-  MacDonald2010note\endcsname
+\bibitem[{Lusso {et~al.}(2015)Lusso, Worseck, Hennawi, Prochaska, Vignali,
+  Stern, Meara, \& Mar}]{Lusso2015}
+Lusso, E., Worseck, G., Hennawi, J.~F., {et~al.} 2015, arXiv, 19, 1 \csname
+  Lusso2015link\endcsname~\csname Lusso2015note\endcsname
 
 \bibitem[{MacLeod {et~al.}(2012)MacLeod, Ivezi\'{c}, Sesar, de~Vries, Kochanek,
   Kelly, Becker, Lupton, Hall, Richards, Anderson, \& Schneider}]{MacLeod2012}
@@ -282,22 +241,11 @@ Schlegel, D.~J., Finkbeiner, D.~P., \& Davis, M. 1998, The Astrophysical
   Journal, 500, 525 \csname Schlegel1998link\endcsname~\csname
   Schlegel1998note\endcsname
 
-\bibitem[{Shang {et~al.}(2011)Shang, Brotherton, Wills, Wills, Cales, Dale,
-  Green, Runnoe, Nemmen, Gallagher, Ganguly, Hines, Kelly, Kriss, Li, Tang, \&
-  Xie}]{Shang2011}
-Shang, Z., Brotherton, M., Wills, B.~J., {et~al.} 2011, The Astrophysical
-  Journal Supplement Series, 196, 23 \csname Shang2011link\endcsname~\csname
-  Shang2011note\endcsname
-
 \bibitem[{Shapley {et~al.}(2003)Shapley, Steidel, Pettini, \&
   Adelberger}]{Shapley2003}
 Shapley, a.~E., Steidel, C.~C., Pettini, M., \& Adelberger, K.~L. 2003, The
   Astrophysical Journal, 588, 65 \csname Shapley2003link\endcsname~\csname
   Shapley2003note\endcsname
-
-\bibitem[{Shen \& Ho(2014)}]{Shen2014a}
-Shen, Y. \& Ho, L.~C. 2014, Nature, 513, 210 \csname
-  Shen2014alink\endcsname~\csname Shen2014anote\endcsname
 
 \bibitem[{Shen {et~al.}(2011)Shen, Richards, Strauss, Hall, Schneider, Snedden,
   Bizyaev, Brewington, Malanushenko, Malanushenko, Oravetz, Pan, \&
@@ -348,6 +296,18 @@ Telfer, R.~C., Zheng, W., Kriss, G.~a., \& Davidsen, A.~F. 2002, The
 Urrutia, T., Becker, R.~H., White, R.~L., {et~al.} 2009, The Astrophysical
   Journal, 698, 1095 \csname Urrutia2009link\endcsname~\csname
   Urrutia2009note\endcsname
+
+\bibitem[{{Vanden Berk} {et~al.}(2001){Vanden Berk}, Richards, Bauer, Strauss,
+  Schneider, Heckman, York, Hall, Fan, Knapp, Anderson, Annis, Bahcall,
+  Bernardi, Briggs, Brinkmann, Brunner, Burles, Carey, Castander, Connolly,
+  Crocker, Csabai, Doi, Finkbeiner, Friedman, Frieman, Fukugita, Gunn,
+  Hennessy, Ivezi\'{c}, Kent, Kunszt, Lamb, Leger, Long, Loveday, Lupton,
+  Meiksin, Merelli, Munn, Newberg, Newcomb, Nichol, Owen, Pier, Pope, Rockosi,
+  Schlegel, Siegmund, Smee, Snir, Stoughton, Stubbs, SubbaRao, Szalay, Szokoly,
+  Tremonti, Uomoto, Waddell, Yanny, \& Zheng}]{VandenBerk2001}
+{Vanden Berk}, D.~E., Richards, G.~T., Bauer, A., {et~al.} 2001, The
+  Astronomical Journal, 122, 549 \csname VandenBerk2001link\endcsname~\csname
+  VandenBerk2001note\endcsname
 
 \bibitem[{Vernet {et~al.}(2011)Vernet, Dekker, D’Odorico, Kaper, Kjaergaard,
   Hammer, Randich, Zerbi, Groot, Hjorth, Guinouard, Navarro, Adolfse, Albers,
