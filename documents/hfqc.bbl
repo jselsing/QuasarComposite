@@ -1,4 +1,4 @@
-\begin{thebibliography}{47}
+\begin{thebibliography}{46}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -224,13 +224,6 @@ Rayner, J., Toomey, D., Onaka, P., {et~al.} 2003, Publications of the
 Richards, G.~T., Hall, P.~B., Berk, D. E.~V., {et~al.} 2003, The Astronomical
   Journal, 126, 1131 \csname Richards2003link\endcsname~\csname
   Richards2003note\endcsname
-
-\bibitem[{Richards {et~al.}(2006)Richards, Lacy, Storrie-Lombardi, Hall,
-  Gallagher, Hines, Fan, Papovich, Berk, Trammell, Schneider, Vestergaard,
-  York, Jester, Anderson, Budavari, \& Szalay}]{Richards2006}
-Richards, G.~T., Lacy, M., Storrie-Lombardi, L.~J., {et~al.} 2006, The
-  Astrophysical Journal Supplement Series, 166, 470 \csname
-  Richards2006link\endcsname~\csname Richards2006note\endcsname
 
 \bibitem[{Schlafly \& Finkbeiner(2011)}]{Schlafly2011}
 Schlafly, E.~F. \& Finkbeiner, D.~P. 2011, The Astrophysical Journal, 737, 103
