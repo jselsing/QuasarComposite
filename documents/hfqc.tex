@@ -283,7 +283,7 @@ We find the average resolutions for the observations: R$_{UVB}$ = 5150, R$_{VIS}
 
 In pixel values we find a different spectral FWHM than spatial FWHM. These values should in principle be the same, but because X-shooter is an eschelle spectrograph, the seeing FWHM
 
-The data were reduced using the ESO/X-shooter pipeline v2.5.2 {\color{red} Reference needed} using the Reflex interface \citep{Freudling2013}. The spectra have been rectified on a grid with 0.2 \AA/pixel in the UVB and VIS arm and 0.6 \AA/pixel in the NIR arm, thus slightly oversampling even the highest-resolution spectra without introducing too much correlation between adjacent pixels in the rectification. The spectra were extracted by simple integration in the nodding window of the rectified image and were flux calibrated using photometric standards (\cite{Vernet2010}; \cite{Hamuy1994}). The seeing of the observations was significantly below the slit width used and slit losses will therefore be negligible. To double-check the accuracy of the flux calibration we download the corresponding spectra observed by SDSS \citep{Ahn2014} and overplotted on the X-shooter observations. Slight variations in individual spectra are detected in both flux level and apparent slope on the $\lesssim$5~percent level. This can both be attributed to erroneous flux calibration in one of the spectra or intrinsic object variability, which is observed to be of this order (\cite{MacLeod2012}; \cite{Morganson2014}. We discuss this in more detain in \sect{systematics}.
+The data were reduced using the ESO/X-shooter pipeline v2.5.2 {\color{red} Reference needed} using the Reflex interface \citep{Freudling2013}. The spectra have been rectified on a grid with 0.2 \AA/pixel in the UVB and VIS arm and 0.6 \AA/pixel in the NIR arm, thus slightly oversampling even the highest-resolution spectra without introducing too much correlation between adjacent pixels in the rectification. The spectra were extracted by simple integration in the nodding window of the rectified image and were flux calibrated using photometric standards (\cite{Vernet2010}; \cite{Hamuy1994}). The seeing of the observations was significantly below the slit width used and slit losses will therefore be negligible. To double-check the accuracy of the flux calibration we download the corresponding spectra observed by SDSS \citep{Ahn2014} and overplotted on the X-shooter observations. Slight variations in individual spectra are detected in both flux level and apparent slope on the $\lesssim$10~percent level. This can both be attributed to erroneous flux calibration in one of the spectra or intrinsic object variability, which is observed to be of this order (\cite{MacLeod2012}; \cite{Morganson2014}. We discuss this in more detain in \sect{systematics}.
 
 Telluric observations of hot dwarfs were taken close in time to allow for an accurate telluric correction which depends heavily on the atmospheric conditions at the time of observation. We now describe the process of telluric correction in more detail
 
@@ -463,43 +463,6 @@ We make a more detailed comparison with existing composites in \sect{comparison}
  \qtodo{Anything missing?}
 
 
-%====================================================================
-\subsection{Systematics}  \sectlabel{systematics}
-%====================================================================
-
-
-All studies are affected by systematics. Understanding how the systematics affect the results are imperative to make clear conclusion. In this section we investigate the dominant sources of systematics and evaluate their consequences. 
-
-
-Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are not necessarily representative for the intrinsic quasar population \citep{Paris2014} and the final composite is not guaranteed to reflect the properties of quasars at different magnitudes or redshifts. Comparison to the composite by \citep{VandenBerk2001} which consist of lower redshift, intrinsically fainter quasars, show clear differences, which we discuss later. We test how well our composite match at higher redshift by comparing it to the $z=4.092$ quasar, J0959+1312. 
-
-\jstodo{Do to comparison with J0959+1312}
-
-
- \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
-
-To test effect of the $\sim$ 10 \% variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate the composite from the SDSS spectra. We see a very close agreement between the two composites and estimate that the error in the flux-calibration is within 10\%.
-\jstodo{Quantify this better}
-% Do this
-
-To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
-\jstodo{Quantify}
-%Do this
-
-To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
-
-%Do this
-
-
-
- To ensure that we are not biasing the composite towards the spectra with the highest signal-to-noise we compare the error-weighted mean composite with the composite generated from the mean.
- \jstodo{Investigate more}
- %Do this
- 
-  
-In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
-%Do this. Maybe push further up.
-
 
 
 %====================================================================
@@ -574,6 +537,59 @@ Something extremely profound.
 
 Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at $~920 \AA$ is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
 
+
+
+%====================================================================
+\subsection{Systematics}  \sectlabel{systematics}
+%====================================================================
+
+
+All studies are affected by systematics. Understanding how the systematics affect the results are imperative to make clear conclusion. In this section we investigate the dominant sources of systematics and evaluate their consequences. 
+
+
+Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are not necessarily representative for the intrinsic quasar population \citep{Paris2014} and the final composite is not guaranteed to reflect the properties of quasars at different magnitudes or redshifts. Comparison to the composite by \citep{VandenBerk2001} which consist of lower redshift, intrinsically fainter quasars, show clear differences, which we discuss later. We test how well our composite match at higher redshift by comparing it to the $z=4.092$ quasar, J0959+1312. 
+
+\jstodo{Do to comparison with J0959+1312}
+
+
+ \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
+
+As stated in \sect{sample}, we find slight variations in the both absolute flux level and spectral slope of the X-Shooter observed spectra as compared with those observed with SDSS. To test this effect of the $\lesssim$10~percent variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate a composite from the SDSS spectra alone. Due to larger wavelength coverage of data presented here it is not possible to investigate the residuals and a more qualitative assessment must be made in a shorter wavelength range.
+
+ 
+
+A real resampling within these variations should in principle be done to assess, how this error probagates into the final composite, but this level of detail is beyond the scope of this paper. 
+
+\jstodo{Quantify this better}
+% Do this
+
+To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
+\jstodo{Quantify}
+%Do this
+
+To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
+
+%Do this
+
+
+
+ To ensure that we are not biasing the composite towards the spectra with the highest signal-to-noise we compare the error-weighted mean composite with the composite generated from the mean.
+ \jstodo{Investigate more}
+ %Do this
+ 
+  
+In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
+%Do this. Maybe push further up.
+
+
+
+
+\subsection{Discussion of systematic effects from the choice of targets}
+
+
+
+
+
 \subsection{Comparison to existing composites} \sectlabel{comparison}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 
 
@@ -585,13 +601,7 @@ Continuum shape. Emission and absorption lines. Comparison with existing composi
 We see that we adequately can match the infrared photometry by deredding the composite we have constructed
 
 
-\subsection{Discussion of systematic}
 
-Selection effects always play a role in the result. We now discuss the possible effects selection has on our results. We have selected quasar at $r \lesssim 17.5$ and at z = 1-2. 
-
-\subsection{Discussion of systematic effects from the choice of targets}
-
- \qtodo{Things to discuss?}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}  \sectlabel{conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
