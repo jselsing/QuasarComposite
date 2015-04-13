@@ -82,33 +82,33 @@ def main():
 
     from gen_methods import smooth,medfilt
 
-    # for n_sdss in range(np.shape(wl_sdss)[0]):
-    #
-    #
-    #     flux_sdss[n_sdss] = (flux_sdss[n_sdss])[np.where(wl_sdss[n_sdss] != 0)]
-    #     wl_sdss[n_sdss] = (wl_sdss[n_sdss])[np.where(wl_sdss[n_sdss] != 0)]
-    #
-    #
-    #     # pl.plot(wl_sdss[n_sdss], flux_sdss[n_sdss], lw=0.2)
-    #     # pl.semilogy()
-    #     # pl.show()
-    #
-    #
-    #
-    #     #de-reddening
-    #     flux_sdss[n_sdss] = cardelli_reddening(wl_sdss[n_sdss], flux_sdss[n_sdss], ebv[n_sdss])
-    #
-    #     #Interpolate
-    #     f = interpolate.interp1d(wl_sdss[n_sdss],flux_sdss[n_sdss],kind='linear',bounds_error = False, fill_value=0.)
-    #     # mask = (wl_new_sdss > 3020) & (wl_new_sdss < 3100)
-    #     mask = (wl_new_sdss > 2400) & (wl_new_sdss < 2500)
-    #     print(np.median(f(wl_new_sdss)[mask]))
-    #     print(f(wl_new_sdss))
-    #     norm_sdss = np.median(f(wl_new_sdss)[mask])
-    #     flux_new_sdss[n_sdss] = f(wl_new_sdss)/norm_sdss
-    #     # pl.plot(wl_new_sdss, flux_new_sdss[n_sdss], lw=0.2)
-    #     # pl.semilogy()
-    #     # pl.show()
+    for n_sdss in range(np.shape(wl_sdss)[0]):
+
+
+        flux_sdss[n_sdss] = (flux_sdss[n_sdss])#[np.where(wl_sdss[n_sdss] != 0)]
+        wl_sdss[n_sdss] = (wl_sdss[n_sdss])#[np.where(wl_sdss[n_sdss] != 0)]
+
+
+        pl.plot(wl_sdss[n_sdss], flux_sdss[n_sdss], lw=0.2)
+        pl.semilogy()
+        pl.show()
+
+
+
+        #de-reddening
+        flux_sdss[n_sdss] = cardelli_reddening(wl_sdss[n_sdss], flux_sdss[n_sdss], ebv[n_sdss])
+
+        #Interpolate
+        f = interpolate.interp1d(wl_sdss[n_sdss],flux_sdss[n_sdss],kind='linear',bounds_error = False, fill_value=0.)
+        # mask = (wl_new_sdss > 3020) & (wl_new_sdss < 3100)
+        mask = (wl_new_sdss > 2400) & (wl_new_sdss < 2500)
+        print(np.median(f(wl_new_sdss)[mask]))
+        print(f(wl_new_sdss))
+        norm_sdss = np.median(f(wl_new_sdss)[mask])
+        flux_new_sdss[n_sdss] = f(wl_new_sdss)/norm_sdss
+        pl.plot(wl_new_sdss, flux_new_sdss[n_sdss], lw=0.2)
+        pl.semilogy()
+        pl.show()
     wl_sdss = wl_new_sdss
     flux_sdss = flux_new_sdss
 
@@ -116,13 +116,7 @@ def main():
     for i_sdss, k_sdss in enumerate(flux_sdss.transpose()):
 
         #Mean
-
-        # print(k_sdss)
         mean_sdss[i_sdss] = np.mean(k_sdss)
-        # print(np.mean(k_sdss))
-
-
-
 
 
 
