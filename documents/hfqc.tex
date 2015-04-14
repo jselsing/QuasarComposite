@@ -105,9 +105,6 @@
 
 \titlerunning{Host-Free Quasar Composite}
 
-%078.D-0416, 177.A-0591,
-%\subtitle{Physical conditions in the ISM of a vigorously star-forming, metal-rich GRB host at $z \sim 1.6$}
-
 
 \author{J. Selsing\inst{1}, J.~P.~U. Fynbo\inst{1}, L. Christensen\inst{1}, J.K. Kroager\inst{1}
 		  }
@@ -181,10 +178,8 @@ are useful for a wide range of purposes, e.g., the detection
 of features that are too weak to be detected in individual spectra,
 identification of objects that differ from the template, etc. Examples of such
 composite spectra include template spectra of various classes of galaxies
-(\cite{Shapley2003}; \cite{Dobos2012}), QSOs (\cite{CristianiS.andVio1990};
-\cite{Boyle1990}; \cite{Francis1991}; \cite{Zheng1997} \cite{Brotherton2000};
-\cite{VandenBerk2001}; \cite{Telfer2002}; \cite{Richards2006};
-\cite{Glikman2006}) and GRB afterglows \citep{Christensen2011}.
+(\cite{Shapley2003}; \cite{Dobos2012}), QSOs (\citep{CristianiS.andVio1990, Boyle1990, Francis1991, Zheng1997, Brotherton2000};
+\citep{VandenBerk2001, Telfer2002, Richards2006a, Glikman2006}) and GRB afterglows \citep{Christensen2011}.
 Here we are in particular interested in  
 QSO composite spectra.
 
@@ -195,7 +190,7 @@ to match an observed spectrum
 The amount of extinction inferred will of course depend on the
 assumed extinction curve. Many studies find that SMC-like extinction provides
 a good match \citep{Richards2003,Hopkins2004}. In some cases steeper extinction
-curves are required \citep{Fynbo2013,2013AJ....145..157J,2014ApJ...788..123L}.
+curves are required \citep{Fynbo2013,Jiang2013,Leighly2014}.
 
 The wavelength coverage of a single instrument is always limited and therefore
 templates from different telescopes cover different regions. The redshift
@@ -298,7 +293,13 @@ Telluric observations of hot dwarfs were taken close in time to allow for an acc
 %====================================================================
 \jstodo{Rough draft. Needs to be re-iterated.}
 
-All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor.  Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are accessible via the web application SKYCALC developed by ESO.  Another take, MOLECFIT, at determining the transmission of the atmosphere is by directly fitting the telluric abortion region with a radiative transfer code thus simultaneously also fitting for the molecular content of the atmosphere. Here the initial guess on the atmospheric conditions are taken from the header of the observation. For a given atmospheric model the molecular content can then be varied and convolved with a instrument-specific kernel to obtain the correct instrumental profile. \\
+All ground based instruments suffer from atmospheric absorption. This is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arm of X-shooter where there are regions of severe telluric absorption from water vapor. 
+Because of our limited sample-size, it is desirable to avoid simply masking out regions of atmospheric absorption, but rather correct for them and therefore we investigate which of several methods of telluric correction that maximizes our S/N without introducing artifacts. (molecfit, xsh-library method, my method). 
+To correct for this absorption you need an exact measure of the transmission of the atmosphere at the time of your observation. 
+The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. This transmission has been modeled as a function of airmass and precipitable water vapor and synthetic transmission-spectra are accessible via the web application SKYCALC developed by ESO. 
+ Another take, MOLECFIT, at determining the transmission of the atmosphere is by directly fitting the telluric abortion region with a radiative transfer code thus simultaneously also fitting for the molecular content of the atmosphere. 
+ Here the initial guess on the atmospheric conditions are taken from the header of the observation. 
+ For a given atmospheric model the molecular content can then be varied and convolved with a instrument-specific kernel to obtain the correct instrumental profile. 
 
 
 
