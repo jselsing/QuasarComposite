@@ -59,18 +59,19 @@ def main():
 
     wl = np.array([sdss_data_files[i][:,0] / (1 + redshifts[i]) for i in range(len(sdssobjects))])
     wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    flux = np.array([sdss_data_files[i][:,1] for i in range(len(sdssobjects))])
-    fluxerr = np.array([sdss_data_files[i][:,2] for i in range(len(sdssobjects))])
+    flux = np.array([sdss_data_files[i][:,1] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    fluxerr = np.array([sdss_data_files[i][:,2] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
     bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
-    flux_cont = np.array([sdss_data_files[i][:,6] for i in range(len(sdssobjects))])
+    flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
     n_obj = len(obj_list)
 
 
 
     flux_johan = []
     fig, ax = pl.subplots(1, sharex=True)
-    for mask_ran in range(1500,9000, 1500):
-
+    # for mask_ran in range(1500,9000, 1500):
+    for mask_ran in [1420, 3000, 4000, 5600, 6800]:
+    # for mask_ran in [6800]:
         # Construct common-size arrays:
         short = []
         tall = []
@@ -102,7 +103,7 @@ def main():
 
         for n in range(n_obj):
             #Normalise
-            mask = (wl_new > mask_ran) & (wl_new < mask_ran + 500)
+            mask = (wl_new > mask_ran) & (wl_new < mask_ran + 100)
             norm = np.median(flux_new[n][mask])
             flux_new[n] /= norm
             flux_cont_new[n] /= norm
@@ -132,8 +133,10 @@ def main():
         CI_high = np.zeros(np.shape(mean))
         for i, k in enumerate(flux_new.transpose()):
             mask = np.where(bp_map_new.transpose()[i] == 0)
+            # mask = np.where(bp_map_new.transpose()[i] > -10000)
+            # hej = True
+            # if hej:
             if len(k[mask]) != 0:
-
                 #Weighted mean
                 weight = 1./(np.array(fluxerr_new.transpose()[i][mask])**2)
                 wmean[i] = np.average(k[mask], axis = 0, weights = weight)
@@ -146,7 +149,9 @@ def main():
 
                 #Geometric mean
                 from scipy.stats.mstats import gmean
+
                 geo_mean[i] = gmean(k[mask])
+
 
                 #Median
                 median[i] = np.median(k[mask])
@@ -162,7 +167,8 @@ def main():
 
 
                 std[i] = np.std(flux_new.transpose()[i][mask])
-            else:
+            elif len(k[mask]) == 0:
+
                 mean[i] = 0
                 errofmean[i] = 0
                 wmean[i] = 0
@@ -176,19 +182,21 @@ def main():
         # ax.plot(wl_new, wmean_cont / np.median(wmean_cont), lw = 0.2)
         # ax[0].plot(wl_new, wmean / np.mean(wmean), lw = 0.5, label= str(mask_ran))
         # print(np.mean(wmean))
-        ax.plot(wl_new, wmean_cont  , lw = 0.5, label= str(mask_ran))
+        # ii  = (wl_new > 6800) & (wl_new < 6800 + 100)
+        # norm = np.median(wmean_cont[ii])
+        # ax.plot(wl_new, wmean_cont / norm , lw = 0.5, label= str(mask_ran))
 
+        ii  = (wl_new > 6800) & (wl_new < 6800 + 100)
+        norm = np.median(geo_mean[ii])
+        ax.plot(wl_new, geo_mean / norm , lw = 0.5, label= str(mask_ran))
 
-        for n in range(n_obj):
+        # ax.plot(wl_new, wmean_cont, lw = 0.5, label= str(mask_ran))
+
+        # for n in range(n_obj):
             # plot individual spectra
-            # ax.plot(wl_new, medfilt(flux_new[n], 1), lw=0.2)
-            ax.plot(wl_new, medfilt(flux_cont_new[n] , 11), lw=0.2, alpha = 1.)
+            # ax.plot(wl_new, medfilt(flux_cont_new[n] , 51), lw=0.5, alpha = 0.5, color='grey')
         # pl.semilogy()
         # pl.show()
-
-
-
-
 
 
         # TODO Methodize this?
@@ -216,6 +224,7 @@ def main():
     np.savetxt('test2.dat', zip(wl_new, *flux_johan), header="wl 1500 3000 4500 6000 7500")#, fmt = ['%5.1f', '%2.15E'] )
 
     ax.semilogy()
+    ax.semilogx()
     # ax[1].semilogy()
     ax.legend()
     pl.show()

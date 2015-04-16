@@ -419,7 +419,7 @@ with the variance of the weighted mean given as:
 \sigma_{\bar{f_{\lambda}}}^2 &=& \frac{ 1 }{\sum_{i=1}^n \sigma_{\lambda, i}^{-2}}.
 \end{eqnarray}
 
-The echellity of x-shooter makes it necessary to resample the image on a rectified image and this process introduces correlations between adjacent pixels. Since we have again rebinned the pixels to the common pixel scale additional correlation between adjacent pixels will be introduced both the the flux spectrum and in the error spectrum, meaning that we will be underestimating the errors in the resulting composite spectrum where the statistical noise will be hiding in pixel-top-pixel variations. On top of that, since our objects are fairly bright, the Poisson noise in our spectra will be non-negligible and thus we are incorporating the pixels values themselves intro their weight which often leads to biasing the result towards spectra of lower signal-to-noise. We check how the combination method employed affects the qualitative features in our spectrum in the next section.
+The echellity of x-shooter makes it necessary to resample the image on a rectified image and this process introduces correlations between adjacent pixels. Since we have again rebinned the pixels to the common pixel scale additional correlation between adjacent pixels will be introduced both the the flux spectrum and in the error spectrum, meaning that we will be underestimating the errors in the resulting composite spectrum where the statistical noise will be hiding in pixel-top-pixel variations. On top of that, since our objects are fairly bright, the Poisson noise in our spectra will be non-negligible and thus we are incorporating the pixels values themselves intro their weight which often leads to biasing the result towards spectra of lower signal-to-noise. We check how the combination method employed affects the qualitative features in our spectrum in \sect{systematics}.
 
 \qtodo{Can fancy statistics be used to improve this, or is there something else we need to consider?}
 
@@ -455,13 +455,16 @@ If a model SED for a quasar is needed a shallower slope than the one from \citep
 \jstodo{Investigate this further}
 
 
-A geometric composite has been generated in bins of luminosity in \citep{Shen2011}, and the evolution of the relative contribution from the host galaxy is evident in their Figure 9, where as can be seen the host contamination for our selection is negligible.
-
 \jstodo{This should be included in the discussion}
 
 We make a more detailed comparison with existing composites in \sect{comparison}. 
  
  \qtodo{Anything missing?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Uncertainties}  \sectlabel{uncertainty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -490,33 +493,8 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
     \figlabel{composite}
   \end{figure*}
   %===========================================================================
- 
-%  %===========================================================================
-%  \begin{figure}[hbtp]
-%    \centering
-%    \includegraphics[width=0.99\columnwidth]{Figs/signal_to_noise.pdf}
-%    \caption[]{Signal-to-noise for the composite.}
-%    \figlabel{sn}
-%  \end{figure}
-%  %===========================================================================
-% 
-%  %===========================================================================
-%  \begin{figure}[hbtp]
-%    \centering
-%    \includegraphics[width=0.99\columnwidth]{Figs/number_spec.pdf}
-%    \caption[]{Number of spectra contributing to the composite.}
-%    \figlabel{nspec}
-%  \end{figure}
-%  %===========================================================================
-%  
-%  %===========================================================================
-%  \begin{figure}[hbtp]
-%    \centering
-%    \includegraphics[width=0.99\columnwidth]{Figs/std.pdf}
-%    \caption[]{Variation in spectra.}
-%    \figlabel{std}
-%  \end{figure}
-%  %===========================================================================
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -524,9 +502,11 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-We have to be careful with regards to the conclusions and the sample selection. We have selected bright, blue quasars, but we can only say something about the mean of this particular sample and not something about the general population of quasars. If there exists an intrinsic population of quasars who are redder, this effect will be degenerate with dust, and fitting for the dust are not guaranteed to result in robust results. This is of major concern.  
 
+We have to be careful with regards to the conclusions and the sample selection. We have selected bright, blue quasars, but we can only say something about the mean of this particular sample and not something about the general population of quasars. If there exists an intrinsic population of quasars who are redder, this effect will be degenerate with dust, and fitting for the dust are not guaranteed to result in robust results. This is of major concern.  
 \qtodo{Talk to Jens about this again}.
+
+
 
 The largest uncertainties is with regards to the continuum placement, where differently selected regions will result in different dispersions. We ideally want the dispersion to reflect the intrinsic sample dispersion, but this can be difficult to achieve since it will depend on the normalization placement. Maybe the slopes should be measured in the individual spectra, and a mean should be taken of the slopes. Thereby the uncertainty will more reflect intrinsic variability in quasar slope. How about intrinsic temporal variation in slope? This also have to be considered. 
 
@@ -536,7 +516,7 @@ The largest uncertainties is with regards to the continuum placement, where diff
 Something extremely profound.
 
 
-Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at $~920 \AA$ is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
+Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at$ \sim 920$ \AA is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
 
 
 
@@ -544,8 +524,36 @@ Due to the intrinsic brightness of our objects, we expect the black-hole mass to
 \subsection{Systematics}  \sectlabel{systematics}
 %====================================================================
 
+All studies are affected by systematics. Understanding how the systematics affect the results are imperative to make clear conclusion. We first list the possible systematics that effect the composite in decreasing order of importance and then address each of the points separately to investigate to what degree they affect the final result and their potential consequences.
 
-All studies are affected by systematics. Understanding how the systematics affect the results are imperative to make clear conclusion. In this section we investigate the dominant sources of systematics and evaluate their consequences. 
+
+\begin{enumerate}[(I)]
+	\item Normalisation region
+	\item Combination method
+	\item Selection effects
+	\item Flux accuracy
+	\item Telluric correction
+	\item Sampling step
+	\item Host galaxy contamination
+\end{enumerate}
+
+
+Depending on the region selected for normalization of the individual spectra, the distribution of constituent fluxes at any given wavelength changes. This will mostly affect the absolute scale of the composite and the reported inter-spectrum variability as a function of wavelength, but will also cause the value of the composite at a given wavelength to change. To investigate how the normalization-window chosen affects the shape of the composite, we have generated composites for varying position of the normalization-window across the entire wavelength range. The same combination method as the reported composite has been used and the normalization window have been shifted through only values covered by all spectra. 
+
+
+
+
+
+
+
+What is sought illustrated with the combination method employed is the central tendency of the selected sample, normalized at an optimally chosen region.  Since the underlying distribution is unknown, choosing the optimal point estimator for the average flux value is ambiguous. The composite presented in \sect{results} used the weighted arithmetic mean
+
+
+
+
+In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
+%Do this. Maybe push further up.
+
 
 
 Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are not necessarily representative for the intrinsic quasar population \citep{Paris2014} and the final composite is not guaranteed to reflect the properties of quasars at different magnitudes or redshifts. Comparison to the composite by \citep{VandenBerk2001} which consist of lower redshift, intrinsically fainter quasars, show clear differences, which we discuss later. We test how well our composite match at higher redshift by comparing it to the $z=4.092$ quasar, J0959+1312. 
@@ -555,18 +563,24 @@ Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are n
 
  \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
 
+
+
+
+
 As stated in \sect{sample}, we find slight variations in the both absolute flux level and spectral slope of the X-Shooter observed spectra as compared with those observed with SDSS. To test this effect of the $\lesssim$10~percent variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate a composite from the SDSS spectra alone. Due to larger wavelength coverage of data presented here it is not possible to investigate the residuals and a more qualitative assessment must be made in a shorter wavelength range.
-
- 
-
 A real resampling within these variations should in principle be done to assess, how this error probagates into the final composite, but this level of detail is beyond the scope of this paper. 
 
 \jstodo{Quantify this better}
 % Do this
 
+
+
 To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
 \jstodo{Quantify}
 %Do this
+
+
+
 
 To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
 
@@ -578,28 +592,26 @@ To test the effect of the sampling step size chosen we do all the combinations w
  \jstodo{Investigate more}
  %Do this
  
-  
-In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
-%Do this. Maybe push further up.
+ 
+
+Host galaxy contamination.
+A geometric composite has been generated in bins of luminosity in \citep{Shen2011}, and the evolution of the relative contribution from the host galaxy is evident in their Figure 9, where as can be seen the host contamination for our selection is negligible.
 
 
 
-
-\subsection{Discussion of systematic effects from the choice of targets}
-
-
-
+%====================================================================
+\subsection{Comparisons} \sectlabel{comparison}
+%====================================================================
 
 
-\subsection{Comparison to existing composites} \sectlabel{comparison}
 Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 
 
 
  We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \r{A} up to H$\gamma$ at 4340 \r{A}. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Expand this section a lot. Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
  
 
-\subsection{Consequences of application to Q0918+1636 and Q2222-0946}
-We see that we adequately can match the infrared photometry by deredding the composite we have constructed
+
+
 
 
 
