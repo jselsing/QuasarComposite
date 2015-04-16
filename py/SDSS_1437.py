@@ -215,16 +215,16 @@ def main():
     linelist = np.array(linelist)
 
     # # print((1+z_op)*linelist[1])
-    # mask = (wl_out < (1+z_op)*linelist[1])
-    # wave = wl_out[mask]
-    # flux = flux_out[mask]
-    # import continuum_mark.interactive
-    # normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
-    # normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
-    #
-    # normalise.run()
-    # pl.show()
-    # cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
+    mask = (wl_out < (1+z_op)*linelist[1])
+    wave = wl_out[mask]
+    flux = flux_out[mask]
+    import continuum_mark.interactive
+    normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
+    normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
+
+    normalise.run()
+    pl.show()
+    cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
 
 
     pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')

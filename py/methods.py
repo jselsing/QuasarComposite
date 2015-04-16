@@ -35,7 +35,7 @@ VERSION
 
 from __future__ import division, print_function
 
-__all__ = ["voigt", "gauss", "continuum_fit", "wavelength_conversion"]
+__all__ = ["voigt", "gauss", "continuum_fit", "wavelength_conversion", "common_wavelength"]
 __version__ = "0.0.1"
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2015 Jonatan Selsing"
@@ -198,6 +198,14 @@ def ConfInt(x,func,coeff,cov,p,nsample=5000):
 
   return lo,hi
 #------------------------------------------------------------------------------
+
+
+
+def common_wavelength(wlarr_old, wlarr_new, fluxarr_old, fill_value = 0.):
+    from scipy import interpolate
+    f = interpolate.interp1d(wlarr_old, fluxarr_old, kind='linear', bounds_error = False, fill_value=fill_value)
+    fluxarr_new = f(wlarr_new)
+    return fluxarr_new
 
 
 

@@ -229,24 +229,17 @@ def main():
     linelist = np.array(linelist)
 
     # # print((1+z_op)*linelist[1])
-    # mask = (wl_out < (1+z_op)*linelist[1] + 300)
-    # wave = wl_out[mask]
-    # flux = flux_out[mask]
-    # import continuum_mark.interactive
-    # normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
-    # normalise.exclude_width = 1 #float(raw_input('Exclude_width (default = 20) = '))
-    # normalise.sigma_mask = 10 # float(raw_input('Sigma_mask (default = 3) = '))
-    # normalise.lover_mask = 0 #float(raw_input('Lover bound mask (default = 0) = '))
-    # normalise.tolerance = 0.05#float(raw_input('Filtering tolerance (default = 0.15) = '))
-    # # normalise.leg_order = float(raw_input('Filtering Chebyshev Order (default = 2) = '))
-    # normalise.spacing = 25 #float(raw_input('Spacing in pixels between spline points (default = 100) = '))
-    # normalise.division = 200 #float(raw_input('Maximum number of allowed points (default = 100) = '))
-    # # normalise.endpoint_order = float(raw_input('Order of polynomial used for placing endpoints (default = 4) = '))
-    # normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
-    #
-    # normalise.run()
-    # pl.show()
-    # cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
+
+    mask = (wl_out < (1+z_op)*linelist[1])
+    wave = wl_out[mask]
+    flux = flux_out[mask]
+    import continuum_mark.interactive
+    normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
+    normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
+
+    normalise.run()
+    pl.show()
+    cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
 
 
 
