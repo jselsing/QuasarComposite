@@ -48,8 +48,9 @@ def main():
     from matplotlib import rc_file
     rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
     import numpy as np
-    import matplotlib.pyplot as pl
-
+    import matplotlib.pylab as pl
+    # use seaborn for nice default plot settings
+    import seaborn; seaborn.set_style('ticks')
 
 
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
@@ -66,9 +67,9 @@ def main():
     median = data_file[:,6]
     n_spec = data_file[:,7]
     std = data_file[:,8]
-    wl_sdss = data_file[:,9]
-    mean_sdss = data_file[:,10]
-    wmean_cont = data_file[:,11]
+    # wl_sdss = data_file[:,9]
+    # mean_sdss = data_file[:,10]
+    wmean_cont = data_file[:,9]
 
 
 
@@ -108,14 +109,14 @@ def main():
     # pl.show()
     wmean[np.where(np.isnan(wmean) == True)] = 0
 
-    mask = (wl > 1350) & (wl < 1365) | (wl > 4200) & (wl < 4230) | (wl > 5500) & (wl < 6035) | (wl > 7800) & (wl < 7950)
+    mask = (wl > 1300) & (wl < 1350) | (wl > 1425) & (wl < 1475) | (wl > 5500) & (wl < 5800) | (wl > 7300) & (wl < 7500)
     # mask = (wl > 1080) & (wl < 1150) | (wl > 1350) & (wl < 1365) | (wl > 4200) & (wl < 4230) | (wl > 5500) & (wl < 6035) | (wl > 7800) & (wl < 7950)
 
 
     # mask = np.where(wl > 0)
     print(mask)
-    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean[mask], p0=par_guess)
-    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean[mask], p0=par_guess2)
+    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess)
+    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2)
     # popt3, pcov3 = optimize.curve_fit(power_law3, wl[mask], wmean[mask], p0=par_guess3)
 
 
@@ -339,9 +340,11 @@ def main():
 
 
     # pl.plot(wl, wmean_cont, color = 'black', lw = linewidth, linestyle = 'steps-mid', label='X-shooter wmean composite')
-    pl.plot(wl, mean, color = 'black', lw = 0.5, linestyle = 'steps-mid', label='X-shooter mean composite')
-    pl.plot(wl_sdss, 9*mean_sdss, color = 'red', lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
+    pl.plot(wl, power_law(wl, *popt) , '--')
+    pl.plot(wl, wmean_cont, lw = 0.5, linestyle = 'steps-mid', label='X-shooter mean composite')
+    # pl.plot(wl_sdss, 9*mean_sdss, color = 'red', lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
     pl.semilogy()
+    pl.semilogx()
     pl.show()
 
 

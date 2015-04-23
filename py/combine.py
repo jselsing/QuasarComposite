@@ -67,10 +67,50 @@ def main():
 
 
 
+
+
+
+
+
+
     flux_johan = []
-    fig, ax = pl.subplots(1, sharex=True)
+    fig, ax = pl.subplots(2, sharex=True)
     # for mask_ran in range(1500,9000, 1500):
-    for mask_ran in [1420, 3000, 4000, 5600, 6800]:
+    pow_slope = []
+    indi_pow = []
+    # norm_reg = [1420, 3000, 4000, 5600, 6800]
+    # norm_reg = np.arange(1420, 8000, 500)
+    norm_reg = [6800]
+    # print(norm_reg)
+    for mask_ran in norm_reg:
+        flux_0 = flux.copy()
+        flux_cont_0 = flux_cont.copy()
+        fluxerr_0 = fluxerr.copy()
+
+
+        #Fitting power laws
+        from scipy import optimize
+
+        def power_law(x_tmp, a_tmp, k_tmp):
+
+            tmp = a_tmp * x_tmp ** k_tmp
+            return tmp
+
+        def power_law2(x_tmp, a1_tmp, x_c, k1_tmp, k2_tmp):
+
+            tmp1 = power_law(x_tmp, a1_tmp,k1_tmp)[x_tmp<x_c]
+            scale2loc = np.argmin(np.abs(x_tmp - x_c))
+            a2_tmp = power_law(x_tmp[scale2loc], a1_tmp, (k1_tmp - k2_tmp))
+
+            tmp2 = power_law(x_tmp, a2_tmp,k2_tmp)[x_tmp>= x_c]
+
+            return np.concatenate((tmp1,tmp2))
+
+        def power_law3(x_tmp, a_tmp, k_tmp, b_tmp):
+
+            tmp = a_tmp * x_tmp ** (k_tmp + b_tmp * x_tmp)
+            return tmp
+
     # for mask_ran in [6800]:
         # Construct common-size arrays:
         short = []
@@ -90,15 +130,15 @@ def main():
 
         for n in range(n_obj):
             #de-reddening
-            flux[n] = cardelli_reddening(wl_obs[n], flux[n], ebv[n])
-            flux_cont[n] = cardelli_reddening(wl_obs[n], flux_cont[n], ebv[n])
-            fluxerr[n] = cardelli_reddening(wl_obs[n], fluxerr[n], ebv[n])
+            flux_0[n] = cardelli_reddening(wl_obs[n], flux_0[n], ebv[n])
+            flux_cont_0[n] = cardelli_reddening(wl_obs[n], flux_cont_0[n], ebv[n])
+            fluxerr_0[n] = cardelli_reddening(wl_obs[n], fluxerr_0[n], ebv[n])
 
         for n in range(n_obj):
             #Interpolate
-            flux_new[n] = common_wavelength(wl[n], wl_new, flux[n])
-            flux_cont_new[n] = common_wavelength(wl[n], wl_new, flux_cont[n])
-            fluxerr_new[n] = common_wavelength(wl[n], wl_new, fluxerr[n], fill_value=1.0)
+            flux_new[n] = common_wavelength(wl[n], wl_new, flux_0[n])
+            flux_cont_new[n] = common_wavelength(wl[n], wl_new, flux_cont_0[n])
+            fluxerr_new[n] = common_wavelength(wl[n], wl_new, fluxerr_0[n], fill_value=1.0)
             bp_map_new[n] = common_wavelength(wl[n], wl_new, bp_map[n], fill_value=1.0)
 
         for n in range(n_obj):
@@ -108,6 +148,21 @@ def main():
             flux_new[n] /= norm
             flux_cont_new[n] /= norm
             fluxerr_new[n] /= norm
+
+            # flux_cont_new[np.where(flux_cont_new == np.NaN)] = 1
+
+            par_guess = [2e6, -1.5]
+            # mask = (wl_new > 1350) & (wl_new < 1365) | (wl_new > 4200) & (wl_new < 4230) | (wl_new > 5500) & (wl_new < 6035) #| (wl_new > 7800) & (wl_new < 7950)
+            mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
+            popt, pcov = optimize.curve_fit(power_law, wl_new[mask], flux_cont_new[n][mask], p0=par_guess,
+                                            sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
+            print(*popt)
+            indi_pow.append(popt[1])
+        #     ax.plot(wl_new, power_law(wl_new, *popt), '--', lw = 0.5)
+        #     ax.plot(wl_new, medfilt(flux_cont_new[n], 5), lw = 0.5, label= str(mask_ran))
+        # pl.semilogx()
+        # pl.semilogy()
+        # pl.show()
 
         #Ensuring pixel usage blueward of Lya
         for i, k in enumerate(bp_map_new):
@@ -131,17 +186,18 @@ def main():
         std = np.zeros(np.shape(wl_new))
         CI_low = np.zeros(np.shape(mean))
         CI_high = np.zeros(np.shape(mean))
-        for i, k in enumerate(flux_new.transpose()):
+        for i, k in enumerate(flux_cont_new.transpose()):
             mask = np.where(bp_map_new.transpose()[i] == 0)
             # mask = np.where(bp_map_new.transpose()[i] > -10000)
             # hej = True
             # if hej:
             if len(k[mask]) != 0:
                 #Weighted mean
-                weight = 1./(np.array(fluxerr_new.transpose()[i][mask])**2)
-                wmean[i] = np.average(k[mask], axis = 0, weights = weight)
-                wmean_cont[i] = np.average((flux_cont_new.transpose()[i])[mask], axis = 0, weights = weight)
-                errofwmean[i] = np.sqrt(1./np.sum(np.array(fluxerr_new.transpose()[i][mask])**-2.,axis=0))
+                e = np.array(fluxerr_new.transpose()[i][mask])
+                weight = 1. / e ** 2
+                wmean[i] = np.average(flux_new.transpose()[i][mask], axis = 0, weights = weight)
+                wmean_cont[i] = np.average(k[mask], axis = 0, weights = weight)
+                errofwmean[i] = np.sum(weight,axis=0) ** -0.5
 
                 #Mean
                 mean[i] = np.mean(k[mask])
@@ -150,7 +206,7 @@ def main():
                 #Geometric mean
                 from scipy.stats.mstats import gmean
 
-                geo_mean[i] = gmean(k[mask])
+                geo_mean[i] = gmean((k[mask]))
 
 
                 #Median
@@ -166,7 +222,7 @@ def main():
                 #     print(i)
 
 
-                std[i] = np.std(flux_new.transpose()[i][mask])
+                std[i] = np.std(k[mask])
             elif len(k[mask]) == 0:
 
                 mean[i] = 0
@@ -185,10 +241,62 @@ def main():
         # ii  = (wl_new > 6800) & (wl_new < 6800 + 100)
         # norm = np.median(wmean_cont[ii])
         # ax.plot(wl_new, wmean_cont / norm , lw = 0.5, label= str(mask_ran))
+        # test =  wmean_cont / norm
+        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
+        # norm = np.median(geo_mean[ii])
+        # geo_mean_norm = geo_mean / norm
+        # ax[0].plot(wl_new, medfilt(geo_mean_norm, 5), lw = 0.5, label= str(mask_ran) + '_geo')
 
-        ii  = (wl_new > 6800) & (wl_new < 6800 + 100)
-        norm = np.median(geo_mean[ii])
-        ax.plot(wl_new, geo_mean / norm , lw = 0.5, label= str(mask_ran))
+
+        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
+        # norm = np.median(wmean_cont[ii])
+        # wmean_cont_norm = wmean_cont / norm
+        # ax[0].plot(wl_new, medfilt(wmean_cont / norm, 5), lw = 0.5, label= str(mask_ran) + '_wmean')
+
+        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
+        # norm = np.median(median[ii])
+        # ax[0].plot(wl_new, 1 - medfilt(wmean_cont_norm, 5)/medfilt(median/norm, 5), lw = 0.5, label= str(mask_ran) + '_median')
+        # test = 1 - medfilt(wmean_cont_norm[median != 0.],5 ) /medfilt((median[median != 0.]/norm),5)
+        # print(test)
+        # print("""{0}  +- {1} """.format(np.mean(test), np.std(test)))
+
+        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
+        # norm = np.median(mean[ii])
+        # ax[0].plot(wl_new, 1 - medfilt(wmean_cont_norm, 5)/medfilt(mean / norm, 5), lw = 0.5, label= str(mask_ran) + '_mean')
+        # test = 1 - medfilt(wmean_cont_norm[mean != 0.],5 )/medfilt((mean[mean != 0.] / norm),5 )
+        # print("""{0}  +- {1} """.format(np.mean(test), np.std(test)))
+        par_guess = [1, -1.0]
+        par_guess2 = [1, 3200, -1.0, -1.46]
+        # par_guess3 = [1, -1.0, -0.00001]
+
+
+
+        # pl.plot(wl, power_law2(wl, par_guess))
+        # pl.show()
+        # geo_mean_norm[np.where(np.isnan(geo_mean_norm) == True)] = 0
+
+        # mask = (wl_new > 1350) & (wl_new < 1365) | (wl_new > 4200) & (wl_new < 4230) | (wl_new > 5500) & (wl_new < 6035) | (wl_new > 7800) & (wl_new < 7950)
+        mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
+        popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
+        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess,
+        #                                             sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
+        popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess, maxfev = 2000)
+        # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess,
+        #                                           sigma=errofmean[mask], absolute_sigma=True, maxfev = 2000)
+        popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess, maxfev = 2000)
+        popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
+        print("""Composite fit slope geo...{0} +- {1}""".format(popt_geo[1], np.diag(pcov_geo)[1]))
+        print("""Composite fit slope wmean...{0} +- {1}""".format(popt_wmean[1], np.diag(pcov_wmean)[1]))
+        print("""Composite fit slope mean...{0} +- {1}""".format(popt_mean[1], np.diag(pcov_mean)[1]))
+        print("""Composite fit slope median...{0} +- {1}""".format(popt_median[1], np.diag(pcov_median)[1]))
+        print("""Individual slope mean...{0} +- {1}""".format(np.mean(indi_pow), np.std(indi_pow)))
+        print("""Individual slope median...{0} +- {1}""".format(np.median(indi_pow), np.std(indi_pow)))
+
+        # ax.plot(wl_new, power_law2(wl_new, *popt2) , '--', lw = 0.5)
+        # ax[0].plot(wl_new, power_law(wl_new, *popt_wmean) , 'b--', lw = 0.5)
+        # ax[0].plot(wl_new, power_law(wl_new, *popt_mean) , 'b--', lw = 0.5)
+
+        pow_slope.append(popt[1])
 
         # ax.plot(wl_new, wmean_cont, lw = 0.5, label= str(mask_ran))
 
@@ -219,15 +327,32 @@ def main():
         data = np.array(zip(wl_new, wmean), dtype=dt)
         file_name = "XSH-Composite_"+str(mask_ran)+""
         np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
-        flux_johan.append(wmean.transpose())
 
-    np.savetxt('test2.dat', zip(wl_new, *flux_johan), header="wl 1500 3000 4500 6000 7500")#, fmt = ['%5.1f', '%2.15E'] )
 
-    ax.semilogy()
-    ax.semilogx()
+
+        # flux_johan.append(geo_mean.transpose())
+
+    # np.savetxt('test2.dat', zip(wl_new, *flux_johan), header="wl 1500 3000 4500 6000 7500")#, fmt = ['%5.1f', '%2.15E'] )
+
+    # ax[0].semilogy()
+    # ax[0].semilogx()
     # ax[1].semilogy()
-    ax.legend()
-    pl.show()
+    # ax[1].semilogx()
+    # ax[0].legend()
+    # pl.show()
+
+
+
+    # fig, ax = pl.subplots(1)
+    # ax.plot(norm_reg, pow_slope, '.')
+    # print("""Power law slopes:
+    #     Mean = {0}
+    #     Std  = {1}
+    # """.format(np.mean(pow_slope), np.std(pow_slope)))
+    # ax.set_xlabel('Normalisation region')
+    # ax.set_ylabel('Power law slope')
+    # ax.invert_yaxis()
+    # pl.show()
 
     # # Checking for normality
     # from matplotlib import pyplot as plt

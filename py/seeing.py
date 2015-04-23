@@ -263,4 +263,4 @@ if __name__ == '__main__':
     pl.tight_layout()
     format_axes(ax)
     pl.savefig("../documents/figs/Seeing.pdf")
-    # pl.show()
+    pl.show()

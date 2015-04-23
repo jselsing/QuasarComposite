@@ -106,7 +106,7 @@
 \titlerunning{Host-Free Quasar Composite}
 
 
-\author{J. Selsing\inst{1}, J.~P.~U. Fynbo\inst{1}, L. Christensen\inst{1}, J.K. Kroager\inst{1}
+\author{J. Selsing\inst{1}, J.~P.~U. Fynbo\inst{1}, L. Christensen\inst{1}, J.-K. Krogager\inst{1}
 		  }
 
           
@@ -254,7 +254,7 @@ Spectroscopic observation of the targets have been carried out using X-shooter \
 \begin{figure}[hbtp]
   \centering
   \includegraphics[width=0.99\columnwidth]{Figs/Seeing.pdf}
-  \caption[]{Measured spatial seeing from width of trace against effective spectral resolution. All the observations are seeing-limited and thuhs the effective resolution will be higher than tabulated. (see text). \jstodo{Re-iterate figure} }
+  \caption[]{Measured spatial seeing from width of trace against effective spectral resolution. All the observations are seeing-limited and thus the effective resolution will be higher than tabulated. (see text). \jstodo{Re-iterate figure} }
 \figlabel{seeing}
 \end{figure}
 %===========================================================================
@@ -386,7 +386,7 @@ At redshifts higher than $\sim1.5$, the rest-frame coverage of x-shooter goes to
 
 In order to combine the spectra in a meaningful way, we need to put them on equal grounds as not to favor one spectrum over the other and biasing our final spectrum towards a certain kind of shape. Depending on the type of features we are interested in and on the combination method employed, there are different ways to achieve this normalization. Because the spectra have different absolute flux-scales, a popular way to normalize is to order the spectra in increasing wavelength, start with the lowest redshift, scale the entire spectrum by the median value of the flux and in the overlapping region with the next spectrum, scale with the median and then take the average, combining the spectra consecutively, always scaling to overlapping region. The region chosen will affect how the final spectrum will look (\cite{Francis1991}; \cite{Brotherton2000}; \cite{VandenBerk2001}; \cite{Glikman2006}).
 
- In principle that standard deviation of the composite should reflect the intrinsic variability of constituent spectra, but the region to which we scale will affect this standard deviation. To make the variance reflect the viability the most, the spectra have been scaled in the region with the least intrinsic continuum variability, which is just redwards of H$_\alpha$ in the region 7000- 7500 \r{A} {\color{red} Reference needed:  Eces paper, Richards 2006?}. Each spectrum have been divided by the median flux in this region, thus the normalization is independent and the order in which the combination is done does not matter. \qtodo{What does this do for the final result?}
+ In principle that standard deviation of the composite should reflect the intrinsic variability of constituent spectra, but the region to which we scale will affect this standard deviation. To make the variance reflect the viability the most, the spectra have been scaled in the region with the least intrinsic continuum variability, which is just redwards of H$_\alpha$ in the region 7000- 7500 \r{A} {\color{red} Reference needed:  Eces paper, \cite{Richards2006a}}. Each spectrum have been divided by the median flux in this region, thus the normalization is independent and the order in which the combination is done does not matter. \qtodo{What does this do for the final result?}
 
 Before any combination is done, all spectra have been run through a filter, where if the change from pixel to pixel is greater than 20 \%, the pixel is flagged and excluded from the combination. This is to exclude noisy pixels and pixels affected too seriously by telluric absorption correction. We have investigated whether this exclusion changes the shape of the combined continuum and no effect was visible. This way of flagging noisy pixels, ensures that we retain as much signal as possible without introducing very noisy isolated pixels. \qtodo{Is this okay to do?}
 
@@ -477,6 +477,21 @@ To check whether we have addressed the problem
  with the near-infrared excess, we start checking if we can adequately fit for the amount of intrinsic visual extinction in one of heavily extincted quasars, where we know the existing composite to be insufficient. We use the gordon-parametrisation with smc-like dust and fit for $A_V$
  \qtodo{How do we write this?}
  
+ 
+  
+   %===========================================================================
+   \begin{figure}[hbtp]
+     \centering
+     \includegraphics[width=0.99\columnwidth]{Figs/application.pdf}
+     \caption[]{The dust extinction, $A_V$, has been inferred for three different quasars}
+     \figlabel{application}
+   \end{figure}
+   %===========================================================================
+ 
+ 
+ 
+ 
+ 
  %====================================================================
  \subsection{The case of Q2222-0946}  \sectlabel{q2222}
  %====================================================================
@@ -528,7 +543,7 @@ All studies are affected by systematics. Understanding how the systematics affec
 
 
 \begin{enumerate}[(I)]
-	\item Normalisation region
+	\item Normalization region
 	\item Combination method
 	\item Selection effects
 	\item Flux accuracy
@@ -538,15 +553,55 @@ All studies are affected by systematics. Understanding how the systematics affec
 \end{enumerate}
 
 
-Depending on the region selected for normalization of the individual spectra, the distribution of constituent fluxes at any given wavelength changes. This will mostly affect the absolute scale of the composite and the reported inter-spectrum variability as a function of wavelength, but will also cause the value of the composite at a given wavelength to change. To investigate how the normalization-window chosen affects the shape of the composite, we have generated composites for varying position of the normalization-window across the entire wavelength range. The same combination method as the reported composite has been used and the normalization window have been shifted through only values covered by all spectra. 
 
 
+% Normalisation region
+Depending on the region selected for normalization of the individual spectra, the distribution of constituent fluxes at any given wavelength changes. This will mostly affect the absolute scale of the composite and the reported inter-spectrum variability as a function of wavelength, but will also cause the value of the composite at a given wavelength to change. The constituent fluxes are not guaranteed to be distributed normally and therefore the choice of central tendency estimation will affect the value obtained. To investigate how the normalization-window chosen affects the shape of the composite, we have generated composites for varying position of the normalization-window across the entire wavelength range. We have chosen regions clear of strong emission lines. The different combination method yields slightly varying composites as the relative distribution of the fluxes changes for a changing normalization region.
+
+ %===========================================================================
+ \begin{figure}[hbtp]
+   \centering
+   \includegraphics[width=0.99\columnwidth]{Figs/normalize_test4.pdf}
+   \caption[]{Composites generated from different normalization regions . \jstodo{First draft for figure. Re-iterate}}
+  \figlabel{norm_test}
+ \end{figure}
+ %===========================================================================
 
 
+After rescaling the composites to unity at 6850 \AA~ we see very good agreement between the different normalization region. We fit a single power law to the regions specified in \sect{results} and plot the found slope as a function of normalization region in \fig{norm_test} where consistency is clearly visible. 
+
+Composites constructed from the arithmetic mean whose constituent spectra are normalized in the blue are expected to have shallower slopes and therefore appear redder and vice versa for normalization in the red end, because the relative weighting of the different regions changes as a function of normalization region. 
+
+To illustrate this effect we have generated mock quasar spectra from broken power laws with varying slopes, normalizations and lines and constructed the arithmetic mean composites where the constituent spectra have been normalized in different regions. We show the results of this exercise in \fig{mean_test}.
 
 
+ %===========================================================================
+ \begin{figure}[hbtp]
+   \centering
+   \includegraphics[width=0.99\columnwidth]{Figs/mean_test.pdf}
+   \caption[]{Composites generated from different normalization regions . \jstodo{First draft for figure. Re-iterate}}
+  \figlabel{mean_test}
+ \end{figure}
+ %===========================================================================
 
-What is sought illustrated with the combination method employed is the central tendency of the selected sample, normalized at an optimally chosen region.  Since the underlying distribution is unknown, choosing the optimal point estimator for the average flux value is ambiguous. The composite presented in \sect{results} used the weighted arithmetic mean
+
+ A clear change in slope is detected with red normalization yielding bluer composites. Here we have scaled the line-strengths with the normalization so the luminosity of the mock spectra does not affect line-strengths and we also see a change in the line strength relative to the continuum level, with the steeper slopes yielding more prominent lines.
+ 
+We do not see this effect to a significant degree in the real quasar composites generated and this supports the use of the weighted mean.
+
+We take the standard deviation of the fitted slopes as the 1-$\sigma$ systematic error due to different normalization region and find a value of: $\sigma_{n} = -1.6855 \pm 0.0334$
+
+
+%Combination method
+What is sought illustrated with the combination method employed is the central tendency of the selected sample, normalized at an optimally chosen region. Since the underlying distribution is unknown, choosing the optimal point estimator for the average flux value is ambiguous. The composite presented in \sect{results} used the weighted arithmetic mean, which was chosen because it is the maximum likelihood estimator, but this combination method has systematic differences from other methods, especially the danger of biasing the composite towards the highest signal-to-noise spectra. 
+
+To test whether we are biased towards high S/N spectra we compare the weighted mean spectrum with that created from the median. We do the comparison by constructing a fractional difference spectrum by dividing the two composites. There is very good agreement between the two composites, with the mean fractional difference is $0.01 \pm 0.05$, where the fractional difference is the ratio between the two composites. This is translated into a "better than 5 percent agreement" between the two different combination method. There not observed a trend with wavelength.
+
+The systematic error in the reported slope due to combination methods is assessed by fitting a single power law in the same regions as in \sect{results} for the different combination methods and in the constituent spectra. We compile the results in \tablabel{comb_meth}
+
+\input{tabs/combinations.tex} \tablabel{comb_meth}
+
+
 
 
 
