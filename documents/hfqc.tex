@@ -597,60 +597,49 @@ What is sought illustrated with the combination method employed is the central t
 
 To test whether we are biased towards high S/N spectra we compare the weighted mean spectrum with that created from the median. We do the comparison by constructing a fractional difference spectrum by dividing the two composites. There is very good agreement between the two composites, with the mean fractional difference is $0.01 \pm 0.05$, where the fractional difference is the ratio between the two composites. This is translated into a "better than 5 percent agreement" between the two different combination method. There not observed a trend with wavelength.
 
-The systematic error in the reported slope due to combination methods is assessed by fitting a single power law in the same regions as in \sect{results} for the different combination methods and in the constituent spectra. We compile the results in \tablabel{comb_meth}
+The systematic error in the reported slope due to combination methods is assessed by fitting a single power law in the same regions as in \sect{results} for the different combination methods and in the constituent spectra. We compile the results in \tab{comb_meth}
 
-\input{tabs/combinations.tex} \tablabel{comb_meth}
+\input{tabs/combinations.tex} \tablabel{comb_meth} 
 
+The reported errors on $\alpha$ of the different composites are the formal fitting errors from linear least squares fitting without weights and these are severely underestimated, likely due to the regions selected. The error reported on $\alpha$ measured on the individual spectra are more reasonable and all combination methods are consistent within these errors. The values for the individual mean and individual median differ by a small amount and this could suggest a slight skewness in the distribution of slopes, but could also likely just be an artifact of low number statistics. Given that the fitted slopes are consistent supports the use of the weighted mean composite.
 
-
-
-
-
-In general the mean spectra will not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}. To obtain the mean slope we take the Geometric mean which \textit{does} result in the resulting slope equalling the mean slope. 
-%Do this. Maybe push further up.
+In general the mean spectra should not result in an estimated slope with the mean spectral index $\langle a_\lambda\rangle$, see \sect{math}, but what we see here is a very good agreement. To obtain the mean slope the geometric mean which \textit{does} result in the resulting slope equaling the mean slope. The agreement between the different methods are encouraging to the use of the weighted mean.
 
 
 
-Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are not necessarily representative for the intrinsic quasar population \citep{Paris2014} and the final composite is not guaranteed to reflect the properties of quasars at different magnitudes or redshifts. Comparison to the composite by \citep{VandenBerk2001} which consist of lower redshift, intrinsically fainter quasars, show clear differences, which we discuss later. We test how well our composite match at higher redshift by comparing it to the $z=4.092$ quasar, J0959+1312. 
 
+
+%Selection effects
+Selecting bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are not representative for the intrinsic quasar population \citep{Paris2014} and the final composite is not guaranteed to reflect the properties of quasars at different magnitudes or redshifts. Comparison to the composite by \citep{VandenBerk2001} which consist of lower redshift, intrinsically fainter quasars, show clear differences, which we discuss in section \sect{compsrison}. We test how well our composite match at higher redshift by comparing it to the $z=4.092$ quasar, J0959+1312 in \sect{highz}.
 \jstodo{Do to comparison with J0959+1312}
 
 
- \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
 
 
 
-
-
+%Flux calibration
 As stated in \sect{sample}, we find slight variations in the both absolute flux level and spectral slope of the X-Shooter observed spectra as compared with those observed with SDSS. To test this effect of the $\lesssim$10~percent variation of the accuracy of our flux-calibration compared with the corresponding object spectra obtained with SDSS, we generate a composite from the SDSS spectra alone. Due to larger wavelength coverage of data presented here it is not possible to investigate the residuals and a more qualitative assessment must be made in a shorter wavelength range.
 A real resampling within these variations should in principle be done to assess, how this error probagates into the final composite, but this level of detail is beyond the scope of this paper. 
 
 \jstodo{Quantify this better}
-% Do this
 
 
 
+%Telluric correction
 To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
 \jstodo{Quantify}
-%Do this
 
 
-
-
+%Sampling size
 To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
 
-%Do this
-
-
-
- To ensure that we are not biasing the composite towards the spectra with the highest signal-to-noise we compare the error-weighted mean composite with the composite generated from the mean.
- \jstodo{Investigate more}
- %Do this
  
  
-
-Host galaxy contamination.
+%Host galaxy contamination.
 A geometric composite has been generated in bins of luminosity in \citep{Shen2011}, and the evolution of the relative contribution from the host galaxy is evident in their Figure 9, where as can be seen the host contamination for our selection is negligible.
+ \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
+
+
 
 
 

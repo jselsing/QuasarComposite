@@ -57,10 +57,10 @@ def main():
     # TODO Is there a better way to import the txt files?
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 
-    wl = np.array([sdss_data_files[i][:,0] / (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
     wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    flux = np.array([sdss_data_files[i][:,1] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
-    fluxerr = np.array([sdss_data_files[i][:,2] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
     bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
     flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
     n_obj = len(obj_list)
@@ -70,7 +70,10 @@ def main():
 
 
 
-
+    filter = glob.glob('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/SLOAN_SDSS.i.dat')[0]
+    filter = np.genfromtxt(filter)
+    wl_filt = filter[:,0]
+    filt = filter[:,1]
 
 
     flux_johan = []
@@ -127,6 +130,7 @@ def main():
         flux_cont_new = np.zeros((n_obj,n_wl))
         fluxerr_new = np.zeros((n_obj,n_wl))
         bp_map_new = np.zeros((n_obj,n_wl))
+        filt_new = np.zeros((n_obj,n_wl))
 
         for n in range(n_obj):
             #de-reddening
@@ -140,6 +144,67 @@ def main():
             flux_cont_new[n] = common_wavelength(wl[n], wl_new, flux_cont_0[n])
             fluxerr_new[n] = common_wavelength(wl[n], wl_new, fluxerr_0[n], fill_value=1.0)
             bp_map_new[n] = common_wavelength(wl[n], wl_new, bp_map[n], fill_value=1.0)
+
+
+        # print(np.shape(flux))
+        flux_cont_new = np.vstack((flux_cont_new , 1e-15 * (wl_new/10000.0)**(-1.7)))
+        print(np.shape(flux_cont_new))
+        redshifts = np.concatenate((redshifts, [1.2]))
+
+
+        from astropy.cosmology import FlatLambdaCDM
+        cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+        filt_new =  common_wavelength(wl_filt, wl_new, filt, fill_value=0.0)
+        miz0 = []
+        for n in range(n_obj+1):
+
+
+            fig, ax = pl.subplots(1)
+            ax.plot(wl_new, filt_new)
+            ax2 = ax.twinx()
+            ax2.plot(wl_new, medfilt(flux_cont_new[n],31))
+            pl.show()
+
+
+            prod = medfilt(filt_new * flux_cont_new[n], 29)
+
+
+            numerator = np.sum(prod * wl_new)
+            denom = np.sum(filt_new * (3e18/wl_new))
+            f_nu = numerator / denom
+            i_band_mag = -2.5 * np.log10(f_nu) - 48.6
+            dl = (cosmo.luminosity_distance(redshifts[n])) * 1e5
+            M = -5 * np.log10(dl.value) + i_band_mag
+            miz0.append(M)
+            # print(M , redshifts[n])
+        pl.plot(wl_new, prod)
+        pl.show()
+
+        # print('')
+
+        wl_new_shift = wl_new * (1+2)
+        filt_new =  common_wavelength(wl_filt, wl_new_shift, filt, fill_value=0.0)
+        miz2 = []
+        for n in range(n_obj+1):
+            flux_cont_new[n] /= (1+2)
+            prod = medfilt(filt_new * flux_cont_new[n], 29)
+
+            numerator = np.sum(prod * wl_new_shift)
+            denom = np.sum(filt_new * (3e18/wl_new_shift))
+            f_nu = numerator / denom
+            i_band_mag = -2.5 * np.log10(f_nu) - 48.6
+            dl = (cosmo.luminosity_distance(redshifts[n])) * 1e5
+            # dl = 1
+            M = -5 * np.log10(dl.value) + i_band_mag
+            miz2.append(M)
+            # print(M , redshifts[n])
+
+        print(np.array(miz2) - np.array(miz0))
+
+        pl.plot(wl_new_shift, prod)
+        pl.show()
+
+
 
         for n in range(n_obj):
             #Normalise
@@ -156,8 +221,10 @@ def main():
             mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
             popt, pcov = optimize.curve_fit(power_law, wl_new[mask], flux_cont_new[n][mask], p0=par_guess,
                                             sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
-            print(*popt)
+            # print(*popt)
             indi_pow.append(popt[1])
+
+
         #     ax.plot(wl_new, power_law(wl_new, *popt), '--', lw = 0.5)
         #     ax.plot(wl_new, medfilt(flux_cont_new[n], 5), lw = 0.5, label= str(mask_ran))
         # pl.semilogx()
@@ -254,7 +321,7 @@ def main():
         # ax[0].plot(wl_new, medfilt(wmean_cont / norm, 5), lw = 0.5, label= str(mask_ran) + '_wmean')
 
         # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
-        # norm = np.median(median[ii])
+        # norm = n.median(median[ii])
         # ax[0].plot(wl_new, 1 - medfilt(wmean_cont_norm, 5)/medfilt(median/norm, 5), lw = 0.5, label= str(mask_ran) + '_median')
         # test = 1 - medfilt(wmean_cont_norm[median != 0.],5 ) /medfilt((median[median != 0.]/norm),5)
         # print(test)

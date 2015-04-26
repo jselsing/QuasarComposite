@@ -1,4 +1,4 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{49}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -36,11 +36,6 @@
 Ahn, C.~P., Alexandroff, R., {Allende Prieto}, C., {et~al.} 2014, The
   Astrophysical Journal Supplement Series, 211, 17 \csname
   Ahn2014link\endcsname~\csname Ahn2014note\endcsname
-
-\bibitem[{Boroson \& Green(1992)}]{Boroson1992}
-Boroson, T.~A. \& Green, R.~F. 1992, The Astrophysical Journal Supplement
-  Series, 80, 109 \csname Boroson1992link\endcsname~\csname
-  Boroson1992note\endcsname
 
 \bibitem[{Boyle(1990)}]{Boyle1990}
 Boyle, B.~J. 1990, Monthly Notices of the Royal Astronomical Society, 243, 231
@@ -90,12 +85,6 @@ Dobos, L., Csabai, I., Yip, C.~W., {et~al.} 2012, {A high-resolution atlas of
 Fitzpatrick, E.~L. 1999, Publications of the Astronomical Society of the
   Pacific, 111, 63 \csname Fitzpatrick1999link\endcsname~\csname
   Fitzpatrick1999note\endcsname
-
-\bibitem[{Francis {et~al.}(1992)Francis, Hewett, Foltz, \&
-  Chaffee}]{Francis1992}
-Francis, P.~J., Hewett, P.~C., Foltz, C.~B., \& Chaffee, F.~H. 1992, The
-  Astrophysical Journal, 398, 476 \csname Francis1992link\endcsname~\csname
-  Francis1992note\endcsname
 
 \bibitem[{Francis {et~al.}(1991)Francis, Hewett, Foltz, Chaffee, Weymann, \&
   Morris}]{Francis1991}
@@ -268,10 +257,6 @@ Schlegel, D.~J., Finkbeiner, D.~P., \& Davis, M. 1998, The Astrophysical
 Shapley, a.~E., Steidel, C.~C., Pettini, M., \& Adelberger, K.~L. 2003, The
   Astrophysical Journal, 588, 65 \csname Shapley2003link\endcsname~\csname
   Shapley2003note\endcsname
-
-\bibitem[{Shen \& Ho(2014)}]{Shen2014a}
-Shen, Y. \& Ho, L.~C. 2014, Nature, 513, 210 \csname
-  Shen2014alink\endcsname~\csname Shen2014anote\endcsname
 
 \bibitem[{Shen {et~al.}(2011)Shen, Richards, Strauss, Hall, Schneider, Snedden,
   Bizyaev, Brewington, Malanushenko, Malanushenko, Oravetz, Pan, \&
