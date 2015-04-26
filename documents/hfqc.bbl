@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{52}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -37,6 +37,15 @@ Ahn, C.~P., Alexandroff, R., {Allende Prieto}, C., {et~al.} 2014, The
   Astrophysical Journal Supplement Series, 211, 17 \csname
   Ahn2014link\endcsname~\csname Ahn2014note\endcsname
 
+\bibitem[{Bessell \& Murphy(2012)}]{Bessell2012}
+Bessell, M. \& Murphy, S. 2012, Publications of the Astronomical Society of the
+  Pacific, 124, 140 \csname Bessell2012link\endcsname~\csname
+  Bessell2012note\endcsname
+
+\bibitem[{Bessell(2005)}]{Bessell2005}
+Bessell, M.~S. 2005, Annual Review of Astronomy and Astrophysics, 43, 293
+  \csname Bessell2005link\endcsname~\csname Bessell2005note\endcsname
+
 \bibitem[{Boyle(1990)}]{Boyle1990}
 Boyle, B.~J. 1990, Monthly Notices of the Royal Astronomical Society, 243, 231
   \csname Boyle1990link\endcsname~\csname Boyle1990note\endcsname
@@ -51,6 +60,11 @@ Brotherton, M.~S., Tran, H.~D., Becker, R.~H., {et~al.} 2001, The Astrophysical
 Cappellari, M. \& Emsellem, E. 2004, Publications of the Astronomical Society
   of the Pacific, 116, 138 \csname Cappellari2004link\endcsname~\csname
   Cappellari2004note\endcsname
+
+\bibitem[{Casagrande \& VandenBerg(2014)}]{Casagrande2014}
+Casagrande, L. \& VandenBerg, D.~A. 2014, Monthly Notices of the Royal
+  Astronomical Society, 444, 392 \csname Casagrande2014link\endcsname~\csname
+  Casagrande2014note\endcsname
 
 \bibitem[{Chen {et~al.}(2014)Chen, Trager, Peletier, Lan\c{c}on, Vazdekis,
   Prugniel, Silva, \& Gonneau}]{Chen2014}

@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: hfqc.aux
 The style file: aa-note.bst
 Database file #1: /Users/jselsing/Work/Papers/bibtex/library.bib
-You've used 49 entries,
+You've used 52 entries,
             2959 wiz_defined-function locations,
-            971 strings with 30852 characters,
-and the built_in function-call counts, 62717 in all, are:
-= -- 4444
-> -- 9343
-< -- 7
-+ -- 3124
-- -- 3075
-* -- 6142
-:= -- 11874
-add.period$ -- 49
-call.type$ -- 49
-change.case$ -- 1221
-chr.to.int$ -- 49
-cite$ -- 147
-duplicate$ -- 877
-empty$ -- 1228
-format.name$ -- 3185
-if$ -- 12004
+            994 strings with 31391 characters,
+and the built_in function-call counts, 63888 in all, are:
+= -- 4548
+> -- 9398
+< -- 10
++ -- 3142
+- -- 3090
+* -- 6224
+:= -- 12084
+add.period$ -- 52
+call.type$ -- 52
+change.case$ -- 1238
+chr.to.int$ -- 52
+cite$ -- 156
+duplicate$ -- 932
+empty$ -- 1306
+format.name$ -- 3211
+if$ -- 12235
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 44
-newline$ -- 151
-num.names$ -- 196
-pop$ -- 1215
+missing$ -- 47
+newline$ -- 160
+num.names$ -- 208
+pop$ -- 1233
 preamble$ -- 1
-purify$ -- 1221
+purify$ -- 1238
 quote$ -- 0
-skip$ -- 726
+skip$ -- 776
 stack$ -- 0
-substring$ -- 933
+substring$ -- 996
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 441
+type$ -- 468
 warning$ -- 0
-while$ -- 190
+while$ -- 202
 width$ -- 0
-write$ -- 779
+write$ -- 827

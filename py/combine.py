@@ -39,6 +39,9 @@ def main():
     object_info_files = [i for i in object_info_files if i[-29:-16] in obj_list]
 
 
+
+
+
     object_info = np.array([np.genfromtxt(i) for i in object_info_files])
 
     z_op = np.array([i[0] for i in object_info])
@@ -77,7 +80,7 @@ def main():
 
 
     flux_johan = []
-    fig, ax = pl.subplots(2, sharex=True)
+    # fig, ax = pl.subplots(2, sharex=True)
     # for mask_ran in range(1500,9000, 1500):
     pow_slope = []
     indi_pow = []
@@ -148,24 +151,21 @@ def main():
 
         # print(np.shape(flux))
         flux_cont_new = np.vstack((flux_cont_new , 1e-15 * (wl_new/10000.0)**(-1.7)))
-        print(np.shape(flux_cont_new))
         redshifts = np.concatenate((redshifts, [1.2]))
+        obj_list.append('Pure power law')
 
 
         from astropy.cosmology import FlatLambdaCDM
-        cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
+        from astropy.cosmology import Planck13 as cosmo
+        # cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
         filt_new =  common_wavelength(wl_filt, wl_new, filt, fill_value=0.0)
         miz0 = []
         for n in range(n_obj+1):
-
-
             fig, ax = pl.subplots(1)
             ax.plot(wl_new, filt_new)
             ax2 = ax.twinx()
             ax2.plot(wl_new, medfilt(flux_cont_new[n],31))
             pl.show()
-
-
             prod = medfilt(filt_new * flux_cont_new[n], 29)
 
 
@@ -176,9 +176,10 @@ def main():
             dl = (cosmo.luminosity_distance(redshifts[n])) * 1e5
             M = -5 * np.log10(dl.value) + i_band_mag
             miz0.append(M)
-            # print(M , redshifts[n])
-        pl.plot(wl_new, prod)
-        pl.show()
+            print(obj_list[n])
+            print(M, i_band_mag, redshifts[n])
+        # pl.plot(wl_new, prod)
+        # pl.show()
 
         # print('')
 
@@ -197,12 +198,13 @@ def main():
             # dl = 1
             M = -5 * np.log10(dl.value) + i_band_mag
             miz2.append(M)
-            # print(M , redshifts[n])
+            print(obj_list[n])
+            print(M, i_band_mag, redshifts[n])
 
         print(np.array(miz2) - np.array(miz0))
 
-        pl.plot(wl_new_shift, prod)
-        pl.show()
+        # pl.plot(wl_new_shift, prod)
+        # pl.show()
 
 
 

@@ -82,6 +82,11 @@
 \newcommand{\nii}{[\ion{N}{ii}]} 
 \newcommand{\feii}{[\ion{Fe}{ii}]} 
 
+
+
+%% Useful shortcuts
+\newcommand{\fluxunit}{erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$} 
+
 \newcommand{\myemail}{jselsing@dark-cosmology.dk}
 
 
@@ -425,6 +430,33 @@ The echellity of x-shooter makes it necessary to resample the image on a rectifi
 
 
 
+
+%====================================================================
+\subsection{Absolute magnitudes} \sectlabel{absmag}
+%====================================================================
+
+In order to make a meaningful comparison with other composites and to the parent population of quasars, synthetic apparent magnitudes are calculated and then, using the redshift, converted to absolute magnitudes. Synthetic photometry is the process by which the apparent magnitudes in a bandpass is obtained from a spectrum by convolution with the filter quantum efficiency curve \cite{Bessell2005}. Following \citep{Bessell2012, Casagrande2014} we obtain the synthetic AB magnitudes using:
+
+\begin{eqnarray}\eqlabel{abmag}
+m_{\textmd{AB}_x} &=& -2.5  \frac{\int f_\lambda \,  T_{x}  \, \lambda \,  d\lambda} 
+{\int  T_{x} \,  (c / \lambda) \,  d\lambda}  - 48.60,
+\end{eqnarray}
+ 
+ 
+where $f_\lambda (\lambda)$ is the observed flux in units of \fluxunit~ for the spectra shifted to rest(z=0) and $T_{x} $ is the total system fractional throughput in band $x$. This can then be converted to absolute magnitude using:
+
+\begin{eqnarray}\eqlabel{absmag}
+M_{\textmd{AB}_x} &=& -5 \log_{10} \left[  \frac{D_L }{10 \mathrm{pc}}   \right] + m_{\textmd{AB}_x} ,
+\end{eqnarray}
+with the \textit{luminosity distance}, $D_L$,  obtained using a standard cosmological calculator\footnote{astropy.cosmology}.
+ The largest compilation of quasar absolute magnitudes to date is \cite{Shen2011}, in which $\mathrm{M_i (z=2)}$ for the 105,783 quasars in DR7 is presented. To get the corresponding magnitudes for the composite constituent quasars at z=2, the wavelengths are shifted and the flux scaled correspondingly to conserve flux. Using the SDSS i-band filter transmission curve\footnote{\url{http://classic.sdss.org/dr7/instruments/imager/filters/i.dat}} interpolated to the shifted wavelength together with \eq{abmag} and \eq{absmag} yields the desired quantities. The results are shown in \tab{targets} and comparison is done in \sect{parents}
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}   \sectlabel{results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -532,6 +564,12 @@ Something extremely profound.
 
 
 Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at$ \sim 920$ \AA is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
+
+
+%====================================================================
+\subsection{Comparison to parent population}  \sectlabel{parents}
+%====================================================================
+In this section the comparison to the parent population of quasars is done. This is based on \sect{absmag}.
 
 
 
