@@ -161,11 +161,11 @@ def main():
         filt_new =  common_wavelength(wl_filt, wl_new, filt, fill_value=0.0)
         miz0 = []
         for n in range(n_obj+1):
-            fig, ax = pl.subplots(1)
-            ax.plot(wl_new, filt_new)
-            ax2 = ax.twinx()
-            ax2.plot(wl_new, medfilt(flux_cont_new[n],31))
-            pl.show()
+            # fig, ax = pl.subplots(1)
+            # ax.plot(wl_new, filt_new)
+            # ax2 = ax.twinx()
+            # ax2.plot(wl_new, medfilt(flux_cont_new[n],31))
+            # pl.show()
             prod = medfilt(filt_new * flux_cont_new[n], 29)
 
 
@@ -188,6 +188,18 @@ def main():
         miz2 = []
         for n in range(n_obj+1):
             flux_cont_new[n] /= (1+2)
+
+            # fig, ax = pl.subplots(1)
+            # ax.plot(wl_new_shift, filt_new)
+            # ax2 = ax.twinx()
+            # ax2.plot(wl_new_shift, medfilt(flux_cont_new[n],31))
+            # pl.show()
+            prod = medfilt
+
+
+
+
+
             prod = medfilt(filt_new * flux_cont_new[n], 29)
 
             numerator = np.sum(prod * wl_new_shift)
@@ -202,6 +214,8 @@ def main():
             print(M, i_band_mag, redshifts[n])
 
         print(np.array(miz2) - np.array(miz0))
+        diffarr = np.array(miz2) - np.array(miz0)
+        print(np.mean((diffarr - diffarr[-1])[:-1]) , np.std((diffarr - diffarr[-1])[:-1]))
 
         # pl.plot(wl_new_shift, prod)
         # pl.show()
@@ -335,7 +349,7 @@ def main():
         # test = 1 - medfilt(wmean_cont_norm[mean != 0.],5 )/medfilt((mean[mean != 0.] / norm),5 )
         # print("""{0}  +- {1} """.format(np.mean(test), np.std(test)))
         par_guess = [1, -1.0]
-        par_guess2 = [1, 3200, -1.0, -1.46]
+        par_guess2 = [1, 5700, -1.0, -1.46]
         # par_guess3 = [1, -1.0, -0.00001]
 
 
@@ -347,9 +361,16 @@ def main():
         # mask = (wl_new > 1350) & (wl_new < 1365) | (wl_new > 4200) & (wl_new < 4230) | (wl_new > 5500) & (wl_new < 6035) | (wl_new > 7800) & (wl_new < 7950)
         mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
         popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
-        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess,
-        #                                             sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
-        popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess, maxfev = 2000)
+        popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess,
+                                                    sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
+        print(popt_wmean)
+        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess, maxfev = 2000)
+        # print(popt_wmean)
+        popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2,
+                                                   sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
+        print(popt_wmean2)
+        # popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2, maxfev = 2000)
+        # print(popt_wmean2)
         # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess,
         #                                           sigma=errofmean[mask], absolute_sigma=True, maxfev = 2000)
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess, maxfev = 2000)

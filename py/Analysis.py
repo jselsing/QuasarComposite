@@ -48,6 +48,7 @@ def main():
     from matplotlib import rc_file
     rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
     import numpy as np
+
     import matplotlib.pylab as pl
     # use seaborn for nice default plot settings
     import seaborn; seaborn.set_style('ticks')
@@ -100,7 +101,7 @@ def main():
         return tmp
 
     par_guess = [1, -1.0]
-    par_guess2 = [1, 5000, -1.0, -1.46]
+    par_guess2 = [1, 5700, -1.0, -1.46]
     # par_guess3 = [1, -1.0, -0.00001]
 
 
@@ -114,14 +115,14 @@ def main():
 
 
     # mask = np.where(wl > 0)
-    print(mask)
+    # print(mask)
     popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess)
     popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2)
     # popt3, pcov3 = optimize.curve_fit(power_law3, wl[mask], wmean[mask], p0=par_guess3)
 
 
-    print(*popt)
-    print(*popt2)
+    # print(*popt)
+    # print(*popt2)
     # print(*popt3)
 
 
@@ -282,6 +283,8 @@ def main():
     #
     #
     #
+
+
     # #Overplot lines
     # fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
     # linelist = []
@@ -291,7 +294,7 @@ def main():
     #
     # ymin = 0.3# 0.3
     # ymax = 150#155
-    # ax1.set_ylim((ymin, ymax))
+    # # ax1.set_ylim((ymin, ymax))
     # for p in range(len(fit_line_positions)):
     #     xcoord = linelist[p]
     #     mask = (wl > xcoord - 1) & (wl < xcoord + 1)
@@ -338,13 +341,113 @@ def main():
     # fig.savefig("../documents/figs/Composite.pdf", dpi= 150)
     # pl.show()
 
+    from gen_methods import medfilt, smooth
 
-    # pl.plot(wl, wmean_cont, color = 'black', lw = linewidth, linestyle = 'steps-mid', label='X-shooter wmean composite')
-    pl.plot(wl, power_law(wl, *popt) , '--')
-    pl.plot(wl, wmean_cont, lw = 0.5, linestyle = 'steps-mid', label='X-shooter mean composite')
-    # pl.plot(wl_sdss, 9*mean_sdss, color = 'red', lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
+
+
+    def hist(rawData,xRange,nBins=10,mode='lin'):
+
+        """histogram using linear binning of supplied data
+
+        Input:
+        rawData	-- list containing data to be binned
+        xRange  -- lower(incl)/upper(excl) boundary for numerical values
+        nBin    -- desired number of bins (default =10)
+        mode	-- binning type (possible choices: lin, log)
+
+        Returns: (nothing)
+        """
+        from math   import sqrt,floor,log,exp
+        h = [0]*nBins
+        xMin=float(xRange[0])
+        xMax=float(xRange[1])
+
+        if mode == 'lin':
+            dx = (xMax-xMin)/nBins
+            def binId(val):   return int(floor((val-xMin)/dx))
+            def bdry(bin):	  return xMin+bin*dx, xMin+(bin+1)*dx
+            def GErr(q,n,dx): return sqrt(q*(1-q)/(N-1))/dx
+
+        elif mode == 'log':
+            dx = log(xMax/xMin)/nBins
+            def binId(val):   return int(floor(log(val/xMin)/dx))
+            def bdry(bin):	  return xMin*exp(bin*dx), xMin*exp((bin+1)*dx)
+            def GErr(q,n,dx): return "##"
+
+        for value in rawData:
+            if 0<=binId(value)<nBins:
+              h[binId(value)] += 1
+
+        N=sum(h)
+        binned = []
+        for bin in range(nBins):
+            hRel   = float(h[bin])/N
+            low,up = bdry(bin)
+            binned.append(low)
+            width  = up-low
+            # print(low, up, hRel/width, GErr(hRel,N,width))
+        return binned
+
+
+
+
+
+    nbins = len(wl)
+    log_binned_wl = hist(wl,[min(wl),max(wl)], nbins,'log')
+    from scipy.interpolate import InterpolatedUnivariateSpline
+    sps = InterpolatedUnivariateSpline(wl, wmean_cont)
+
+    import matplotlib.pylab as pl
+    import lineid_plot
+    # use seaborn for nice default plot settings
+    import seaborn; seaborn.set_style('ticks')
+    # cmap = seaborn.cubehelix_palette(8, start=2, rot=0, dark=0, light=.95, reverse=True)
+    # seaborn.set_palette('cubehelix')
+    # deep, muted, bright, pastel, dark, colorblind
+    fig, ax = pl.subplots(1 , figsize=(12, 4))
+    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 51),
+            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+    ax.plot(wl, wmean_cont,
+            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+
+    ax.plot(wl, power_law(wl, *popt),
+            linestyle='dashed', label ='Power law fit')
+    ax.plot(wl, power_law2(wl, *popt2),
+            linestyle='dashed', label ='Power law fit')
+
+
+    #Overplot lines
+    fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+
+    linelist = []
+    linenames = []
+    for n in fit_line_positions:
+        linelist.append(n[1])
+        linenames.append(n[0])
+    # linelist = np.array(linelist)
+
+    ax.set_xlim((950, 12500))
+    ax.set_ylim((0.09, 25))
     pl.semilogy()
-    pl.semilogx()
+    # pl.semilogx()
+
+
+    # Formatting axes
+    import matplotlib as mpl
+    ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax.set_xticks([1000, 2000, 5000, 10000])
+    ax.get_xaxis().tick_bottom()
+    # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
+
+    ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax.set_yticks([0.1, 1, 10, 20])
+
+    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
+    for i in ax.lines:
+        if '$' in i.get_label():
+            i.set_alpha(0.3)
+    # pl.legend()
+    pl.savefig('../documents/figs/compo.pdf')
     pl.show()
 
 

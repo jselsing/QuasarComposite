@@ -199,9 +199,12 @@ if __name__ == '__main__':
             print("Seeing FWHM (arcsec): ")
             print(fwhm * conv )
             print("Queried seeing (arcsec): ")
+            # print(ob[0].header)
             print(ob[0].header["HIERARCH ESO TEL AMBI FWHM START"])
             print(ob[0].header["HIERARCH ESO TEL AMBI FWHM END"])
             print(ob[0].header["HIERARCH ESO TEL IA FWHMLINOBS"])
+            print(ob[0].header["HIERARCH ESO TEL IA FWHM"])
+            print(ob[0].header["HIERARCH ESO TEL AIRM START"])
             print()
 
             if n == 'UVB':

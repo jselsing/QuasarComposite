@@ -2,35 +2,41 @@
 
 
 
-$Ly\beta$      1025.72 
-$Ly\alpha$     1215.67 
-#$NV$           1240.14 
+$\mathrm{Ly\beta}$      1025.72 
+$\mathrm{Ly\alpha}$     1215.67 
+#$\mathrm{NV}$           1240.14 
 
 
-$CIV$          1549.06 
+$\mathrm{CIV}$          1549.06 
 
 
-$CIII]$        1908.73 
+$\mathrm{CIII]}$        1908.73 
 
 
-$MgII$         2800.32 
-
-
-
-
-$H\gamma$     4341.68 
-#$[OIII]$       4364.44 
-
-$H\beta$      4862.68
-
-#$[OIII]$       4960.30 
-$[OIII]$       5008.24 
-
-
-$H\alpha$     6564.61 
+$\mathrm{MgII}$         2800.32 
 
 
 
+
+$\mathrm{H\gamma}$     4341.68 
+#$\mathrm{[OIII]}$       4364.44 
+
+$\mathrm{H\beta}$      4862.68
+
+#$\mathrm{[OIII]}$       4960.30 
+$\mathrm{[OIII]}$       5008.24 
+
+
+$\mathrm{H\alpha}$     6564.61 
+
+$\mathrm{OI}$		8446
+#$\mathrm{[SIII}$	9069
+$\mathrm{FeII}$		9202
+$\mathrm{Pa\epsilon}$	9545
+$\mathrm{Pa\delta}$	10049
+$\mathrm{HeI}$		10830
+$\mathrm{Pa\gamma}$	10941
+$\mathrm{OI}$		11287
 
 
 

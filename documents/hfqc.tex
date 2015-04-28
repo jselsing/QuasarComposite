@@ -106,9 +106,9 @@
 
 
 \begin{document}  
-\title{Host-Free Quasar Composite Spectrum \thanks{Based on observations made with telescopes at the European Southern Observatory at LaSilla/Paranal, Chile under program 090.A-0147(A).}}
+\title{An X-shooter composite of bright 1<z<2 quasars from UV to Infrared \thanks{Based on observations made with telescopes at the European Southern Observatory at LaSilla/Paranal, Chile under program 090.A-0147(A).}}
 
-\titlerunning{Host-Free Quasar Composite}
+\titlerunning{X-shooter Quasar Composite}
 
 
 \author{J. Selsing\inst{1}, J.~P.~U. Fynbo\inst{1}, L. Christensen\inst{1}, J.-K. Krogager\inst{1}
@@ -462,7 +462,7 @@ with the \textit{luminosity distance}, $D_L$,  obtained using a standard cosmolo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-We show the weighted mean composite in \fig{composite}. Characteristic features of quasars are readily visible. We see several prominent emission lines across the entire spectral range which includes both very broad high-ionization lines and narrower low-ionization lines as is very typical for quasar spectra, with typically both broad and narrow lines superposed with multiple components. We have marked the position and name of the most prominent lines and overplotted them in \fig{composite}.  Analysis of the lines are beyond the scope of this paper.
+We show the weighted mean composite in \fig{composite}. Characteristic features of quasars are readily visible. We see several prominent emission lines across the entire spectral range which includes both very broad high-ionization lines and narrower low-ionization lines as is typical for quasar spectra, with both broad and narrow lines superposed with multiple components \citep{Baldwin1995}. We have marked the position and name of the most prominent lines and overplotted them in \fig{composite}.  Analysis of the lines are beyond the scope of this paper.
 
  %===========================================================================
  \begin{figure*}[hbtp]
@@ -474,22 +474,16 @@ We show the weighted mean composite in \fig{composite}. Characteristic features 
  %===========================================================================
 
 
-As is often seen, the continuum level is shrouded by the myriad of emission lines, balmer continuum and Fe-complexes scattered across the entire spectrum, making the intrinsic shape of the continuum difficult to estimate. In \fig{composite}, we plot the composite spectrum on a log-log scale on which a power-law appears as a straight line and no clear single power-law trend is observed. 
+As is often seen \citep{Elvis2001}, the continuum level is shrouded by the myriad of emission lines, balmer continuum and Fe-complexes scattered across the entire spectrum, making the intrinsic shape of the continuum difficult to estimate. In \fig{composite}, we plot the composite spectrum on a log-log scale on which a power-law appears as a straight line and a linear trend is clearly seen "by eye". 
 
- A single quasar spectrum is usually modeled by a power-law, $F = k \lambda^\alpha$, but a weighted mean spectrum of power-laws does not, in general, result power-law with the mean index. In principle a geometric mean of a sample of power-laws should result in a power-law with index being the mean index as is shown in \sect{math}. We compare the composite obtained by taking the geometric mean with that obtained by the weighted average and no significant difference is detected between the two composites and we therefore we take the spectral index in our composite as representative of the mean spectral index of the constituent spectra. 
+The composite spectrum covers from \lyb ~in the bluest part of our spectrum to Pa$\gamma$ in the reddest, where a single power law adequately describes the continuum from \lya~and redwards. Bluewards of \lya~the spectrum is affected by \lya-forest absorption and the spectral continuum is slightly depressed with respect to the power law shape, likely due to continuum absorption which is not corrected by the IGM absorption correction described in \sect{igm}. Between $\sim2000$ \AA~ and $\sim5000$ \AA, excess emission compared with a pure power is detected, consistent with  the \textit{small blue bump} \citep{Wills1985}, which consists of a blend of balmer continuum and \feii ~lines, both broad and narrow.
 
-\lyb ~is detected in the bluest part of our spectrum, where the continuum is also likely affected by \lya-forest absorption. We expect the detected continuum to be slightly depressed with respect to the intrinsic due to continuum absorption. Between $\sim 2000$ \AA and $\sim 4000$ \AA ~the "small blue bump" is visible which consists of a blend of balmer continuum and \feii ~lines, both broad and narrow.
+ A single quasar spectrum is usually modeled by a power-law, $f_{\lambda} \propto \lambda^\alpha$, but a weighted mean spectrum of a sample of power-laws does not, in general, result in a power-law with the slope mean of the individual spectra. In principle a geometric mean of a sample of power-laws should result in a power-law with index being the mean index as is shown in \sect{math}. We compare the composite obtained by taking the geometric mean with that obtained by the weighted average and no significant difference is detected between the two composites. We therefore take the  weighted mean composite as representative of the constituent spectra. This potential cause of systematic error due to combination methods is investigated more in \sect{systematics}.
 
-Since the regions free of contaminating emission are very narrow, fitting a power-law to the composite in manually specified regions is not very physically attractive and modeling the entire spectrum is not feasible, but a quantitative measure of the shape can still be obtained this way. The regions that lie on a straight line and covers the widest wavelength range are: 1350 - 1365, 4200 - 4230, 5500 - 6035, 7800 - 7950\AA, which we use to fit both with a single power-law and a broken one, with the break at 5000 \AA~as is reported by other authors \citep{VandenBerk2001}. For the single power law we obtain $F = k\lambda^{-1.6759}$, where for a broken power law we obtain a spectral index; $\bar{\alpha} = -1.6662$ below 5000 \AA, and $\bar{\alpha} = -1.8603$ above. 
+%1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500
+%1350 - 1365, 4200 - 4230, 5500 - 6035, 7800 - 7950
+Regions free of contaminating emission are very scarce and fitting a power-law to the composite in manually specified regions is not guaranteed to reflect the continuum. A quantitative measure of the shape can still be obtained by carefully selecting regions that appear relatively unaffected by emission in excess of the continuum. The regions that cover the widest wavelength range are: 1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500\AA, which we use to fit both with a single power-law and a broken one, with the break redwards of \hb~at 5700 \AA~as is reported by other authors \citep{VandenBerk2001}. For the single power law we obtain $\alpha_\lambda = -1.699$, where for a broken power law we obtain a spectral index; $\alpha_\lambda = -1.696$ below 5700 \AA, and $\alpha_\lambda = -1.723$ above, consistent with a single power law describing the continuum from  \lya ~to Pa$\gamma$. The break in \cite{VandenBerk2001} is attributed to contamination from the host galaxies and adapting the same interpretation, it is gives support to the assumption about the negligible host galaxy contribution present in the composite presented here. A detailed comparison with existing composites in \sect{comparison}. 
 
-
-If a model SED for a quasar is needed a shallower slope than the one from \citep{VandenBerk2001}, is found, 
-\jstodo{Investigate this further}
-
-
-\jstodo{This should be included in the discussion}
-
-We make a more detailed comparison with existing composites in \sect{comparison}. 
  
  \qtodo{Anything missing?}
 
@@ -502,8 +496,9 @@ We make a more detailed comparison with existing composites in \sect{comparison}
 
 
 %====================================================================
-\subsection{The case of Q0918+1636}  \sectlabel{q0918}
+\subsection{Applicability of the composite}  \sectlabel{application}
 %====================================================================
+
 
 To check whether we have addressed the problem
  with the near-infrared excess, we start checking if we can adequately fit for the amount of intrinsic visual extinction in one of heavily extincted quasars, where we know the existing composite to be insufficient. We use the gordon-parametrisation with smc-like dust and fit for $A_V$
@@ -535,7 +530,7 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
   %===========================================================================
   \begin{figure*}[hbtp]
     \centering
-    \includegraphics[width=1.98\columnwidth]{Figs/Composite.pdf}
+    \includegraphics[width=1.98\columnwidth]{figs/compo.pdf}
     \caption[]{Powerlaw fit to the composite.}
     \figlabel{composite}
   \end{figure*}
@@ -566,10 +561,42 @@ Something extremely profound.
 Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at$ \sim 920$ \AA is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
 
 
+
+
+
+If a model SED for a quasar is needed a shallower slope than the one from \citep{VandenBerk2001}, is found, 
+\jstodo{Investigate this further}
+
 %====================================================================
 \subsection{Comparison to parent population}  \sectlabel{parents}
 %====================================================================
-In this section the comparison to the parent population of quasars is done. This is based on \sect{absmag}.
+In this section the comparison to the parent population of quasars is done. This is based on results from \sect{absmag}.
+
+It is also possible to calculate the magnitude correction from z=0 to z=2 following \cite{Richards2006a} Equation (1), in which a pure power law is assumed for the quasar composite. For the i-band, this procedure consistently underestimates the magnitude of the correction, due to the bandpass being shifted to a region with heavy line emission, with a mean underestimation of $0.35 \pm 0.14$ mag, where the uncertainty is the 1-$\sigma$ error.
+
+
+
+
+
+%====================================================================
+\subsection{Comparison to existing composites} \sectlabel{comparison}
+%====================================================================
+
+
+Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 
+
+
+ We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \AA~ up to H$\gamma$ at 4340 \AA. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Expand this section a lot. Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
+ 
+
+
+
+
+
+
+
+
+
 
 
 
@@ -679,18 +706,6 @@ A geometric composite has been generated in bins of luminosity in \citep{Shen201
 
 
 
-
-
-%====================================================================
-\subsection{Comparisons} \sectlabel{comparison}
-%====================================================================
-
-
-Continuum shape. Emission and absorption lines. Comparison with existing composites ( Vanden Berk, Glickman). Above 10000 \r{A} only 1 spectrum contribute to compostie and is therefore not well constrained. 
-
-
- We have overplotted, in the blue, the weighted mean composte from Vanden Berk and as can be seen there is excellent agreement between the two composites from Ly$\alpha$ at 1216 \r{A} up to H$\gamma$ at 4340 \r{A}. As is commonly seen in quasar spectra there is a break in the spectrum at around 5000 \r{A}, where there is a significant discrepancy between the slope of the two composites, attributed to the relative contribution of host starlight, where the composite by Vanden Berk consists of low-redshift, intrinsically fainter objects with a higher fraction of host contamination. Does it make sense to fit a powerlaw to this? To quantify we fit power laws to the same regions as used by Vanden Berk and find .. ... .... . Expand this section a lot. Our data is well modelled by a single power law from 5000 \r{A} to 11000 \r{A}. 
- 
 
 
 
