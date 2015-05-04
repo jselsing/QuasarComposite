@@ -104,8 +104,6 @@ def main():
     par_guess2 = [1, 5700, -1.0, -1.46]
     # par_guess3 = [1, -1.0, -0.00001]
 
-
-
     # pl.plot(wl, power_law2(wl, par_guess))
     # pl.show()
     wmean[np.where(np.isnan(wmean) == True)] = 0
@@ -342,9 +340,6 @@ def main():
     # pl.show()
 
     from gen_methods import medfilt, smooth
-
-
-
     def hist(rawData,xRange,nBins=10,mode='lin'):
 
         """histogram using linear binning of supplied data
@@ -388,32 +383,92 @@ def main():
             # print(low, up, hRel/width, GErr(hRel,N,width))
         return binned
 
-
-
-
-
     nbins = len(wl)
     log_binned_wl = hist(wl,[min(wl),max(wl)], nbins,'log')
     from scipy.interpolate import InterpolatedUnivariateSpline
     sps = InterpolatedUnivariateSpline(wl, wmean_cont)
+
+
+
+
+    # import matplotlib.pylab as pl
+    # import lineid_plot
+    # # use seaborn for nice default plot settings
+    # import seaborn; seaborn.set_style('ticks')
+    # # cmap = seaborn.cubehelix_palette(8, start=2, rot=0, dark=0, light=.95, reverse=True)
+    # seaborn.set_palette('muted')
+    # # deep, muted, bright, pastel, dark, colorblind
+    # fig, ax = pl.subplots(1 , figsize=(12, 4))
+    # ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 21),
+    #         lw = 1.0, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+    # # ax.plot(wl, wmean_cont,
+    # #         lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+    #
+    # ax.plot(wl, power_law(wl, *popt),
+    #         linestyle='dashed', label ='Power law fit')
+    # ax.plot(wl, power_law2(wl, *popt2),
+    #         linestyle='dashed', label ='Power law fit')
+    #
+    #
+    # #Overplot lines
+    # fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    #
+    # linelist = []
+    # linenames = []
+    # for n in fit_line_positions:
+    #     linelist.append(n[1])
+    #     linenames.append(n[0])
+    # # linelist = np.array(linelist)
+    #
+    # ax.set_xlim((950, 12500))
+    # ax.set_ylim((0.09, 25))
+    # pl.semilogy()
+    # # pl.semilogx()
+    #
+    #
+    # # Formatting axes
+    # import matplotlib as mpl
+    # ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    # ax.set_xticks([1000, 2000, 5000, 10000])
+    # ax.get_xaxis().tick_bottom()
+    # # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
+    #
+    # ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    # ax.set_yticks([0.1, 1, 10, 20])
+    #
+    # lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
+    # for i in ax.lines:
+    #     if '$' in i.get_label():
+    #         i.set_alpha(0.3)
+    # # pl.legend()
+    # pl.savefig('../documents/figs/compo.pdf')
+    # pl.show()
+
+
+
+
+
+
+    n_spec[n_spec == 0] = 1
+    wmean_cont[wmean_cont == 0] = 1
+    # std[std < 0.005] = 0.005
+    std[n_spec == 1] = 0
+    std[std < 0.005] = 0.005
+
+    print(std/wmean_cont)
+    sps = InterpolatedUnivariateSpline(wl, std/wmean_cont)
+
 
     import matplotlib.pylab as pl
     import lineid_plot
     # use seaborn for nice default plot settings
     import seaborn; seaborn.set_style('ticks')
     # cmap = seaborn.cubehelix_palette(8, start=2, rot=0, dark=0, light=.95, reverse=True)
-    # seaborn.set_palette('cubehelix')
+    seaborn.set_palette('muted')
     # deep, muted, bright, pastel, dark, colorblind
     fig, ax = pl.subplots(1 , figsize=(12, 4))
-    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 51),
-            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
-    ax.plot(wl, wmean_cont,
-            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
-
-    ax.plot(wl, power_law(wl, *popt),
-            linestyle='dashed', label ='Power law fit')
-    ax.plot(wl, power_law2(wl, *popt2),
-            linestyle='dashed', label ='Power law fit')
+    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 11),
+            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='Composite variability')
 
 
     #Overplot lines
@@ -426,10 +481,11 @@ def main():
         linenames.append(n[0])
     # linelist = np.array(linelist)
 
-    ax.set_xlim((950, 12500))
-    ax.set_ylim((0.09, 25))
-    pl.semilogy()
-    # pl.semilogx()
+    ax.set_xlim((950, 11500))
+    # ax.set_ylim((0.001, 25))
+    ax.set_ylim((0.001, 1))
+    # pl.semilogy()
+    pl.semilogx()
 
 
     # Formatting axes
@@ -440,17 +496,27 @@ def main():
     # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_yticks([0.1, 1, 10, 20])
+    # ax.set_yticks([0.1, 1, 10, 20])
 
-    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
+    lineid_plot.plot_line_ids(wl, std/wmean_cont, linelist, linenames, ax=ax)
     for i in ax.lines:
         if '$' in i.get_label():
             i.set_alpha(0.3)
     # pl.legend()
-    pl.savefig('../documents/figs/compo.pdf')
+    pl.savefig('../documents/figs/var.pdf')
     pl.show()
 
 
+
+
+
+    out = std/wmean_cont
+
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("out", np.float64) ]
+    data = np.array(zip(wl, out), dtype=dt)
+    file_name = "Spectral variability"
+    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl variability")#, fmt = ['%5.1f', '%2.15E'] )
 
 
 

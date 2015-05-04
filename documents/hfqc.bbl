@@ -1,4 +1,4 @@
-\begin{thebibliography}{55}
+\begin{thebibliography}{59}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -51,6 +51,11 @@ Bessell, M. \& Murphy, S. 2012, Publications of the Astronomical Society of the
 \bibitem[{Bessell(2005)}]{Bessell2005}
 Bessell, M.~S. 2005, Annual Review of Astronomy and Astrophysics, 43, 293
   \csname Bessell2005link\endcsname~\csname Bessell2005note\endcsname
+
+\bibitem[{Boroson \& Green(1992)}]{Boroson1992}
+Boroson, T.~A. \& Green, R.~F. 1992, The Astrophysical Journal Supplement
+  Series, 80, 109 \csname Boroson1992link\endcsname~\csname
+  Boroson1992note\endcsname
 
 \bibitem[{Boyle(1990)}]{Boyle1990}
 Boyle, B.~J. 1990, Monthly Notices of the Royal Astronomical Society, 243, 231
@@ -110,6 +115,12 @@ Fitzpatrick, E.~L. 1999, Publications of the Astronomical Society of the
   Pacific, 111, 63 \csname Fitzpatrick1999link\endcsname~\csname
   Fitzpatrick1999note\endcsname
 
+\bibitem[{Francis {et~al.}(1992)Francis, Hewett, Foltz, \&
+  Chaffee}]{Francis1992}
+Francis, P.~J., Hewett, P.~C., Foltz, C.~B., \& Chaffee, F.~H. 1992, The
+  Astrophysical Journal, 398, 476 \csname Francis1992link\endcsname~\csname
+  Francis1992note\endcsname
+
 \bibitem[{Francis {et~al.}(1991)Francis, Hewett, Foltz, Chaffee, Weymann, \&
   Morris}]{Francis1991}
 Francis, P.~J., Hewett, P.~C., Foltz, C.~B., {et~al.} 1991, {A high
@@ -138,6 +149,12 @@ Glikman, E., Helfand, D.~J., \& White, R.~L. 2006, The Astronomy and
 Glikman, E., Helfand, D.~J., White, R.~L., {et~al.} 2007, The Astrophysical
   Journal, 667, 673 \csname Glikman2007link\endcsname~\csname
   Glikman2007note\endcsname
+
+\bibitem[{Gordon {et~al.}(2003)Gordon, Clayton, Misselt, Landolt, \&
+  Wolff}]{Gordon2003}
+Gordon, K.~D., Clayton, G.~C., Misselt, K.~A., Landolt, A.~U., \& Wolff, M.~J.
+  2003, The Astrophysical Journal, 594, 279 \csname
+  Gordon2003link\endcsname~\csname Gordon2003note\endcsname
 
 \bibitem[{Gunn {et~al.}(2006)Gunn, Siegmund, Mannery, Owen, Hull, Leger, Carey,
   Knapp, York, Boroski, Kent, Lupton, Rockosi, Evans, Waddell, Anderson, Annis,
@@ -202,10 +219,10 @@ Kausch, W., Noll, S., Smette, A., Kimeswenger, S., \& Barden, M. 2015,
   Kausch2015note\endcsname
 
 \bibitem[{Krogager {et~al.}(2015)Krogager, Geier, Fynbo, Venemans, Ledoux,
-  Noterdaeme, Vestergaard, Kangas, Pursimo, Saturni, \&
+  M\o~ller, Noterdaeme, Vestergaard, Kangas, Pursimo, Saturni, \&
   Smirnova}]{Krogager2015}
 Krogager, J.-K., Geier, S., Fynbo, J. P.~U., {et~al.} 2015, The Astrophysical
-  Journal Supplement Series, 1 \csname Krogager2015link\endcsname~\csname
+  Journal Supplement Series, 217, 5 \csname Krogager2015link\endcsname~\csname
   Krogager2015note\endcsname
 
 \bibitem[{Leighly {et~al.}(2014)Leighly, Terndrup, Baron, Lucy, Dietrich, \&
@@ -213,11 +230,6 @@ Krogager, J.-K., Geier, S., Fynbo, J. P.~U., {et~al.} 2015, The Astrophysical
 Leighly, K.~M., Terndrup, D.~M., Baron, E., {et~al.} 2014, The Astrophysical
   Journal, 788, 123 \csname Leighly2014link\endcsname~\csname
   Leighly2014note\endcsname
-
-\bibitem[{Lusso {et~al.}(2015)Lusso, Worseck, Hennawi, Prochaska, Vignali,
-  Stern, Meara, \& Mar}]{Lusso2015}
-Lusso, E., Worseck, G., Hennawi, J.~F., {et~al.} 2015, arXiv, 19, 1 \csname
-  Lusso2015link\endcsname~\csname Lusso2015note\endcsname
 
 \bibitem[{MacLeod {et~al.}(2012)MacLeod, Ivezi\'{c}, Sesar, de~Vries, Kochanek,
   Kelly, Becker, Lupton, Hall, Richards, Anderson, \& Schneider}]{MacLeod2012}
@@ -253,6 +265,13 @@ Rayner, J., Toomey, D., Onaka, P., {et~al.} 2003, Publications of the
   Astronomical Society of the Pacific, 115, 362 \csname
   Rayner2003link\endcsname~\csname Rayner2003note\endcsname
 
+\bibitem[{Richards {et~al.}(2002)Richards, Fan, Newberg, Strauss, Berk,
+  Schneider, Yanny, Boucher, Burles, Frieman, Gunn, Hall, Ivezic, Kent,
+  Loveday, Lupton, Rockosi, Schlegel, Stoughton, SubbaRao, \&
+  York}]{Richards2002a}
+Richards, G.~T., Fan, X., Newberg, H.~J., {et~al.} 2002, 62 \csname
+  Richards2002alink\endcsname~\csname Richards2002anote\endcsname
+
 \bibitem[{Richards {et~al.}(2003)Richards, Hall, Berk, Strauss, Schneider,
   Weinstein, Reichard, York, Knapp, Fan, Ivezic, Brinkmann, Budavari, Csabai,
   \& Nichol}]{Richards2003}
@@ -281,6 +300,10 @@ Schlegel, D.~J., Finkbeiner, D.~P., \& Davis, M. 1998, The Astrophysical
 Shapley, a.~E., Steidel, C.~C., Pettini, M., \& Adelberger, K.~L. 2003, The
   Astrophysical Journal, 588, 65 \csname Shapley2003link\endcsname~\csname
   Shapley2003note\endcsname
+
+\bibitem[{Shen \& Ho(2014)}]{Shen2014a}
+Shen, Y. \& Ho, L.~C. 2014, Nature, 513, 210 \csname
+  Shen2014alink\endcsname~\csname Shen2014anote\endcsname
 
 \bibitem[{Shen {et~al.}(2011)Shen, Richards, Strauss, Hall, Schneider, Snedden,
   Bizyaev, Brewington, Malanushenko, Malanushenko, Oravetz, Pan, \&

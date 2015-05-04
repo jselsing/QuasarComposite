@@ -306,6 +306,7 @@ def main():
 
 
                 std[i] = np.std(k[mask])
+
             elif len(k[mask]) == 0:
 
                 mean[i] = 0
@@ -407,7 +408,7 @@ def main():
             if len(n[np.where(n != 0)]) == len(redshifts):
                 spec.append(n / np.median(n))
 
-        std = std / np.sqrt(n_spec)
+        # std = std / np.sqrt(n_spec)
 
         # ax[1].plot(wl_new, std, lw = 0.2)
         #Saving ready spectra

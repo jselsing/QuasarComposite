@@ -81,8 +81,8 @@
 \newcommand{\oiii}{[\ion{O}{iii}]}
 \newcommand{\nii}{[\ion{N}{ii}]} 
 \newcommand{\feii}{[\ion{Fe}{ii}]} 
-
-
+\newcommand{\civ}{\ion{C}{iv}} 
+\newcommand{\mgii}{\ion{Mg}{ii}} 
 
 %% Useful shortcuts
 \newcommand{\fluxunit}{erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$} 
@@ -92,11 +92,9 @@
 
 % TO DOS
 \newcommand{\todo}[3]{{\color{#2}\emph{#1}: #3}}
-\newcommand{\jstodo}[1]{\todo{ \\TODO }{red}{#1}}
+\newcommand{\jstodo}[1]{\todo{ \\TODO }{green}{#1}}
 \newcommand{\qtodo}[1]{\todo{\\ Question}{red}{#1}}
-\newcommand{\lctodo}[1]{\todo{\\ Question for Lise}{blue}{#1}}
-\newcommand{\jftodo}[1]{\todo{\\ Question for Johan}{green}{#1}}
-\newcommand{\jktodo}[1]{\todo{\\ Question for Jens-Kristian}{yellow}{#1}}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -333,7 +331,7 @@ There is not a unique way to construct a composite and the final result is influ
 \subsection{Determining the redshift}  \sectlabel{redshifts}
 %====================================================================
 
-Getting the systemic redshift of quasars from emission lines is complicated by the complex physical structure in which they emitted. For the bright blue quasars selected for our composite many of the prominent high-ionization lines visible will arise in hot clouds with large peculiar velocities and will therefore be affected by systematic line-shifts {\color{red} Reference needed}. To get a redshift closer to the systemic we choose \oiii,$\lambda$5007,  arising in the narrow-line region and therefore less affected by systematic offsets, {\color{red} Reference needed} to fit for the redshift. \oiii~ is situated on a broad Fe-complex and slightly blended with \oiii,$\lambda$4959 and \hb, with \hb~ both containing broad and narrow components. 
+Getting the systemic redshift of quasars from emission lines is complicated by the complex physical structure in which they emitted. For the bright quasars selected for our composite many of the prominent high-ionization lines visible will arise in hot clouds with large peculiar velocities and will therefore be affected by systematic line-shifts {\color{red} Reference needed}. To get a redshift closer to the systemic we choose \oiii,$\lambda$5007,  arising in the narrow-line region and therefore less affected by systematic offsets, {\color{red} Reference needed} to fit for the redshift. \oiii~ is situated on a broad Fe-complex and slightly blended with \oiii,$\lambda$4959 and \hb, with \hb~ both containing broad and narrow components. 
 
 To get an accurate estimate of the redshift we mark both sides of the line belonging to \oiii,$\lambda$5007 where it starts to become blended, do a low order polynomial fit to the edges and subtract this pseudo-continuum. We define a Gaussian in terms of the rest wavelength of \oiii~ and leave the redshift as a free parameter and then fit to the line where a weighted minimization of the residuals is done using least squares and the confidence intervals on the best-fit parameters is determined by resampling from a multivariate Gaussian with best-fit values as the mean and a covariance matrix which is the estimated Hessian at the minimum. The weights used are the inverse variance, $ w =  \frac{1}{\sigma^2}$, where $\sigma$ is the statistical error of the spectrum. The 1$\sigma$ confidence intervals on the fit parameters are set by the 16th and 84th percentile of the resampling realizations. The formal errors obtained from the fit are bound to be under-estimating the true error, since correlation between the pixels are not taken into account. Least squares minimization do not guarantee to find the global minimum of the residuals, but we check visually that the fit is satisfactory. \oiii,$\lambda$5007 is visible in all of our spectra in varying strength so additional refinement is not needed. As a starting guess for the redshift we use redshifts queried from SDSS and all fits are visually inspected to check if the fitted redshift is an improvement on the position of \oiii,$\lambda$5007. We show the \oiii~ fit in \fig{linefit}, where \hb, \oiii,$\lambda$4959 and \oiii,$\lambda$5007 are clearly detected. Several broad underlying features make it difficult to model the entire complex by the three lines alone and therefore we are only fitting the narrowest component of the \oiii-line, where only the upper part of the total line flux is used in the fit. This is similar to what is done in \citep{VandenBerk2001}. 
 
@@ -482,17 +480,7 @@ The composite spectrum covers from \lyb ~in the bluest part of our spectrum to P
 
 %1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500
 %1350 - 1365, 4200 - 4230, 5500 - 6035, 7800 - 7950
-Regions free of contaminating emission are very scarce and fitting a power-law to the composite in manually specified regions is not guaranteed to reflect the continuum. A quantitative measure of the shape can still be obtained by carefully selecting regions that appear relatively unaffected by emission in excess of the continuum. The regions that cover the widest wavelength range are: 1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500\AA, which we use to fit both with a single power-law and a broken one, with the break redwards of \hb~at 5700 \AA~as is reported by other authors \citep{VandenBerk2001}. For the single power law we obtain $\alpha_\lambda = -1.699$, where for a broken power law we obtain a spectral index; $\alpha_\lambda = -1.696$ below 5700 \AA, and $\alpha_\lambda = -1.723$ above, consistent with a single power law describing the continuum from  \lya ~to Pa$\gamma$. The break in \cite{VandenBerk2001} is attributed to contamination from the host galaxies and adapting the same interpretation, it is gives support to the assumption about the negligible host galaxy contribution present in the composite presented here. A detailed comparison with existing composites in \sect{comparison}. 
-
- 
- \qtodo{Anything missing?}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Uncertainties}  \sectlabel{uncertainty}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+Regions free of contaminating emission are very scarce and fitting a power-law to the composite in manually specified regions is not guaranteed to reflect the continuum. A quantitative measure of the shape can still be obtained by carefully selecting regions that appear relatively unaffected by emission in excess of the continuum. The regions that cover the widest wavelength range are: 1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500\AA, which we use to fit both with a single power-law and a broken one, with the break redwards of \hb~at 5700 \AA~as is reported by other authors \citep{VandenBerk2001}. For the single power law we obtain $\alpha_\lambda = -1.699$, where for a broken power law we obtain a spectral index; $\alpha_\lambda = -1.696$ below 5700 \AA, and $\alpha_\lambda = -1.723$ above, consistent with a single power law describing the continuum from  \lya ~to Pa$\gamma$. The break in \cite{VandenBerk2001} is attributed to contamination from the host galaxies and adapting the same interpretation, it is gives support to the assumption about the negligible host galaxy contribution present in the composite presented here. A detailed comparison with existing composites in \sect{comparison}. \qtodo{Anything missing?}
 
 
 %====================================================================
@@ -500,9 +488,16 @@ Regions free of contaminating emission are very scarce and fitting a power-law t
 %====================================================================
 
 
-To check whether we have addressed the problem
- with the near-infrared excess, we start checking if we can adequately fit for the amount of intrinsic visual extinction in one of heavily extincted quasars, where we know the existing composite to be insufficient. We use the gordon-parametrisation with smc-like dust and fit for $A_V$
- \qtodo{How do we write this?}
+To test the applicability of the composite, it is used to determine the dust content of a sample of three red quasars taken from the HAQ (High A$_V$ QSO) survey. The HAQ survey consists of quasars selected on the basis of their optical colors in SDSS and near-infrared in UKIDDS to identify the reddest and therefore most dust-extincted quasars which are missed by traditional color selection criteria. A complete description of the sample criteria and the data are presented in \citet{Fynbo2013} and \citet{Krogager2015}. The dust content can then be inferred by reddening the composite with an extinction law parameterized by \cite{Gordon2003} to match the object spectrum. The parametrization allows the redshift of the object quasar and the magnitude of visual extinction, A$_V$, to be found by minimizing the residuals between the object and the composite. A detailed description of the fitting method is given in \cite{Krogager2015}.
+
+The three quasars have been selected to have varying amounts of extinction and have differing redshifts. We show the result for quasars HAQ2221+0145, HAQ1115+0333 and HAQ2231+0509 in \fig{application} where the success of matching the composite with quasars of very different shapes is visible. 
+
+Following \cite{Wang2012}, the previous composite used to fit for the dust amount consists of the composite generated by \cite{VandenBerk2001} stitched together with the composite by \cite{Glikman2006} at 3000 \AA. Thus, two different composites built from differing samples have been treated as a single composite. That this has been successful is a testament to the similarity of quasars across a large range of parameters. 
+The values obtained with the newly generated composite is entirely consistent with the values published in \cite{Krogager2015}, which is encouraging for the previous use of stitched template. A detailed comparison between the different composites is done in \sect{comparison}.
+
+
+
+ \qtodo{Is this correct?}
  
  
   
@@ -510,22 +505,21 @@ To check whether we have addressed the problem
    \begin{figure}[hbtp]
      \centering
      \includegraphics[width=0.99\columnwidth]{Figs/application.pdf}
-     \caption[]{The dust extinction, $A_V$, has been inferred for three different quasars}
+     \caption[]{The dust extinction, $A_V$, and redshift has been inferred for three HAQ quasars}
      \figlabel{application}
    \end{figure}
    %===========================================================================
  
  
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \subsection{Intra-spectrum variability}  \sectlabel{variability}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ To gauge the intra-spectrum variability, the standard deviation of the flux points at each wavelength divided by the composite reflects the fractional sample variability, where by construction this is minimized at the region chosen for normalization - in this case, just redwards of \ha. The general shape of the variability curve is therefore rather uninformative, but nonetheless valuable information can still be gained by inspection. We show the computed fractional variability in \fig{combined}. The sample variability contains both the temporal variability and the intrinsic population variability which is not possible to separate with single-epoch data and therefore potential conclusions should be wary of this degeneracy.
+ Significant variation is visible in the the lines of \civ, \mgii, \oiii~ and lines of hydrogen as well as in the \feii-complexes centered around \hb. From 5800 - 11000 \AA~the continuum variability stays almost constant which could indicate a more stable continuum, both temporally and population-wide \qtodo{Is this pushing it too far?}. An increase in variability is observed redwards of 5800 \AA due to slightly varying power law slopes of the constituent spectra. In the region bluewards of \lya~ the fractional variability reaches 60 percent, testament to the stochastic nature of the lyman alpha forest, but the reader is cautioned that only two spectra contribute significantly at these wavelengths.  
  
  
- 
- %====================================================================
- \subsection{The case of Q2222-0946}  \sectlabel{q2222}
- %====================================================================
 
-Here we redo the analysis of the previous subsection on the object Q2222-0946.
- \qtodo{How do we write this?}
- 
  
   %===========================================================================
   \begin{figure*}[hbtp]
@@ -543,34 +537,29 @@ Here we redo the analysis of the previous subsection on the object Q2222-0946.
 \section{Discussion}  \sectlabel{discuss}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-We have to be careful with regards to the conclusions and the sample selection. We have selected bright, blue quasars, but we can only say something about the mean of this particular sample and not something about the general population of quasars. If there exists an intrinsic population of quasars who are redder, this effect will be degenerate with dust, and fitting for the dust are not guaranteed to result in robust results. This is of major concern.  
-\qtodo{Talk to Jens about this again}.
-
-
-
-The largest uncertainties is with regards to the continuum placement, where differently selected regions will result in different dispersions. We ideally want the dispersion to reflect the intrinsic sample dispersion, but this can be difficult to achieve since it will depend on the normalization placement. Maybe the slopes should be measured in the individual spectra, and a mean should be taken of the slopes. Thereby the uncertainty will more reflect intrinsic variability in quasar slope. How about intrinsic temporal variation in slope? This also have to be considered. 
-
-
-
-
-Something extremely profound.
-
-
-Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at$ \sim 920$ \AA is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
+The applicability of quasar composites as tools for template matching and dust estimation largely hinges on the ability of the composite to represent an intrinsic target spectrum. The broad usage and success of previous composites largely confirms this ability. That the composites constructed are representative for a large group of differently selected quasars is a testament to the homogeneity of the quasar population and the universality of the emission mechanism.
+The remarkable uniformity of the average spectral properties across luminosity and redshift indicate very similar underlying physical mechanisms which can be understood in terms of Eigenvector 1 \citep{Boroson1992, Francis1992} where the Eddington ratio drives the relative strength of the lines and orientation effects influences the observed kinematics of the lines\citep{Shen2014a}. The specific local physical conditions which regulate the accretion rate then accounts for the majority of the inter-quasar variation.
 
 
 
 
 
-If a model SED for a quasar is needed a shallower slope than the one from \citep{VandenBerk2001}, is found, 
-\jstodo{Investigate this further}
+
+%%We have to be careful with regards to the conclusions and the sample selection. We have selected bright quasars, but we can only say something about the mean of this particular sample and not something about the general population of quasars. If there exists an intrinsic population of quasars who are redder, this effect will be degenerate with dust, and fitting for the dust are not guaranteed to result in robust results. This is of major concern.  
+%\qtodo{Talk to Jens about this again}.
+%
+%Something extremely profound.
+%
+%Due to the intrinsic brightness of our objects, we expect the black-hole mass to be high, compared lower-brightness objects. \citet{Lusso2015} section 5.5 find that the break in power-law slope at$ \sim 920$ \AA is which does not agree with Shakura sunyaev prediction. They need high black-hole spin or wrong black-hole masses to make the two models fit.  
+%If a model SED for a quasar is needed a shallower slope than the one from \citep{VandenBerk2001}, is found, 
+%\jstodo{Investigate this further}
 
 %====================================================================
 \subsection{Comparison to parent population}  \sectlabel{parents}
 %====================================================================
-In this section the comparison to the parent population of quasars is done. This is based on results from \sect{absmag}.
+In this section the comparison to the parent population of quasars is done, which is based on the results from \sect{absmag}.
+Figure 1 in \cite{Shen2011} presents the distribution of M$_i(z=2)$ as a function redshift, for which the black dots represents about half of the objects and are uniformly selected to 90 percent completeness \citet{Richards2002a}. It is clear that our sample represents some of the brightest quasar between redshift 1 and 2. It is therefore potentially a biased subset of the parent quasar population. 
+
 
 It is also possible to calculate the magnitude correction from z=0 to z=2 following \cite{Richards2006a} Equation (1), in which a pure power law is assumed for the quasar composite. For the i-band, this procedure consistently underestimates the magnitude of the correction, due to the bandpass being shifted to a region with heavy line emission, with a mean underestimation of $0.35 \pm 0.14$ mag, where the uncertainty is the 1-$\sigma$ error.
 
@@ -741,7 +730,6 @@ We have generated a quasar composite from 1000 \r{A} to 11000 \r{A} based on X-s
 \section{Mean spectral index}  \sectlabel{math}
 %===========================================================================
 
-\qtodo{I'm not sure if we should include this?}
 
 We show that the geometric mean of a sample power-laws equals a power law with the sample mean index. The geometric mean is a type of mean defined as:
 \begin{eqnarray}\eqlabel{geometric mean}
