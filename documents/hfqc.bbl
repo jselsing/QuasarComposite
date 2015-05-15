@@ -1,4 +1,4 @@
-\begin{thebibliography}{59}
+\begin{thebibliography}{62}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
 \bibitem[{Ahn {et~al.}(2014)Ahn, Alexandroff, {Allende Prieto}, Anderson,
@@ -99,6 +99,12 @@ Christensen, L., Fynbo, J. P.~U., Prochaska, J.~X., {et~al.} 2010, The
 Croom, S.~M., Smith, R.~J., Boyle, B.~J., {et~al.} 2004, Monthly Notices of the
   Royal Astronomical Society, 349, 1397 \csname Croom2004link\endcsname~\csname
   Croom2004note\endcsname
+
+\bibitem[{Dietrich {et~al.}(2002)Dietrich, Hamann, Shields, Constantin,
+  Vestergaard, Chaffee, Foltz, \& Junkkarinen}]{Dietrich2002}
+Dietrich, M., Hamann, F., Shields, J.~C., {et~al.} 2002, The Astrophysical
+  Journal, 581, 912 \csname Dietrich2002link\endcsname~\csname
+  Dietrich2002note\endcsname
 
 \bibitem[{Dobos {et~al.}(2012)Dobos, Csabai, Yip, Budav\'{a}ri, Wild, \&
   Szalay}]{Dobos2012}
@@ -265,12 +271,15 @@ Rayner, J., Toomey, D., Onaka, P., {et~al.} 2003, Publications of the
   Astronomical Society of the Pacific, 115, 362 \csname
   Rayner2003link\endcsname~\csname Rayner2003note\endcsname
 
-\bibitem[{Richards {et~al.}(2002)Richards, Fan, Newberg, Strauss, Berk,
+\bibitem[{Richards {et~al.}(2002)Richards, Fan, Newberg, Strauss, {Vanden
+  Berk}, Schneider, Yanny, Boucher, Burles, Frieman, Gunn, Hall, Ivezi\'{c},
+  Kent, Loveday, Lupton, Rockosi, Schlegel, Stoughton, SubbaRao, York, Berk,
   Schneider, Yanny, Boucher, Burles, Frieman, Gunn, Hall, Ivezic, Kent,
   Loveday, Lupton, Rockosi, Schlegel, Stoughton, SubbaRao, \&
-  York}]{Richards2002a}
-Richards, G.~T., Fan, X., Newberg, H.~J., {et~al.} 2002, 62 \csname
-  Richards2002alink\endcsname~\csname Richards2002anote\endcsname
+  York}]{Richards2002}
+Richards, G.~T., Fan, X., Newberg, H.~J., {et~al.} 2002, The Astronomical
+  Journal, 123, 2945 \csname Richards2002link\endcsname~\csname
+  Richards2002note\endcsname
 
 \bibitem[{Richards {et~al.}(2003)Richards, Hall, Berk, Strauss, Schneider,
   Weinstein, Reichard, York, Knapp, Fan, Ivezic, Brinkmann, Budavari, Csabai,
@@ -366,6 +375,20 @@ Urrutia, T., Becker, R.~H., White, R.~L., {et~al.} 2009, The Astrophysical
 {Vanden Berk}, D.~E., Richards, G.~T., Bauer, A., {et~al.} 2001, The
   Astronomical Journal, 122, 549 \csname VandenBerk2001link\endcsname~\csname
   VandenBerk2001note\endcsname
+
+\bibitem[{{Vanden Berk} {et~al.}(2005){Vanden Berk}, Schneider, Richards, Hall,
+  Strauss, Brunner, Fan, Baldry, York, Gunn, Nichol, Meiksin, \&
+  Brinkmann}]{VandenBerk2005}
+{Vanden Berk}, D.~E., Schneider, D.~P., Richards, G.~T., {et~al.} 2005, The
+  Astronomical Journal, 129, 2047 \csname VandenBerk2005link\endcsname~\csname
+  VandenBerk2005note\endcsname
+
+\bibitem[{{Vanden Berk} {et~al.}(2004){Vanden Berk}, Wilhite, Kron, Anderson,
+  Brunner, Hall, Ivezi\'{c}, Richards, Schneider, York, Brinkmann, Lamb,
+  Nichol, \& Schlegel}]{VandenBerk2004}
+{Vanden Berk}, D.~E., Wilhite, B.~C., Kron, R.~G., {et~al.} 2004, The
+  Astrophysical Journal, 601, 692 \csname VandenBerk2004link\endcsname~\csname
+  VandenBerk2004note\endcsname
 
 \bibitem[{Vernet {et~al.}(2011)Vernet, Dekker, D’Odorico, Kaper, Kjaergaard,
   Hammer, Randich, Zerbi, Groot, Hjorth, Guinouard, Navarro, Adolfse, Albers,

@@ -410,6 +410,26 @@ def main():
     #         linestyle='dashed', label ='Power law fit')
     #
     #
+    #
+    #
+    # sdss_compo = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_compo.dat')
+    # sdss_wl = sdss_compo[:,0]
+    # sdss_flux = sdss_compo[:, 1]
+    #
+    # norm_reg = 1430
+    #
+    # mask = (wl > norm_reg) & (wl < norm_reg + 20)
+    # norm1 = np.median(wmean_cont[mask])
+    # # mask = (log_binned_wl > norm_reg) & (log_binned_wl < norm_reg + 10)
+    # # norm1 = np.median(medfilt(sps(log_binned_wl) , 21)[mask])
+    # print(norm1)
+    # mask = (sdss_wl > norm_reg) & (sdss_wl < norm_reg + 20)
+    # norm2 = np.median(sdss_flux[mask])
+    # print(norm2)
+    #
+    #
+    # ax.plot(sdss_wl, sdss_flux * (norm1/norm2),
+    #         linestyle='solid', label ='SDSS composite')
     # #Overplot lines
     # fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
     #
@@ -449,28 +469,120 @@ def main():
 
 
 
-    n_spec[n_spec == 0] = 1
-    wmean_cont[wmean_cont == 0] = 1
+    # n_spec[n_spec == 0] = 1
+    # wmean_cont[wmean_cont == 0] = 1
+    # # std[std < 0.005] = 0.005
+    # std[n_spec == 1] = 0
     # std[std < 0.005] = 0.005
-    std[n_spec == 1] = 0
-    std[std < 0.005] = 0.005
+    #
+    # # print(std/wmean_cont)
+    # sps = InterpolatedUnivariateSpline(wl, std)#/wmean_cont)
+    #
+    #
+    # import matplotlib.pylab as pl
+    # import lineid_plot
+    # # use seaborn for nice default plot settings
+    # import seaborn; seaborn.set_style('ticks')
+    # # cmap = seaborn.cubehelix_palette(8, start=2, rot=0, dark=0, light=.95, reverse=True)
+    # seaborn.set_palette('muted')
+    # # deep, muted, bright, pastel, dark, colorblind
+    # fig, ax = pl.subplots(1 , figsize=(12, 4))
+    # ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 11),
+    #         lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='Composite variability')
+    #
+    #
+    # #Overplot lines
+    # fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    #
+    # linelist = []
+    # linenames = []
+    # for n in fit_line_positions:
+    #     linelist.append(n[1])
+    #     linenames.append(n[0])
+    # # linelist = np.array(linelist)
+    #
+    # ax.set_xlim((950, 11500))
+    # # ax.set_ylim((0.001, 25))
+    # ax.set_ylim((0.001, 1))
+    # # pl.semilogy()
+    # pl.semilogx()
+    #
+    #
+    # # Formatting axes
+    # import matplotlib as mpl
+    # ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    # ax.set_xticks([1000, 2000, 5000, 10000])
+    # ax.get_xaxis().tick_bottom()
+    # # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
+    #
+    # ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    # # ax.set_yticks([0.1, 1, 10, 20])
+    #
+    # # lineid_plot.plot_line_ids(wl, std/wmean_cont, linelist, linenames, ax=ax)
+    # lineid_plot.plot_line_ids(wl, std, linelist, linenames, ax=ax)
+    # for i in ax.lines:
+    #     if '$' in i.get_label():
+    #         i.set_alpha(0.3)
+    # # pl.legend()
+    # pl.savefig('../documents/figs/var.pdf')
+    # pl.show()
 
-    print(std/wmean_cont)
-    sps = InterpolatedUnivariateSpline(wl, std/wmean_cont)
+
+
+
+
+    # out = std#/wmean_cont
+    #
+    # #Saving to .dat file
+    # dt = [("wl", np.float64), ("out", np.float64) ]
+    # data = np.array(zip(wl, out), dtype=dt)
+    # file_name = "Spectral variability"
+    # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl variability")#, fmt = ['%5.1f', '%2.15E'] )
+
 
 
     import matplotlib.pylab as pl
     import lineid_plot
     # use seaborn for nice default plot settings
     import seaborn; seaborn.set_style('ticks')
-    # cmap = seaborn.cubehelix_palette(8, start=2, rot=0, dark=0, light=.95, reverse=True)
-    seaborn.set_palette('muted')
+    cmap = seaborn.cubehelix_palette(3, start=2, rot=0.0, dark=0.2, light=.8, reverse=True)
+    seaborn.set_palette(cmap)
+
     # deep, muted, bright, pastel, dark, colorblind
+
     fig, ax = pl.subplots(1 , figsize=(12, 4))
-    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 11),
-            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='Composite variability')
+    # ax.set_cmap(cmap)
+    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 21),
+            lw = 1.0, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+    # ax.plot(wl, wmean_cont,
+    #         lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+
+    # ax.plot(wl, power_law(wl, *popt),
+    #         linestyle='dashed', label ='Power law fit')
+    # ax.plot(wl, power_law2(wl, *popt2),
+    #         linestyle='dashed', label ='Power law fit')
 
 
+
+
+    sdss_compo = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_compo.dat')
+    sdss_wl = sdss_compo[:,0]
+    sdss_flux = sdss_compo[:, 1]
+
+    norm_reg = 1430
+
+    mask = (wl > norm_reg) & (wl < norm_reg + 20)
+    norm1 = np.median(wmean_cont[mask])
+    # mask = (log_binned_wl > norm_reg) & (log_binned_wl < norm_reg + 10)
+    # norm1 = np.median(medfilt(sps(log_binned_wl) , 21)[mask])
+    print(norm1)
+    mask = (sdss_wl > norm_reg) & (sdss_wl < norm_reg + 20)
+    norm2 = np.median(sdss_flux[mask])
+    print(norm2)
+
+
+    ax.plot(sdss_wl, sdss_flux * (norm1/norm2),
+            linestyle='solid', label ='Full sample SDSS composite')
     #Overplot lines
     fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
 
@@ -481,42 +593,37 @@ def main():
         linenames.append(n[0])
     # linelist = np.array(linelist)
 
-    ax.set_xlim((950, 11500))
-    # ax.set_ylim((0.001, 25))
-    ax.set_ylim((0.001, 1))
-    # pl.semilogy()
-    pl.semilogx()
 
+    pl.semilogy()
+    pl.semilogx()
 
     # Formatting axes
     import matplotlib as mpl
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_xticks([1000, 2000, 5000, 10000])
+    ax.set_xticks([1100, 3000, 5000])
     ax.get_xaxis().tick_bottom()
     # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax.set_yticks([0.1, 1, 10, 20])
+    ax.set_yticks([0.5, 1, 2, 5, 10, 20, 50])
 
-    lineid_plot.plot_line_ids(wl, std/wmean_cont, linelist, linenames, ax=ax)
+    pl.legend(loc=3)
+    ax.set_xlim((1100, 5000))
+    ax.set_ylim((0.5, 50))
+
+
+
+
+    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
     for i in ax.lines:
         if '$' in i.get_label():
             i.set_alpha(0.3)
-    # pl.legend()
-    pl.savefig('../documents/figs/var.pdf')
+
+    pl.savefig('../documents/figs/compo_full_sample.pdf')
     pl.show()
 
 
 
-
-
-    out = std/wmean_cont
-
-    #Saving to .dat file
-    dt = [("wl", np.float64), ("out", np.float64) ]
-    data = np.array(zip(wl, out), dtype=dt)
-    file_name = "Spectral variability"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl variability")#, fmt = ['%5.1f', '%2.15E'] )
 
 
 

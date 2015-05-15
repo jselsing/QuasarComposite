@@ -110,7 +110,7 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
 
     print 'Rebinning to linear axes'
     import spec   
-    obj_spec = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.galaxy, oversamp =1000)
+    obj_spec = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.galaxy, oversamp = 1000)
     template_fit = spec.resamplespec(wl_obs,np.e**obs_lambda,pp.bestfit, oversamp =1000)
     # plt.plot(wl_obs,obj_spec, color='black', linestyle = 'steps-mid')
     # plt.plot(wl_obs, template_fit, color='red')
