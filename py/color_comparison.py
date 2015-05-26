@@ -177,34 +177,49 @@ cmap = sns.cubehelix_palette(10, start=2, rot=0, dark=0.3, light=0.9, reverse=Tr
 # sns.set(context='paper')
 def load_sdss_dr12(path):
     data_file = fits.open(path)
+    # print(data_file[1].data.field)
     z_warning = data_file[1].data.field('zWarning')
-    mi = data_file[1].data.field('MI')[np.where(z_warning == 0)]
-    dgmi = data_file[1].data.field('DGMI')[np.where(z_warning == 0)]
+    z = data_file[1].data.field('z_vi')
+    # mask = np.logical_and(np.logical_and((z >= 1.0), (z <= 2.3)), (z_warning == 0))
+    mask =  (z_warning == 0)
+    # print(z[mask])
+    z = z[mask]
+    print(len(z))
+
+    mi = data_file[1].data.field('MI')[mask]
+    print(len(mi))
+    dgmi = data_file[1].data.field('DGMI')[mask]
 
     bands = ['u', 'g', 'r', 'i', 'z']
     data = {}
     length_data = []
     for i, k in enumerate(bands):
-        data[k] = (data_file[1].data.field('PSFMAG')[:,i])[np.where(z_warning == 0)]
+        data[k] = (data_file[1].data.field('PSFMAG')[:,i])[mask] - (data_file[1].data.field('EXTINCTION_RECAL')[:,i])[mask]
         length_data.append(len(data[k]))
 
 
-    u_obj = np.array([16.776679059420339, 17.695431195769537, 17.375712062291065, 17.491023145887873, 17.159539776215617, 17.584843370477948, 16.257372339772438, 15.430359643075072])
-    g_obj = np.array([16.7175770449848, 17.66287889255684, 17.264278555286204, 17.423701102087442, 17.168422183077446, 17.590939752133799, 16.155141214036895, 15.340495592324459])
-    r_obj = np.array([16.581391280385212, 17.420886487129813, 17.164700226920623, 17.309943991447987, 17.038907610049456, 17.338833016940775, 15.915406330517975, 15.2506590976732])
-    i_obj = np.array([16.846063280799477, 17.766023210621618, 17.420903544404176, 17.600066414834963, 17.366033651901112, 18.016017836357896, 16.200013990848682, 15.187646221688375])
-    z_obj = np.array([16.795833639704391, 21.065331593637801, 17.507279309060571, 19.021921387107618, 17.512653633591903, 25.971125223599778, 16.175981506541454, 15.129962516717399])
-    mi_obj = np.array([-28.894596512440671, -29.49224989178208, -29.192578045151919, -29.530559286885733, -29.345333142602911, -29.759928110595922, -29.860980095511046, -30.352888336885897])
-
+    u_obj = np.array([16.776679059420339, 17.695431195769537, 17.375712062291065, 17.491023145887873, 17.159539776215617, 17.584843370477948, 16.257372339772438])
+    g_obj = np.array([16.7175770449848, 17.66287889255684, 17.264278555286204, 17.423701102087442, 17.168422183077446, 17.590939752133799, 16.155141214036895])
+    r_obj = np.array([16.581391280385212, 17.420886487129813, 17.164700226920623, 17.309943991447987, 17.038907610049456, 17.338833016940775, 15.915406330517975])
+    i_obj = np.array([16.846063280799477, 17.766023210621618, 17.420903544404176, 17.600066414834963, 17.366033651901112, 18.016017836357896, 16.200013990848682])
+    z_obj = np.array([16.795833639704391, 21.065331593637801, 17.507279309060571, 19.021921387107618, 17.512653633591903, 25.971125223599778, 16.175981506541454])
+    mi_obj = np.array([-28.894596512440671, -29.49224989178208, -29.192578045151919, -29.530559286885733, -29.345333142602911, -29.759928110595922, -29.860980095511046])
+    zz_obj = np.array([1.1242971107973012, 1.9798694976693576, 1.5830422701934881, 1.8463767030959246, 1.5123220764878522, 2.0997959346967061, 1.3089485173836708])
     # pl.show()
     colors = ['M_i', 'g - i']
     gi = data['g'] - data['i']
 
 
 
-    data_color = np.array(zip(mi , gi))
+    # data_color = np.array(zip(mi , gi))
+    data_color = np.array(zip(z , gi))
 
+
+
+    # data_color = data_color[(np.logical_and(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5), data_color[:,0] < -28.0))]
     data_color = data_color[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    data_color = data_color[(data_color[:,1] >= -5)]
+
 
     color_data = pd.DataFrame(data_color, columns=colors)
 
@@ -225,14 +240,24 @@ def load_sdss_dr12(path):
     # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax)
     ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax)
 
-    x = color_data['M_i']
-    y = color_data['g - i']
+    x = np.array(color_data['M_i'])
+    y = np.array(color_data['g - i'])
 
 
+    import triangle
 
-    print(np.mean(x), np.std(y))
+    # print(np.mean(x), np.std(y))
+    print(np.mean(x), np.std(x))
     # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
-    p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,))
+    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
+
+
+    mask = (data['i'] < 17.0)
+    # ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
+    triangle.hist2d(x, y, bins=200, ax=ax, smooth=0.3)
+    ax.scatter(x[mask] , y[mask] ,  marker='o', s=10, facecolor=sns.xkcd_rgb["steel grey"], lw = 0, cmap=cmap, alpha= 1.0)
+    ax.scatter(zz_obj, g_obj - i_obj, s = 25, c=sns.xkcd_rgb["denim blue"], alpha = 1.0)
+
     format_axes(ax)
     format_axes(ax_marg_y)
     pl.setp(ax_marg_y.get_yticklabels(), visible=False)
@@ -243,41 +268,39 @@ def load_sdss_dr12(path):
     pl.setp(ax_marg_y.get_xticklabels(), visible=False)
     ax_marg_y.xaxis.grid(False)
     despine(ax=ax_marg_y, bottom=True)
-    sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["medium green"], "gridsize": 200},
+    sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["black"], "gridsize": 200},
                  vertical=True, axlabel=False)
-    sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": sns.xkcd_rgb["denim blue"], "alpha": 0.7},
+    sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": sns.xkcd_rgb["denim blue"], "alpha": 1.0},
+                 vertical=True, axlabel=False)
+    sns.distplot(y[mask], hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 0.5, "color": sns.xkcd_rgb["steel grey"], "alpha": 0.3},
                  vertical=True, axlabel=False)
 
-    # cax = ax.scatter(x , y ,  marker='o', s=15, facecolor='0.5', lw = 0,
-    #                  cmap=cmap, alpha= 0.1)
     # sns.kdeplot(color_data, ax = ax, cmap='Greys', n_levels=50, norm=PowerNorm(gamma=0.3),
     #             shade=True, gridsize=100, linewidths = (0.5,), alpha=0.7)
 
 
 
-    ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
 
 
-    # print(np.histogram(color_data, bins=200), norm=LogNorm())
 
 
-    # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
-    # ax.set_ylim((-0.5, 1.0))
-
-    ax.hist2d(x, y, bins=200, norm=LogNorm(), alpha=0.5)
 
 
-    ax.set_xlabel(r"M$_i$(z=2)")
+
+
+    # ax.set_xlabel(r"M$_i$(z=2)")
+    ax.set_xlabel(r"z")
     ax.set_ylabel("g - i")
 
 
 
-    ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
+    # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
+    ax.set_xlim((0.0, 3.5))
     ax.set_ylim((-0.5, 1.0))
 
 
     fig.tight_layout()
-    pl.savefig('../documents/figs/color_comparison.pdf')
+    pl.savefig('../documents/figs/color_comparison2.pdf', dpi=2400)
     pl.show()
 
 
@@ -286,6 +309,6 @@ def load_sdss_dr12(path):
 
 if __name__ == '__main__':
     latexify()
-    path = '/Users/jselsing/nosync/sdss_quasar_catalog/DR12Q.fits'
-    # path = '/Users/jselsing/nosync/sdss_quasar_catalog/DR10Q_v2.fits'
+    # path = '/Users/jselsing/nosync/sdss_quasar_catalog/DR12Q.fits'
+    path = '/Users/jselsing/nosync/sdss_quasar_catalog/DR10Q_v2.fits'
     load_sdss_dr12(path=path)

@@ -33,8 +33,9 @@ def find_best_template(wl_obs, flux, err, hdr, spectral_library):
     tell_obs_err, obs_lambda, velscale = util.log_rebin(obs_lambda_range, obs_error_spectrum)   
     
     #Normalize to avoid numerical issues
-    tell_obs = tell_obs/np.median(tell_obs)
-    tell_obs_err = tell_obs_err/np.median(tell_obs_err)
+    norm = np.median(tell_obs)
+    tell_obs = tell_obs/norm
+    tell_obs_err = tell_obs_err/norm
 
     # Load and prepare Model stellar library
     # Extract the wavelength range and logarithmically rebin one spectrum

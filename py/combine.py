@@ -56,7 +56,7 @@ def main():
         else:
             redshifts.append(z_sdss[i])
 
-
+    print(redshifts)
     # TODO Is there a better way to import the txt files?
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 

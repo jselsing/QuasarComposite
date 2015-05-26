@@ -3,44 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: hfqc.aux
 The style file: aa-note.bst
 Database file #1: /Users/jselsing/Work/Papers/bibtex/library.bib
-You've used 62 entries,
+Repeated entry---line 697 of file /Users/jselsing/Work/Papers/bibtex/library.bib
+ : @article{Lusso2015
+ :                   ,
+I'm skipping whatever remains of this entry
+You've used 66 entries,
             2959 wiz_defined-function locations,
-            1057 strings with 34456 characters,
-and the built_in function-call counts, 71170 in all, are:
-= -- 5104
-> -- 10222
-< -- 13
-+ -- 3416
-- -- 3354
-* -- 6889
-:= -- 13431
-add.period$ -- 62
-call.type$ -- 62
-change.case$ -- 1366
-chr.to.int$ -- 62
-cite$ -- 186
-duplicate$ -- 1117
-empty$ -- 1570
-format.name$ -- 3504
-if$ -- 13642
+            1077 strings with 35027 characters,
+and the built_in function-call counts, 73497 in all, are:
+= -- 5292
+> -- 10439
+< -- 14
++ -- 3489
+- -- 3423
+* -- 7091
+:= -- 13859
+add.period$ -- 66
+call.type$ -- 66
+change.case$ -- 1405
+chr.to.int$ -- 66
+cite$ -- 198
+duplicate$ -- 1190
+empty$ -- 1675
+format.name$ -- 3584
+if$ -- 14093
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 57
-newline$ -- 190
-num.names$ -- 248
-pop$ -- 1360
+missing$ -- 61
+newline$ -- 202
+num.names$ -- 264
+pop$ -- 1399
 preamble$ -- 1
-purify$ -- 1366
+purify$ -- 1405
 quote$ -- 0
-skip$ -- 940
+skip$ -- 1004
 stack$ -- 0
-substring$ -- 1218
+substring$ -- 1305
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 558
+type$ -- 594
 warning$ -- 0
-while$ -- 242
+while$ -- 258
 width$ -- 0
-write$ -- 988
+write$ -- 1052
+(There was 1 error message)
