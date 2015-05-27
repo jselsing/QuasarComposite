@@ -328,7 +328,6 @@ def main():
                                             sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
 
             std_norm[n] = power_law(wl_new, *popt)
-            # print(*popt)
             indi_pow.append(popt[1])
 
 

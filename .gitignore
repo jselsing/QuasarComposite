@@ -70,3 +70,23 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+
+*.blg
+
+*.xml
+
+*.blg
+
+*.blg
+
+*.out
+
+.idea/workspace.xml
+
+*.bbl
+
+*.xml
+
+*.blg
+
+*.out

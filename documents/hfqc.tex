@@ -558,42 +558,45 @@ The remarkable uniformity of the average spectral properties across luminosity a
 \subsection{Comparison to the parent population}  \sectlabel{parents}
 %====================================================================
 In this section the comparison to the parent population of quasars is done, which is based on the results from \sect{absmag}.
-Figure 1 in \cite{Shen2011} presents the distribution of M$_i(z=2)$ as a function redshift for quasars spectroscopically confirmed from the SDSS, for which the black dots represents about half of the objects and are uniformly selected to $\sim$90 percent completeness \citet{Richards2002, VandenBerk2005}. It is clear that the sample presented here represents some of the brightest quasar between redshift 1 and 2. It is therefore potentially a biased subset of the parent quasar population. Quasars have previously been shown to exhibit a large degree of homogeneity over many orders of magnitude \citep{Dietrich2002}, but this is only true for quasars resembling \textit{average} quasars. To ensure that the targets selected for this sample are not outliers in color, the spectrophotometric colors are compared to those of the quasar population presented in \citet{Paris2014}\footnote{\url{https://www.sdss3.org/dr10/algorithms/qso_catalog.php}}. We show the comparison in \fig{color_comparison}. We first confirm that the quasars selected here are among the intrinsically brightest visible with a 2.8 sigma magnitude distance from the mean. At this luminosity they are also the bluest quasar visible. In \sect{application}, the composite generated here was used to fit for the dust content of quasars with varying degree of extinction and consistent results were obtained as compared with composites generated from other subsamples of the parent population.
+Figure 1 in \cite{Shen2011} presents the distribution of M$_i(z=2)$ as a function redshift for quasars spectroscopically confirmed from the SDSS, for which the black dots represents about half of the objects and are uniformly selected to $\sim$90 percent completeness \citet{Richards2002, VandenBerk2005}. It is clear that the sample presented here represents some of the brightest quasar between redshift 1 and 2. It is therefore potentially a biased subset of the parent quasar population. Quasars have previously been shown to exhibit a large degree of homogeneity over many orders of magnitude \citep{Dietrich2002}, but this is only true for quasars resembling \textit{average} quasars. To ensure that the targets selected for this sample are not outliers in color, the spectrophotometric colors are compared to those of the quasar population presented in \citet{Paris2014}\footnote{\url{https://www.sdss3.org/dr10/algorithms/qso_catalog.php}}. We show the comparison in \fig{color_comparison}. We first confirm that the quasars selected here are among the intrinsically brightest visible in i-band with a 2.8 sigma magnitude distance from the mean absolute i-band magnitude at redshift 2. At this luminosity they are also the bluest quasar visible. In \sect{application}, the composite generated here was used to fit for the dust content of quasars with varying degree of extinction and consistent results were obtained as compared with composites generated from other subsamples of the parent population.
 
 
  %===========================================================================
  \begin{figure}[hbtp]
    \centering
    \includegraphics[width=0.99\columnwidth]{Figs/color_comparison2.pdf}
-   \caption[]{Quasar color, g-i,  as a function of absolute i-band magnitude at redshift two, M$_i$(z=2). The full quasar sample from SDSS DR10 \citep{Paris2014} is histogrammed with grey colors in 200 bins and the intensity is in logarithmic steps. Bounding contours in green show the concentration of points estimated by kernel density estimation. The grey points are individual quasars from the SDSS sample which satisfy M$_i$(z=2) $> -29$. Overplotted in blue are the quasars constibuting to the composite presented here. The quasar colors have been marginalized over in the right side where the blue lines are at the position of the composite quasars.}
+   \caption[]{Quasar color, g-i,  as a function of redshift, z. The full quasar sample from SDSS DR10 \citep{Paris2014} is shown in grey color. Bounding contours show the 0.5, 1, 1.5, 2 $\sigma$ contours of the density of points. The blue-grey points are individual quasars from the SDSS sample which satisfy $r <= 17$. Overplotted in blue are the quasars constibuting to the composite presented here. The quasar colors have been marginalized over in the right side where the tall blue lines are at the position of the composite quasars and the short blue-grey lines are from all quasars fulfilling the selection criteria.}
   \figlabel{color_comparison}
  \end{figure}
  %===========================================================================
 
-Because of the high luminosity of the objects presented here, several differences in the properties are expected as compared to those of the parent quasar population. The physical scales locally are expected to be larger \citep{Bentz2013}, which will make variability timescales longer and variability magnitudes smaller \citep{VandenBerk2004}. Black hole masses as determined from \mgii~increases with luminosity \cite{wu2015} which in turn affects the temperature of the accretion disc \citep{shakura1973} and thereby the position of the "big blue bump" and the degree to which the continuum is well modeled by a single power-law, see also \cite{Lusso2015}. dd
+Because of the high luminosity of the objects presented here, several differences in the properties are expected as compared to those of the parent quasar population. The physical scales locally are expected to be larger \citep{Bentz2013}, which will make variability timescales longer and variability magnitudes smaller \citep{VandenBerk2004}. Black hole masses as determined from \mgii~increases with luminosity \cite{wu2015} which in turn affects the temperature of the accretion disc \citep{shakura1973} and thereby the position of the "big blue bump" and the degree to which the continuum is well modeled by a single power-law, see also \cite{Lusso2015}. As can be seen from \fig{color_comparison}, the quasars selected for the composite represents some of the most blue objects at all redshifts. An immediate consequence of this will be, that the amount of dust inferred using this composite will be an upper limit, because the average intrinsic quasar continuum shape is redder than what is constructed here, \citep{Richards2003, Hopkins2004a}. \qtodo{I think, that I need help finishing this section}
+ A population of redder quasars discovered \cite{Glikman2012} and this effect is therefore larger in these types of surveys. 
+Since the \textit{true} intrinsic dereddened quasar color distribution is likely broad with a range of slopes, a caveat of using this composite is the 
+
+In some sense by selecting the bluest quasars for the composite we are the most conservative, in that we are least likely to overestimate the amount of dust, but more likely to overestimate the amount of dust. 
 
 
 
+%====================================================================
+\subsection{Comparison to the sample population}  \sectlabel{sample_pop}
+%====================================================================
 
 
 
+A further bias can, because of the low number statistics used for the sample presented, that the targets are not representative for the population fulfilling the cuts imposed in the selection. As highlighted in \fig{color_comparison}, the objects selected here are also bluer than full sample fulfilling the selection criteria. To quatify the bias against the selection, we construct a composite in an identical fashion consisting of all SDSS quasar fulfilling the selection criteria. 
 
 
-A further bias can, because of the low number statistics used for the sample presented, that the targets are not representative for the population fulfilling the cuts imposed in the selection. To test for representativeness against the selection, we construct a composite in an identical fashion consisting of all SDSS quasar fulfilling the selection criteria. 
+% %===========================================================================
+% \begin{figure}[hbtp]
+%   \centering
+%   \includegraphics[width=0.99\columnwidth]{Figs/compo_full_sample.pdf}
+%   \caption[]{Composites generated from full sample. \jstodo{First draft for figure. Re-iterate}}
+%  \figlabel{full_sample}
+% \end{figure}
+% %===========================================================================
 
-
- %===========================================================================
- \begin{figure}[hbtp]
-   \centering
-   \includegraphics[width=0.99\columnwidth]{Figs/compo_full_sample.pdf}
-   \caption[]{Composites generated from full sample. \jstodo{First draft for figure. Re-iterate}}
-  \figlabel{full_sample}
- \end{figure}
- %===========================================================================
-
-
-
-
+In \fig{composite} we overplot the composite generated from the full sample on the one constructed with X-shooter. It is clear that there are small differences in the shape of the composite constructed from the full sample and the small sample, but qualitatively the shape remains the same. Calculating the slope in each individual SDSS spectrum yields $\alpha = -1.6\pm 0.3$, but this number is rather uninformative due to the extremely narrow continuum region free of emission lines (1300 - 1350 and 1425 - 1475). It is comforting nonetheless that they are consistent within the errors. 
 It is also possible to calculate the magnitude correction from z=0 to z=2 following \cite{Richards2006a} Equation (1), in which a pure power law is assumed for the quasar composite. For the i-band, this procedure consistently underestimates the magnitude of the correction, due to the bandpass being shifted to a region with heavy line emission, with a mean underestimation of $0.35 \pm 0.14$ mag, where the uncertainty is the 1-$\sigma$ error.
 
 
