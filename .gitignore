@@ -90,3 +90,5 @@ docs/_build/
 *.blg
 
 *.out
+
+*.xml

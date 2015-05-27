@@ -170,7 +170,7 @@ def main():
 
 
     # Load linelist
-    fit_line_positions = np.genfromtxt('fitlinelist.txt', dtype=None)
+    fit_line_positions = np.genfromtxt('data/fitlinelist.txt', dtype=None)
     linelist = []
     for n in fit_line_positions:
         linelist.append(n[1])
