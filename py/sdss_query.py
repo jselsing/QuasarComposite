@@ -129,7 +129,21 @@ def treat_sdss_spectra(outfile = "outfile"):
         var_new[n] = common_wavelength(waves[n], wl_new, var[n])
 
     norm_reg = 2850
-    fig, ax = pl.subplots()
+    #fig, ax = pl.subplots()
+    #Fitting power laws
+    from scipy import optimize
+
+    def power_law(x_tmp, a_tmp, k_tmp):
+
+        tmp = a_tmp * x_tmp ** k_tmp
+        return tmp
+
+
+
+
+
+
+    indi_pow = []
     for n in range(n_obj):
         #Normalise
         mask = (wl_new > norm_reg) & (wl_new < norm_reg + 50)
@@ -137,8 +151,27 @@ def treat_sdss_spectra(outfile = "outfile"):
 
         spectra_new[n] /= norm
         var_new[n] /= norm
-        ax.plot(wl_new, spectra_new[n])
-    pl.show()
+        par_guess = [2e6, -1.5]
+        mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
+        popt, pcov = optimize.curve_fit(power_law, wl_new[mask], spectra_new[n][mask], p0=par_guess,
+                                        sigma=var_new[n][mask] , absolute_sigma=True, maxfev=2000)
+
+        indi_pow.append(popt[1])
+
+
+    print("""Individual slope mean...{0} +- {1}""".format(np.mean(indi_pow), np.std(indi_pow)))
+    print("""Individual slope median...{0} +- {1}""".format(np.median(indi_pow), np.std(indi_pow)))
+
+
+     #   ax.plot(wl_new, spectra_new[n])
+    #pl.show()
+
+
+
+
+
+
+
 
 
     wmean = np.zeros(np.shape(wl_new))
@@ -173,6 +206,6 @@ if __name__ == '__main__':
     file_name = "SDSS_spectra"
     outfile = root_dir+"/"+file_name+'.npz'
 
-    get_sdss_spectra(outfile = outfile, N_spec= 150)
+    #get_sdss_spectra(outfile = outfile, N_spec= 150)
     treat_sdss_spectra(outfile = outfile)
 
