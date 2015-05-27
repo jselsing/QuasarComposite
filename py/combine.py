@@ -345,6 +345,23 @@ def main():
         #Saving ready spectra
         np.savetxt('test.dat', flux_new.transpose(), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
 
+        def weighted_avg_and_std(values, sigma, axis=0):
+            norm = abs(np.mean(values))
+            values = np.array(values) / norm
+            sigma = np.array(sigma) / norm
+            """
+            Return the weighted average and standard deviation.
+
+            values, weights -- Numpy ndarrays with the same shape.
+            """
+
+
+            weight = 1.0 / (sigma ** 2.0)
+            average, sow = np.average(values, weights = weight, axis = axis, returned = True)
+            #variance = 1.0 / np.ma.sum(weight , axis = axis )
+            variance = 1.0 / sow
+            return ((average * norm), (np.sqrt(variance)*norm) )
+
 
 
         #------------------------- Combination -------------------------
@@ -369,8 +386,8 @@ def main():
                 e = np.array(fluxerr_new.transpose()[i][mask])
                 weight = 1. / e ** 2
                 wmean[i] = np.average(flux_new.transpose()[i][mask], axis = 0, weights = weight)
-                wmean_cont[i] = np.average(k[mask], axis = 0, weights = weight)
-                errofwmean[i] = np.sum(weight,axis=0) ** -0.5
+                wmean_cont[i], errofwmean[i] = weighted_avg_and_std(k[mask], fluxerr_new.transpose()[i][mask], axis = 0)
+                #errofwmean[i] = np.sum(weight,axis=0) ** -0.5
 
                 #Mean
                 mean[i] = np.mean(k[mask])
@@ -576,10 +593,10 @@ def main():
     # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
 
     #Saving to .dat file
-    dt = [("wl", np.float64), ("wmean_cont", np.float64) ]
-    data = np.array(zip(wl_new, wmean_cont), dtype=dt)
-    file_name = "XSH-Composite_cont"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean_cont")#, fmt = ['%5.1f', '%2.15E'] )
+    dt = [("wl", np.float64), ("wmean_cont", np.float64), ("wmean_cont_error", np.float64) ]
+    data = np.array(zip(wl_new, wmean_cont, errofwmean), dtype=dt)
+    file_name = "data/templates/Selsing2015.dat"
+    np.savetxt(file_name, data, header="wl wmean ewmean")#, fmt = ['%5.1f', '%2.15E'] )
 
 if __name__ == '__main__':
     main()

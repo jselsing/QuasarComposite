@@ -92,3 +92,9 @@ docs/_build/
 *.out
 
 *.xml
+
+*.upa
+
+*.upb
+
+*.llt
