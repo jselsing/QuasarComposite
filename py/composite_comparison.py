@@ -13,6 +13,8 @@ __copyright__ = "Copyright 2014 Jonatan Selsing"
 import numpy as np
 import matplotlib.pylab as pl
 import seaborn as sns; sns.set_style('ticks')
+#cmap = sns.cubehelix_palette(n_colors=6, start=1, rot=0.2, gamma=1.0, hue=0.8, light=0.85, dark=0.15, reverse=True, as_cmap=False)
+cmap = sns.color_palette("cubehelix", 6)
 
 import matplotlib
 
@@ -161,6 +163,7 @@ if __name__ == '__main__':
     fig = pl.figure(figsize=(5*ratio, 5))
     fig.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=0.95)
     ax = fig.add_subplot(111)
+    ax2 = pl.axes([0.13, 0.2, .4, .3], axisbg='white')
 
     #Selsing et al. 2015
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Selsing2015.dat'
@@ -172,19 +175,24 @@ if __name__ == '__main__':
     norm2 = np.median(flux[norm_reg2])
 
     nbins = len(wave)
-    log_binned_wl = hist(wave,[min(wave),max(wave)], nbins,'log')
+    log_binned_wl = np.array(hist(wave,[min(wave),max(wave)], int(nbins/10),'log'))
     from scipy.interpolate import InterpolatedUnivariateSpline
     sps = InterpolatedUnivariateSpline(wave, flux)
+    flux = medfilt(sps(log_binned_wl) , 1)
+    sps = InterpolatedUnivariateSpline(wave, err)
+    err = medfilt(sps(log_binned_wl) , 1)
     wave = log_binned_wl
-    flux = medfilt(sps(log_binned_wl) , 21)
 
+    msk = (wave <  10000)
+    wave = wave[msk]
+    flux = flux[msk]
+    err = err[msk]
 
-    ax.plot(wave, flux, label = 'Selsing+15', zorder=5)
     positive = (flux - err > 0 )
-    ax.fill_between(wave, flux - err, flux +  err,
-                    alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval')
-
-
+    ax.plot(wave, flux, label='Selsing+15', zorder=5, lw = 0.75, color = cmap[0])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
+    ax2.plot(wave, flux, label = 'Selsing+15', zorder=5, lw = 0.75, color = cmap[0])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
 
 
     #Lusso et al. 2015
@@ -195,9 +203,14 @@ if __name__ == '__main__':
     flux *= (norm1 / norm)
     err *= (norm1 / norm)
 
-    ax.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 0.7)
-    ax.fill_between(wave, flux - err, flux +  err,
-                    alpha=0.2, label=r'1 $\sigma$ confidence interval')
+    positive = (flux - err > 0 )
+    ax.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[1])
+    ax2.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[1])
+
+
+
 
     #Glikman et al. 2006
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Glikman2006.dat'
@@ -207,10 +220,12 @@ if __name__ == '__main__':
     flux *= (norm2 / norm)
     err *= (norm2 / norm)
 
-    ax.plot(wave, flux, label = 'Glikman+06', zorder=2, lw = 0.5, alpha = 0.7)
     positive = (flux - err > 0 )
-    ax.fill_between(wave, flux - err, flux +  err,
-                    alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval')
+    ax.plot(wave, flux, label = 'Glikman+06', zorder=2, lw = 0.5, alpha = 1.0, color = cmap[2])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[2])
+
+
+
 
     #Vanden Berk et al. 2001
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/VandenBerk2001.dat'
@@ -219,9 +234,16 @@ if __name__ == '__main__':
     norm = np.median(flux[norm_reg1])
     flux *= (norm1 / norm)
     err *= (norm1 / norm)
-    ax.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 0.7)
-    ax.fill_between(wave, flux - err, flux +  err,
-                    alpha=0.2, label=r'1 $\sigma$ confidence interval')
+
+    positive = (flux - err > 0 )
+    ax.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[3])
+    ax2.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[3])
+
+
+
+
 
     #Telfer et al. 2002
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Telfer2002.dat'
@@ -234,23 +256,38 @@ if __name__ == '__main__':
     wave = wave[mask]
     flux = flux[mask]
     err = err[mask]
-    ax.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 0.7)
-    ax.fill_between(wave, flux - err, flux +  err,
-                    alpha=0.2, label=r'1 $\sigma$ confidence interval')
 
-    #Zheng et al. 1997
-    #filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Zheng1997.dat'
-    #wave, flux, err = read_text(filename=filename, err=True)
+    positive = (flux - err > 0 )
+    ax.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[4])
+    ax2.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[4])
 
-    # ax.plot(wave, flux, label = 'Zheng+97')
-    # ax.fill_between(wave, flux - err, flux +  err,
-    #                 alpha=0.2, label=r'1 $\sigma$ confidence interval')
 
+
+
+    #Francis et al. 1991
+    filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Francis1991orig.dat'
+    wave, flux = read_text(filename=filename, err=False)
+    #flux = flux/wave
+    norm_reg1 = (wave > 1425) & (wave < 1450)
+    norm = np.median(flux[norm_reg1])
+    flux *= (norm1 / norm)
+
+    #mask = (wave < 2000)
+    #wave = wave[mask]
+    #flux = flux[mask]
+
+    ax.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
+    ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
 
     ax.set_xlabel(r'Wavelength [$\AA$]')
     ax.set_ylabel(r'Rescaled flux density F$_\lambda$')
 
+
+
     ax.loglog()
+    # ax.semilogy()
 
     # Formatting axes
     import matplotlib as mpl
@@ -268,11 +305,24 @@ if __name__ == '__main__':
     ax.set_xlim((700, 15000))
     ax.set_ylim((0.1, 30))
 
+    ax2.set_xlim((700, 1400))
+    ax2.set_ylim((3, 9))
+    #ax2.semilogy()
+
+
+    #ax2.semilogx(data[3:8,1],data[3:8,2])
+    #pl.setp(ax2, xticks=[], yticks=[])
+
+
+
+
     # set the linewidth of each legend object
     leg = ax.legend()
     for legobj in leg.legendHandles:
         legobj.set_linewidth(2.0)
+
     format_axes(ax)
+    format_axes(ax2)
     pl.tight_layout()
     pl.savefig('../documents/figs/composite_comparison.pdf')
     #pl.show()

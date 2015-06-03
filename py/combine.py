@@ -269,11 +269,11 @@ def main():
 
 
 
-        # print('u', u_mag)
-        # print('g', g_mag)
-        # print('r', r_mag)
-        # print('i', i_mag)
-        # print('z', z_mag)
+        print('u', u_mag)
+        print('g', g_mag)
+        print('r', r_mag)
+        print('i', i_mag)
+        print('z', z_mag)
 
 
 
