@@ -173,21 +173,26 @@ from matplotlib.colors import LogNorm, PowerNorm
 import numpy as np
 import pandas as pd
 import seaborn as sns; sns.set_style('ticks')
-cmap = sns.cubehelix_palette(10, start=2, rot=0, dark=0.3, light=0.9, reverse=True, as_cmap=True)
+# cmap = sns.cubehelix_palette(4, start=2.0, rot=0.2, dark=0.2, light=0.9, reverse=True)
+cmap = sns.color_palette("cubehelix", 4)
+
 # sns.set(context='paper')
 def load_sdss_dr12(path):
     data_file = fits.open(path)
     # print(data_file[1].data.field)
+    sdss_nam = data_file[1].data.field('SDSS_NAME')
+    # f = 82900
+    # print(sdss_nam[f:f+100])
     z_warning = data_file[1].data.field('zWarning')
     z = data_file[1].data.field('z_vi')
     # mask = np.logical_and(np.logical_and((z >= 1.0), (z <= 2.3)), (z_warning == 0))
+    # mask =  np.ones(np.shape(z)).astype(bool)#(z_warning == 0)
     mask =  (z_warning == 0)
-    # print(z[mask])
     z = z[mask]
-    print(len(z))
+
 
     mi = data_file[1].data.field('MI')[mask]
-    print(len(mi))
+    # print(len(mi))
     dgmi = data_file[1].data.field('DGMI')[mask]
 
     bands = ['u', 'g', 'r', 'i', 'z']
@@ -197,111 +202,135 @@ def load_sdss_dr12(path):
         data[k] = (data_file[1].data.field('PSFMAG')[:,i])[mask] - (data_file[1].data.field('EXTINCTION_RECAL')[:,i])[mask]
         length_data.append(len(data[k]))
 
-
-    u_obj = np.array([16.776679059420339, 17.695431195769537, 17.375712062291065, 17.491023145887873, 17.159539776215617, 17.584843370477948, 16.257372339772438])
-    g_obj = np.array([16.7175770449848, 17.66287889255684, 17.264278555286204, 17.423701102087442, 17.168422183077446, 17.590939752133799, 16.155141214036895])
-    r_obj = np.array([16.581391280385212, 17.420886487129813, 17.164700226920623, 17.309943991447987, 17.038907610049456, 17.338833016940775, 15.915406330517975])
-    i_obj = np.array([16.846063280799477, 17.766023210621618, 17.420903544404176, 17.600066414834963, 17.366033651901112, 18.016017836357896, 16.200013990848682])
-    z_obj = np.array([16.795833639704391, 21.065331593637801, 17.507279309060571, 19.021921387107618, 17.512653633591903, 25.971125223599778, 16.175981506541454])
+    nam = np.array(['082045.38+130618.9', '115043.86-002354.1', '121940.36-010007.4', '123602.33-033129.9', '135425.24-001357.9', '143148.09+053558.0', '143748.28-014710.7'])
+    # for n in nam:
+    #     print(str(n))
+    #     print([zip(i,k) for i,k in enumerate(sdss_nam) if str(n) == str(k)])
+    # [print(k) for i,k in enumerate(sdss_nam)]
+    u_obj = np.array([16.326057509461798, 16.857772100637099, 16.907661653092411, 16.805020474120248, 16.436534526124994, 16.058223981482136, 15.612695721407626])
+    u_obj_sdss = np.array([16.28, 17.10, 17.22, 17.09, 16.98, 16.99, 15.86])
+    g_obj = np.array([16.162734029157555, 16.942952211122567, 16.636137722929341, 16.743534687505424, 16.356290392576604, 16.880143790967175, 15.60611007862034])
+    g_obj_sdss = np.array([16.13, 17.06, 16.92, 16.99, 16.78, 16.88, 15.76])
+    r_obj = np.array([15.976060872654024, 16.911175035528821, 16.549549672624927, 16.595720735585481, 16.256037315738062, 16.765172373063898, 15.369589184790904])
+    r_obj_sdss = np.array([15.91, 16.99, 16.82, 16.90, 16.67, 16.75, 15.48])
+    i_obj = np.array([15.954628670601473, 16.647439017268361, 16.371386067198095, 16.364592262517355, 16.111299217989604, 16.585834842213593, 15.34670670905416])
+    i_obj_sdss = np.array([15.87, 16.78, 16.63, 16.66, 16.51, 16.52, 15.41])
+    z_obj = np.array([15.944986290774473, 16.501512015438244, 16.3521717641922, 16.358559488484381, 16.160066464330718, 16.350404442071188, 15.379652674965307])
+    z_obj_sdss = np.array([15.83, 16.60, 16.61, 16.71, 16.51, 16.25, 15.41])
     mi_obj = np.array([-28.894596512440671, -29.49224989178208, -29.192578045151919, -29.530559286885733, -29.345333142602911, -29.759928110595922, -29.860980095511046])
     zz_obj = np.array([1.1242971107973012, 1.9798694976693576, 1.5830422701934881, 1.8463767030959246, 1.5123220764878522, 2.0997959346967061, 1.3089485173836708])
+
+
+    print(np.mean(1 - u_obj / u_obj_sdss), np.std(1 - u_obj / u_obj_sdss))
+    print(np.mean(1 - g_obj / g_obj_sdss), np.std(1 - g_obj / g_obj_sdss))
+    print(np.mean(1 - r_obj / r_obj_sdss), np.std(1 - r_obj / r_obj_sdss))
+    print(np.mean(1 - i_obj / i_obj_sdss), np.std(1 - i_obj / i_obj_sdss))
+    print(np.mean(1 - z_obj / z_obj_sdss), np.std(1 - z_obj / z_obj_sdss))
+
+
+    # # pl.show()
+    # colors = ['z', 'g - i', 'i']
+    # gi = data['g'] - data['i']
+    #
+    #
+    #
+    # # data_color = np.array(zip(mi , gi))
+    # data_color = np.array(zip(z , gi, data['i']))
+    #
+    #
+    #
+    #
+    # # data_color = data_color[(np.logical_and(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5), data_color[:,0] < -28.0))]
+    # data_color = data_color[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    # # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    # data_color = data_color[(data_color[:,1] >= -5)]
+    # # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    #
+    # color_data = pd.DataFrame(data_color, columns=colors)
+    #
+    #
+    # latexify()
+    # # Set up the subplot grid
+    # ratio = 5
+    # fig_width = 6
+    #
+    # golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
+    # fig_height = fig_width*golden_mean
+    #
+    #
+    # fig = pl.figure(figsize=(fig_width, fig_height))
+    # gs = pl.GridSpec(ratio + 1, ratio + 1)
+    #
+    # ax = fig.add_subplot(gs[1:, :-1])
+    # # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax)
+    # ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax)
+    #
+    # x = np.array(color_data['z'])
+    # y = np.array(color_data['g - i'])
+    # imag = np.array(color_data['i'])
+    #
+    #
+    # import triangle
+    #
+    # # print(np.mean(x), np.std(y))
+    # print(np.mean(x), np.std(x))
+    # # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
+    # # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
+    #
+    # # print(np.shape(data['i']))
+    # # print(np.shape(x))
+    #
+    # mask = (imag < 17.0) & ((1 < x) & (x < 2.3))
+    # # ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
+    # triangle.hist2d(x, y, bins=200, ax=ax, smooth=0.3)
+    # ax.scatter(x[mask] , y[mask] ,  marker='o', s=10, facecolor=cmap[1], lw = 0, cmap=cmap, alpha= 1.0)
+    # ax.scatter(zz_obj, g_obj - i_obj, s = 25, c=cmap[2], alpha = 1.0)
+    #
+    # format_axes(ax)
+    # format_axes(ax_marg_y)
+    # pl.setp(ax_marg_y.get_yticklabels(), visible=False)
+    # pl.setp(ax_marg_y.yaxis.get_majorticklines(), visible=False)
+    # pl.setp(ax_marg_y.yaxis.get_minorticklines(), visible=False)
+    # pl.setp(ax_marg_y.xaxis.get_majorticklines(), visible=False)
+    # pl.setp(ax_marg_y.xaxis.get_minorticklines(), visible=False)
+    # pl.setp(ax_marg_y.get_xticklabels(), visible=False)
+    # ax_marg_y.xaxis.grid(False)
+    # despine(ax=ax_marg_y, bottom=True)
+    # sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["black"], "gridsize": 200, "alpha": 0.2},
+    #              vertical=True, axlabel=False)
+    # sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": cmap[2], "alpha": 1.0},
+    #              vertical=True, axlabel=False)
+    # # sns.distplot(y[mask], hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 0.5, "color": cmap[1], "alpha": 0.3},
+    # #              vertical=True, axlabel=False)
+    # sns.distplot(y[mask], hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": cmap[1], "gridsize": 200, "alpha": 0.3},
+    #              vertical=True, axlabel=False)
+    # # sns.kdeplot(color_data, ax = ax, cmap='Greys', n_levels=50, norm=PowerNorm(gamma=0.3),
+    # #             shade=True, gridsize=100, linewidths = (0.5,), alpha=0.7)
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    # # ax.set_xlabel(r"M$_i$(z=2)")
+    # ax.set_xlabel(r"z")
+    # ax.set_ylabel("g - i")
+    #
+    #
+    #
+    # # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
+    # ax.set_xlim((0.0, 3.5))
+    # ax.set_ylim((-0.5, 1.0))
+    #
+    #
+    # fig.tight_layout()
+    # pl.savefig('../documents/figs/color_comparison2.pdf', dpi=2400)
     # pl.show()
-    colors = ['M_i', 'g - i']
-    gi = data['g'] - data['i']
-
-
-
-    # data_color = np.array(zip(mi , gi))
-    data_color = np.array(zip(z , gi))
-
-
-
-    # data_color = data_color[(np.logical_and(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5), data_color[:,0] < -28.0))]
-    data_color = data_color[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
-    data_color = data_color[(data_color[:,1] >= -5)]
-
-
-    color_data = pd.DataFrame(data_color, columns=colors)
-
-
-    latexify()
-    # Set up the subplot grid
-    ratio = 5
-    fig_width = 6
-
-    golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
-    fig_height = fig_width*golden_mean
-
-
-    fig = pl.figure(figsize=(fig_width, fig_height))
-    gs = pl.GridSpec(ratio + 1, ratio + 1)
-
-    ax = fig.add_subplot(gs[1:, :-1])
-    # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax)
-    ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax)
-
-    x = np.array(color_data['M_i'])
-    y = np.array(color_data['g - i'])
-
-
-    import triangle
-
-    # print(np.mean(x), np.std(y))
-    print(np.mean(x), np.std(x))
-    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
-    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
-
-
-    mask = (data['i'] < 17.0)
-    # ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
-    triangle.hist2d(x, y, bins=200, ax=ax, smooth=0.3)
-    ax.scatter(x[mask] , y[mask] ,  marker='o', s=10, facecolor=sns.xkcd_rgb["steel grey"], lw = 0, cmap=cmap, alpha= 1.0)
-    ax.scatter(zz_obj, g_obj - i_obj, s = 25, c=sns.xkcd_rgb["denim blue"], alpha = 1.0)
-
-    format_axes(ax)
-    format_axes(ax_marg_y)
-    pl.setp(ax_marg_y.get_yticklabels(), visible=False)
-    pl.setp(ax_marg_y.yaxis.get_majorticklines(), visible=False)
-    pl.setp(ax_marg_y.yaxis.get_minorticklines(), visible=False)
-    pl.setp(ax_marg_y.xaxis.get_majorticklines(), visible=False)
-    pl.setp(ax_marg_y.xaxis.get_minorticklines(), visible=False)
-    pl.setp(ax_marg_y.get_xticklabels(), visible=False)
-    ax_marg_y.xaxis.grid(False)
-    despine(ax=ax_marg_y, bottom=True)
-    sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["black"], "gridsize": 200},
-                 vertical=True, axlabel=False)
-    sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": sns.xkcd_rgb["denim blue"], "alpha": 1.0},
-                 vertical=True, axlabel=False)
-    sns.distplot(y[mask], hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 0.5, "color": sns.xkcd_rgb["steel grey"], "alpha": 0.3},
-                 vertical=True, axlabel=False)
-
-    # sns.kdeplot(color_data, ax = ax, cmap='Greys', n_levels=50, norm=PowerNorm(gamma=0.3),
-    #             shade=True, gridsize=100, linewidths = (0.5,), alpha=0.7)
-
-
-
-
-
-
-
-
-
-
-
-    # ax.set_xlabel(r"M$_i$(z=2)")
-    ax.set_xlabel(r"z")
-    ax.set_ylabel("g - i")
-
-
-
-    # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
-    ax.set_xlim((0.0, 3.5))
-    ax.set_ylim((-0.5, 1.0))
-
-
-    fig.tight_layout()
-    pl.savefig('../documents/figs/color_comparison2.pdf', dpi=2400)
-    pl.show()
 
 
 

@@ -163,7 +163,7 @@ if __name__ == '__main__':
     fig = pl.figure(figsize=(5*ratio, 5))
     fig.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=0.95)
     ax = fig.add_subplot(111)
-    ax2 = pl.axes([0.13, 0.2, .4, .3], axisbg='white')
+    ax2 = pl.axes([0.13, 0.2, .4, .4], axisbg='white')
 
     #Selsing et al. 2015
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Selsing2015.dat'
@@ -178,15 +178,15 @@ if __name__ == '__main__':
     log_binned_wl = np.array(hist(wave,[min(wave),max(wave)], int(nbins/10),'log'))
     from scipy.interpolate import InterpolatedUnivariateSpline
     sps = InterpolatedUnivariateSpline(wave, flux)
-    flux = medfilt(sps(log_binned_wl) , 1)
+    flux = medfilt(sps(log_binned_wl) , 3)
     sps = InterpolatedUnivariateSpline(wave, err)
-    err = medfilt(sps(log_binned_wl) , 1)
+    err = medfilt(sps(log_binned_wl) , 3)
     wave = log_binned_wl
 
-    msk = (wave <  10000)
-    wave = wave[msk]
-    flux = flux[msk]
-    err = err[msk]
+    # msk = (wave <  13000)
+    # wave = wave[msk]
+    # flux = flux[msk]
+    # err = err[msk]
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label='Selsing+15', zorder=5, lw = 0.75, color = cmap[0])
@@ -281,6 +281,20 @@ if __name__ == '__main__':
     ax.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
     ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
 
+
+    x = np.arange(0 , 15000, 0.1)
+    y = x ** -(1.70)
+    norm_reg1 = (x > 1425) & (x < 1450)
+    norm = np.median(y[norm_reg1])
+    y *= (norm1 / norm)
+    ax.plot( x , y)
+
+
+
+
+
+
+
     ax.set_xlabel(r'Wavelength [$\AA$]')
     ax.set_ylabel(r'Rescaled flux density F$_\lambda$')
 
@@ -302,7 +316,7 @@ if __name__ == '__main__':
 
 
 
-    ax.set_xlim((700, 15000))
+    ax.set_xlim((300, 15000))
     ax.set_ylim((0.1, 30))
 
     ax2.set_xlim((700, 1400))

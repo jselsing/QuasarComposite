@@ -60,16 +60,22 @@ def main():
     # TODO Is there a better way to import the txt files?
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 
-    wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
+    # flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
+    # flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    # n_obj = len(obj_list)
+
+
+    wl = np.array([(sdss_data_files[i][:,0] ) for i in range(len(sdssobjects))])
     wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    flux = np.array([(sdss_data_files[i][:,1] ) for i in range(len(sdssobjects))])
+    fluxerr = np.array([(sdss_data_files[i][:,2] ) for i in range(len(sdssobjects))])
     bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
-    flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    flux_cont = np.array([sdss_data_files[i][:,6]  for i in range(len(sdssobjects))])
     n_obj = len(obj_list)
-
-
-
 
 
 
@@ -150,7 +156,7 @@ def main():
 
 
 
-        flux_cont_new = np.vstack((flux_cont_new , 1e-15 * (wl_new/10000.0)**(-1.7)))
+        flux_cont_new = np.vstack((flux_cont_new , 1e-15 * (wl_new/10000.0)**(-1.9)))
         redshifts = np.concatenate((redshifts, [1.2]))
         obj_list.append('Pure power law')
 
@@ -274,6 +280,9 @@ def main():
         print('r', r_mag)
         print('i', i_mag)
         print('z', z_mag)
+        print('g-i', np.array(g_mag) - np.array(i_mag))
+        break
+
 
 
 
@@ -302,6 +311,7 @@ def main():
             # print(obj_list[n])
             # print(M, i_band_mag, redshifts[n])
         print(miz2)
+        break
         # print(np.array(miz2) - np.array(miz0))
         # diffarr = np.array(miz2) - np.array(miz0)
         # print(np.mean((diffarr - diffarr[-1])[:-1]) , np.std((diffarr - diffarr[-1])[:-1]))

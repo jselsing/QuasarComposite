@@ -152,7 +152,7 @@ def main():
     flux_sdss = np.concatenate([flux_sdss,np.zeros(len(flux_out) - len(flux_sdss))])
 
     # Load linelist
-    fit_line_positions = np.genfromtxt('fitlinelist.txt', dtype=None)
+    fit_line_positions = np.genfromtxt('data/fitlinelist.txt', dtype=None)
     linelist = []
     for n in fit_line_positions:
         linelist.append(n[1])
@@ -222,7 +222,7 @@ def main():
 
 
     #Overplot lines
-    fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    fit_line_positions = np.genfromtxt('data/plotlinelist.txt', dtype=None)
     linelist = []
     for n in fit_line_positions:
         linelist.append(n[1])
