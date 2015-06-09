@@ -719,18 +719,22 @@ As stated in \sect{sample}, we find slight variations in the both absolute flux 
 
 
 %Telluric correction
-To test the magnitude of the noise introduced by the telluric correction employed we do the combinations where instead of correcting for the tellurics we exlclude region of telluric absorbtion. The effect on the composite  
-\jstodo{Quantify}
+To test the magnitude of the noise introduced by the telluric correction employed we construct a composite where instead of correcting for the atmospheric absorption we exclude region of low transmission, namely the two absorption band at $\sim 14000$ and $\sim 19000$\AA. The effect on the composite is largely an increase in noise in the regions where individual spectra has been masked, but more troubling is the introduction of residual atmospheric absorption in unmasked regions. Since there is significant absorption from $\sim 7000$ \AA~and redwards, as is also visible in \fig{telluric_qc}, and especially in the NIR arm, masking each individual absorption complex throughout the spectrum in unfeasible. The telluric correction method essentially leaves the unaffected region free of change. 
+
 
 
 %Sampling size
-To test the effect of the sampling step size chosen we do all the combinations with varying sampling step and we find no difference in the qualitative results. 
+To test the effect of the sampling step size chosen we do the construction of the with varying sampling steps and we find no difference in the qualitative results, with variations mainly consisting of a higher degree of smoothness when going to larger sampling steps, since small scales are being resolved out and more pixels without increased resolution when going down in sampling step size. 
 
  
  
 %Host galaxy contamination.
-A geometric composite has been generated in bins of luminosity in \citep{Shen2011}, and the evolution of the relative contribution from the host galaxy is evident in their Figure 9, where as can be seen the host contamination for our selection is negligible.
- \citep{Volonteri2010a} \citep{Hopkins2007} . We have selected our quasars to be very bright thereby reducing the spectral contamination from underlying host galaxy. 
+A geometric composite has been generated in bins of luminosity in \citep{Shen2011}, and the evolution of the relative contribution from the host galaxy is evident in their Figure 9, where as can be seen the host contamination for our selection is negligible. We calculate for the spectra in the composite presented here the $L_{5100}$ by using the continuum flux density at $5100$ \AA~ and converting to luminosity following \cite{Netzer2007}:
+\begin{eqnarray}\eqlabel{l5100}
+L_{5100} &=&    4 \pi D_{L} ^{2} \lambda  F_{\lambda}
+\end{eqnarray}
+we find and average $\log L_{5100} = 46.7 \pm 0.2$ which is an order of magnitude larger than the highest luminosity bin in \cite{Shen2011} which is assumed to be free of host galaxy contamination. This
+is consistent with what is found by \citep{Hopkins2007} that host galaxy light is likely a small factor for quasars fainter than $M_{B} \gtrsim -23$. We have selected our quasars to be very bright and at high redshift thereby reducing the spectral contamination from underlying host galaxy. 
 
 
 
@@ -745,9 +749,20 @@ A geometric composite has been generated in bins of luminosity in \citep{Shen201
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-We have reinvented the wheel.
 
-We have generated a quasar composite from 1000 \r{A} to 11000 \r{A} based on X-shooter observations of bright blue quasars at z = 1 - 2. We have confirmed that there is significant host-contamination in the widely employed Vanden Berk composite, and showed the difference this makes for the matching of photometry of red quasars
+
+We have generated a quasar composite covering the entire range from 1000 \AA~to 11000 \AA~ based on 7 X-shooter observations of bright ($r \lesssim 17$) quasars at redshifts $1 < z < 2.1$ free of host galaxy contamination. Assuming a power law continuum we find a spectral slope of $\alpha = -1.71 \pm 0.09$, steeper than what is found by other authors. We attribute the discrepancy of the power-law slope to the different wavelength coverages, where the very large wavelength coverage on X-shooter ensure that we can effectively choose regions free of emission lines and line continuum emission, especially the balmer continuum and \feii-line complexes, i.e the \textit{Small Blue Bump} heavily affecting the region from $2000 - 5000$ \AA. We have applied the generated composite to fit for the amount of dust of three quasar with varying dust content and found that the amount of visual extinction is in agreement with what is found using a combination of previously generated composites. A comparison with other composites is done and a high degree of similarity is highlighted despite the very different selection criteria and reported spectral slopes. We make the composite and all the code used to generate it available at \url{https://github.com/jselsing/QuasarComposite}, please enjoy responsibly
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgements}  \sectlabel{Acknowledgements}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 
 %\bibliographystyle{plain}

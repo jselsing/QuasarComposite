@@ -55,8 +55,30 @@ def main():
 
 
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
+    #
+    # data_file = np.genfromtxt(root_dir+'untellcorrComposite.dat')
+    #
+    #
+    # wluntell = data_file[:,0]
+    # meanuntell = data_file[:,1]
+    # err_meanuntell = data_file[:,2]
+    # wmeanuntell = data_file[:,3]
+    # err_wmeanuntell = data_file[:,4]
+    # geo_meanuntell = data_file[:,5]
+    # medianuntell = data_file[:,6]
+    # n_specuntell = data_file[:,7]
+    # stduntell = data_file[:,8]
+    # # wl_sdss = data_file[:,9]
+    # # mean_sdss = data_file[:,10]
+    # wmean_contuntell = data_file[:,9]
+
+
+
+
+
 
     data_file = np.genfromtxt(root_dir+'Composite.dat')
+    # data_file = np.genfromtxt(root_dir+'untellcorrComposite.dat')
 
 
     wl = data_file[:,0]
@@ -551,9 +573,26 @@ def main():
     # deep, muted, bright, pastel, dark, colorblind
 
     fig, ax = pl.subplots(1 , figsize=(12, 4))
-    # ax.set_cmap(cmap)
-    ax.plot(log_binned_wl, medfilt(sps(log_binned_wl) , 21),
+
+    hej = medfilt(sps(log_binned_wl) , 1)
+    print(hej)
+    ax.plot(log_binned_wl, hej,
             lw = 1.0, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+
+    # hejn = hej[3000]
+    # sps = InterpolatedUnivariateSpline(wl, wmeanuntell)
+    # hej2 = medfilt(sps(log_binned_wl) , 21)
+    # hej2n = hej2[3000]
+    # norm = ( hejn/ hej2n)
+    # ax.plot(log_binned_wl, hej2 * norm ,
+    #         lw = 1.0, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+    #
+    # mask = (log_binned_wl > 1300) & (log_binned_wl < 5000)
+    # print(np.mean((hej / hej2 * norm)[mask]), np.std((hej / hej2 * norm)[mask]))
+    # ax.plot(log_binned_wl[mask], (hej / hej2 * norm)[mask] ,
+    #         lw = 1.0, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+
+
     # ax.plot(wl, wmean_cont,
     #         lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
 
@@ -584,7 +623,7 @@ def main():
     ax.plot(sdss_wl, sdss_flux * (norm1/norm2),
             linestyle='solid', label ='Full sample SDSS composite')
     #Overplot lines
-    fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    fit_line_positions = np.genfromtxt('data/plotlinelist.txt', dtype=None)
 
     linelist = []
     linenames = []
@@ -608,8 +647,8 @@ def main():
     ax.set_yticks([0.5, 1, 2, 5, 10, 20, 50])
 
     pl.legend(loc=3)
-    ax.set_xlim((1100, 5000))
-    ax.set_ylim((0.5, 50))
+    ax.set_xlim((1100, 10000))
+    ax.set_ylim((0.1, 50))
 
 
 

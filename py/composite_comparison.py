@@ -189,9 +189,9 @@ if __name__ == '__main__':
     # err = err[msk]
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label='Selsing+15', zorder=5, lw = 0.75, color = cmap[0])
+    ax.plot(wave, flux, label='This work', zorder=5, lw = 0.75, color = cmap[0])
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
-    ax2.plot(wave, flux, label = 'Selsing+15', zorder=5, lw = 0.75, color = cmap[0])
+    ax2.plot(wave, flux, label = 'This work', zorder=5, lw = 0.75, color = cmap[0])
     ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
 
 
@@ -339,4 +339,4 @@ if __name__ == '__main__':
     format_axes(ax2)
     pl.tight_layout()
     pl.savefig('../documents/figs/composite_comparison.pdf')
-    #pl.show()
+    pl.show()

@@ -34,11 +34,11 @@ def main():
                    'SDSS1431+0535', 'SDSS1437-0147']
 
 
-    # obj_list = [ 'SDSS0820+1306']
+
+
     sdssobjects = [i for i in sdssobjects if i[-44:-31] in obj_list]
+    # sdssobjects = [i for i in sdssobjects if i[-46:-33] in obj_list]
     object_info_files = [i for i in object_info_files if i[-29:-16] in obj_list]
-
-
 
 
 
@@ -56,7 +56,7 @@ def main():
         else:
             redshifts.append(z_sdss[i])
 
-    print(redshifts)
+
     # TODO Is there a better way to import the txt files?
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 
@@ -76,6 +76,23 @@ def main():
     bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
     flux_cont = np.array([sdss_data_files[i][:,6]  for i in range(len(sdssobjects))])
     n_obj = len(obj_list)
+    #
+    # for n in range(n_obj):
+    #     mask = ~(((wl[n] > 12800) & (wl[n] < 15300)) | ((wl[n] > 17200) & (wl[n] < 20800)))
+    #     bp = np.ones(np.shape(wl[n]))
+    #     bp[mask] -= np.ones(np.shape(wl[n]))[mask]
+
+
+
+    wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
+    flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    bp_map = np.array([sdss_data_files[i][:,3]  for i in range(len(sdssobjects))])
+    flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    n_obj = len(obj_list)
+
+
 
 
 
@@ -128,7 +145,7 @@ def main():
             tall.append(max(wl_i))
         short = min(short)
         tall = max(tall)
-        step = 0.2 #CDELT
+        step = 0.4 #CDELT
         wl_new = np.arange(short, tall, step)
         n_wl = len(wl_new)
         flux_new = np.zeros((n_obj,n_wl))
@@ -151,14 +168,44 @@ def main():
             bp_map_new[n] = common_wavelength(wl[n], wl_new, bp_map[n], fill_value=1.0)
 
 
-        # print(np.shape(flux))
-
-
-
-
+        # print(flux_new)
         flux_cont_new = np.vstack((flux_cont_new , 1e-15 * (wl_new/10000.0)**(-1.9)))
         redshifts = np.concatenate((redshifts, [1.2]))
         obj_list.append('Pure power law')
+
+
+        from astropy.cosmology import Planck13 as cosmo
+        L5100 = []
+        for n in range(n_obj+1):
+
+            mask = ((wl_new > 5050) & (wl_new < 5150))
+            f5100 = np.mean(flux_cont_new[n][mask])
+            L5100.append(np.log10(f5100*4 * np.pi* (((cosmo.luminosity_distance(redshifts[n]).value)*3e24)**2) *5100))
+            # numerator = np.sum(prod * wl_new)
+            # denom = np.sum(filt_new * (3e18/wl_new))
+            # f_nu = numerator / denom
+            # i_band_mag = -2.5 * np.log10(f_nu) - 48.6
+            # u_mag.append(i_band_mag)
+            # dl = (cosmo.luminosity_distance(redshifts[n])) * 1e5
+            # M = -5 * np.log10(dl.value) + i_band_mag
+            # miz0.append(M)
+            # print(obj_list[n])
+        print(np.mean(L5100), np.std(L5100))
+        import sys
+        sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         filter = glob.glob('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_filtercurves/u.dat')[0]
         filter = np.genfromtxt(filter)
@@ -281,7 +328,7 @@ def main():
         print('i', i_mag)
         print('z', z_mag)
         print('g-i', np.array(g_mag) - np.array(i_mag))
-        break
+        # break
 
 
 
@@ -311,7 +358,7 @@ def main():
             # print(obj_list[n])
             # print(M, i_band_mag, redshifts[n])
         print(miz2)
-        break
+
         # print(np.array(miz2) - np.array(miz0))
         # diffarr = np.array(miz2) - np.array(miz0)
         # print(np.mean((diffarr - diffarr[-1])[:-1]) , np.std((diffarr - diffarr[-1])[:-1]))
@@ -320,7 +367,7 @@ def main():
         # pl.show()
 
         std_norm = np.zeros(np.shape(flux_cont_new))
-
+        print(n_obj)
         for n in range(n_obj):
             #Normalise
             mask = (wl_new > mask_ran) & (wl_new < mask_ran + 100)
@@ -353,8 +400,8 @@ def main():
             (bp_map_new[i])[mask_cont] = 0
 
         #Saving ready spectra
-        np.savetxt('test.dat', flux_new.transpose(), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
-
+        np.savetxt('data/regularised.dat', flux_cont_new.transpose(), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
+        print('Saving IGM-corrected regularised data to to data/regularised.dat')
         def weighted_avg_and_std(values, sigma, axis=0):
             norm = abs(np.mean(values))
             values = np.array(values) / norm
