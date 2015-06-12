@@ -120,15 +120,20 @@ def main():
 
 
     bp_map = []
+    npix = 0
     for j , (k, l) in enumerate(zip(flux_out[:-1],err_out[:-1])):
         if k > 1.1 * flux_out[j-1] or k < 0:
            bp_map.append(1)
+           npix += 1
         elif k < 0.90 * flux_out[j-1] or k < 0:
            bp_map.append(1)
+           npix += 1
         else:
            bp_map.append(0)
     bp_map.append(1)
-
+    print(npix)
+    print(len(bp_map))
+    print((len(bp_map) - npix/len(bp_map))/len(bp_map))
 
 
     import json

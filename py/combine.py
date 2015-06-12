@@ -191,8 +191,8 @@ def main():
             # miz0.append(M)
             # print(obj_list[n])
         print(np.mean(L5100), np.std(L5100))
-        import sys
-        sys.exit()
+        # import sys
+        # sys.exit()
 
 
 
@@ -609,28 +609,34 @@ def main():
     # ax.invert_yaxis()
     # pl.show()
 
-    # # Checking for normality
+    # Checking for normality
     # from matplotlib import pyplot as plt
-    # import matplotlib.mlab as mlab
-    # import scipy.stats as stats
+    import matplotlib.mlab as mlab
+    import scipy.stats as stats
     # p_val = []
-    # # print(spec)
-    # for i, k in enumerate(spec[10000:10110]):
-    #     # pl.plot(n, '.' , hold=True)
-    #     k = k / np.median(k)
-    #     # print(k)
-    #     k = np.hstack((k,np.mean(k)))
-    #     #print(k)
-    #     p_val.append((stats.normaltest(k)[1]))
-    #     n, bins, patches = plt.hist(k, 10, hold=True)
-    #     mu = np.mean(k)
-    #     sigma = np.std(k)
-    #     plt.plot(bins, mlab.normpdf(bins, mu, sigma), hold=True)
+    # print(spec)
+    # fig, ax = plt.subplots()
+    # for i, k in enumerate(wmean_cont[10000:10110]):
+    #     print(k)
+        # pl.plot(n, '.' , hold=True)
+        # k = k / np.median(k)
+        # print(k)
+        # k = np.hstack((k,np.mean(k)))
+        # print(k)
+        # print(k)
+        # p_val.append((stats.normaltest(k)[1]))
+        # n, bins, patches = plt.hist(k, 10, hold=True)
+        # mu = np.mean(k)
+        # sigma = np.std(k)
+        # plt.plot(bins, mlab.normpdf(bins, mu, sigma), hold=True)
+        # stats.probplot(k, dist="norm", plot=plt)
     # print(np.mean(p_val))
+
+
     # pl.xlabel(r'Normalised value [input/median(input)]')
     # pl.ylabel(r'Arbitrary scale')
     # pl.savefig("../documents/normality.pdf", dpi= 150)
-    # pl.show()
+    # plt.show(block=True)
 
 
 
