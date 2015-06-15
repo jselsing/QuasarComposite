@@ -122,8 +122,8 @@ def main():
         tmp = a_tmp * x_tmp ** (k_tmp + b_tmp * x_tmp)
         return tmp
 
-    par_guess = [1, -1.0]
-    par_guess2 = [1, 5700, -1.0, -1.46]
+    par_guess = [1, -1.7]
+    par_guess2 = [1, 5700, -1.7, -1.7]
     # par_guess3 = [1, -1.0, -0.00001]
 
     # pl.plot(wl, power_law2(wl, par_guess))
@@ -136,19 +136,19 @@ def main():
 
     # mask = np.where(wl > 0)
     # print(mask)
-    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess)
-    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2)
+    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess, sigma=err_wmean[mask], absolute_sigma=True)
+    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2, sigma=err_wmean[mask], absolute_sigma=True)
     # popt3, pcov3 = optimize.curve_fit(power_law3, wl[mask], wmean[mask], p0=par_guess3)
 
 
-    # print(*popt)
-    # print(*popt2)
+    print(*popt)
+    print(*popt2)
     # print(*popt3)
 
 
     # Smoothing for presentation purposes
-    from gen_methods import smooth,medfilt
-    from xshoo.binning import binning1d
+    # from gen_methods import smooth,medfilt
+    # from xshoo.binning import binning1d
     # bins = 5
     # wl = binning1d(wl, bins)
     # mean, std = binning1d(mean, bins, err=errofmean)
@@ -567,13 +567,13 @@ def main():
     import lineid_plot
     # use seaborn for nice default plot settings
     import seaborn; seaborn.set_style('ticks')
-    cmap = seaborn.cubehelix_palette(3, start=2, rot=0.0, dark=0.2, light=.8, reverse=True)
-    seaborn.set_palette(cmap)
+    # cmap = seaborn.cubehelix_palette(3, start=2, rot=0.0, dark=0.2, light=.8, reverse=True)
+    # seaborn.set_palette(cmap)
 
     # deep, muted, bright, pastel, dark, colorblind
 
     fig, ax = pl.subplots(1 , figsize=(12, 4))
-
+    # print(ax)
     hej = medfilt(sps(log_binned_wl) , 1)
     print(hej)
     ax.plot(log_binned_wl, hej,
@@ -596,10 +596,10 @@ def main():
     # ax.plot(wl, wmean_cont,
     #         lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
 
-    # ax.plot(wl, power_law(wl, *popt),
-    #         linestyle='dashed', label ='Power law fit')
-    # ax.plot(wl, power_law2(wl, *popt2),
-    #         linestyle='dashed', label ='Power law fit')
+    ax.plot(wl, power_law(wl, *popt),
+            linestyle='dashed', label ='Power law fit')
+    ax.plot(wl, power_law2(wl, *popt2),
+            linestyle='dashed', label ='Power law fit')
 
 
 
@@ -634,7 +634,7 @@ def main():
 
 
     pl.semilogy()
-    pl.semilogx()
+    # pl.semilogx()
 
     # Formatting axes
     import matplotlib as mpl
@@ -647,7 +647,7 @@ def main():
     ax.set_yticks([0.5, 1, 2, 5, 10, 20, 50])
 
     pl.legend(loc=3)
-    ax.set_xlim((1100, 10000))
+    ax.set_xlim((1100, 11000))
     ax.set_ylim((0.1, 50))
 
 
@@ -656,9 +656,9 @@ def main():
     lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
     for i in ax.lines:
         if '$' in i.get_label():
-            i.set_alpha(0.3)
+            i.set_alpha(0.5)
 
-    pl.savefig('../documents/figs/compo_full_sample.pdf')
+    # pl.savefig('../documents/figs/compo_full_sample.pdf')
     pl.show()
 
 

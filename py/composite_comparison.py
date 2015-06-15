@@ -175,12 +175,12 @@ if __name__ == '__main__':
     norm2 = np.median(flux[norm_reg2])
 
     nbins = len(wave)
-    log_binned_wl = np.array(hist(wave,[min(wave),max(wave)], int(nbins/10),'log'))
+    log_binned_wl = np.array(hist(wave,[min(wave),max(wave)], int(2*nbins),'log'))
     from scipy.interpolate import InterpolatedUnivariateSpline
     sps = InterpolatedUnivariateSpline(wave, flux)
-    flux = medfilt(sps(log_binned_wl) , 3)
+    flux = medfilt(sps(log_binned_wl) , 9)
     sps = InterpolatedUnivariateSpline(wave, err)
-    err = medfilt(sps(log_binned_wl) , 3)
+    err = medfilt(sps(log_binned_wl) , 9)
     wave = log_binned_wl
 
     # msk = (wave <  13000)
@@ -189,9 +189,9 @@ if __name__ == '__main__':
     # err = err[msk]
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label='This work', zorder=5, lw = 0.75, color = cmap[0])
+    ax.plot(wave, flux, label='This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
-    ax2.plot(wave, flux, label = 'This work', zorder=5, lw = 0.75, color = cmap[0])
+    ax2.plot(wave, flux, label = 'This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
     ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
 
 
@@ -204,9 +204,9 @@ if __name__ == '__main__':
     err *= (norm1 / norm)
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1])
+    ax.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1], linestyle='steps-mid')
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[1])
-    ax2.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1])
+    ax2.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1], linestyle='steps-mid')
     ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[1])
 
 
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     err *= (norm2 / norm)
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label = 'Glikman+06', zorder=2, lw = 0.5, alpha = 1.0, color = cmap[2])
+    ax.plot(wave, flux, label = 'Glikman+06', zorder=2, lw = 0.5, alpha = 1.0, color = cmap[2], linestyle='steps-mid')
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[2])
 
 
@@ -236,9 +236,9 @@ if __name__ == '__main__':
     err *= (norm1 / norm)
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3])
+    ax.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3], linestyle='steps-mid')
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[3])
-    ax2.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3])
+    ax2.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3], linestyle='steps-mid')
     ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[3])
 
 
@@ -258,9 +258,9 @@ if __name__ == '__main__':
     err = err[mask]
 
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4])
+    ax.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4], linestyle='steps-mid')
     ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[4])
-    ax2.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4])
+    ax2.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4], linestyle='steps-mid')
     ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[4])
 
 
@@ -278,8 +278,8 @@ if __name__ == '__main__':
     #wave = wave[mask]
     #flux = flux[mask]
 
-    ax.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
-    ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5])
+    ax.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5], linestyle='steps-mid')
+    ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5], linestyle='steps-mid')
 
 
     x = np.arange(0 , 15000, 0.1)

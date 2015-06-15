@@ -69,13 +69,13 @@ def main():
     # n_obj = len(obj_list)
 
 
-    wl = np.array([(sdss_data_files[i][:,0] ) for i in range(len(sdssobjects))])
-    wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    flux = np.array([(sdss_data_files[i][:,1] ) for i in range(len(sdssobjects))])
-    fluxerr = np.array([(sdss_data_files[i][:,2] ) for i in range(len(sdssobjects))])
-    bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
-    flux_cont = np.array([sdss_data_files[i][:,6]  for i in range(len(sdssobjects))])
-    n_obj = len(obj_list)
+    # wl = np.array([(sdss_data_files[i][:,0] ) for i in range(len(sdssobjects))])
+    # wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
+    # flux = np.array([(sdss_data_files[i][:,1] ) for i in range(len(sdssobjects))])
+    # fluxerr = np.array([(sdss_data_files[i][:,2] ) for i in range(len(sdssobjects))])
+    # bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
+    # flux_cont = np.array([sdss_data_files[i][:,6]  for i in range(len(sdssobjects))])
+    # n_obj = len(obj_list)
     #
     # for n in range(n_obj):
     #     mask = ~(((wl[n] > 12800) & (wl[n] < 15300)) | ((wl[n] > 17200) & (wl[n] < 20800)))
@@ -104,8 +104,8 @@ def main():
     pow_slope = []
     indi_pow = []
     # norm_reg = [1420, 3000, 4000, 5600, 6800]
-    # norm_reg = np.arange(1420, 8000, 500)
-    norm_reg = [6800]
+    norm_reg = np.arange(1420, 8000, 500)
+    # norm_reg = [6800]
     # print(norm_reg)
     for mask_ran in norm_reg:
         flux_0 = flux.copy()
@@ -551,7 +551,7 @@ def main():
         # ax[0].plot(wl_new, power_law(wl_new, *popt_wmean) , 'b--', lw = 0.5)
         # ax[0].plot(wl_new, power_law(wl_new, *popt_mean) , 'b--', lw = 0.5)
 
-        pow_slope.append(popt[1])
+        pow_slope.append(popt_wmean[1])
 
         # ax.plot(wl_new, wmean_cont, lw = 0.5, label= str(mask_ran))
 
@@ -600,10 +600,10 @@ def main():
 
     # fig, ax = pl.subplots(1)
     # ax.plot(norm_reg, pow_slope, '.')
-    # print("""Power law slopes:
-    #     Mean = {0}
-    #     Std  = {1}
-    # """.format(np.mean(pow_slope), np.std(pow_slope)))
+    print("""Power law slopes:
+        Mean = {0}
+        Std  = {1}
+    """.format(np.mean(pow_slope), np.std(pow_slope)))
     # ax.set_xlabel('Normalisation region')
     # ax.set_ylabel('Power law slope')
     # ax.invert_yaxis()
