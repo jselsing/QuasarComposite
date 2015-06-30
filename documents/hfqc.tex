@@ -237,7 +237,7 @@ Spectroscopic observation of the targets have been carried out using X-shooter \
 
 
 %===========================================================================
-\begin{figure}[hbtp]
+\begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{Figs/Seeing.pdf}
   \caption[]{Measured spatial seeing from the width of trace against the effective spectral resolution. All the observations are seeing-limited and thus the effective resolution will be higher than tabulated. (see text).}
@@ -281,7 +281,7 @@ All ground based observations suffer from atmospheric absorption. This is especi
 To correct for the absorption an exact measure of the transmission of the atmosphere at the time of the observation is needed. The amount of absorption is heavily dependent on the exact conditions through the atmosphere and these changes on very short timescales. Observations close in time of a featureless telluric standard star is done for all observations and it is these observation that are used for the generation of the atmospheric transmission spectrum. 
 
 %===========================================================================
-\begin{figure}[hbtp]
+\begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{figs/tell_corr_QC.pdf}
   \caption[]{Telluric correction for quasar SDSS1431+0535 where brown is the uncorrected spectrum and purple is the corrected and teal is the corrected smoothed by 50 pixels. The regions of pure noise is where the atmospheric transmission is $\sim$ zero, thus only leaving noise after correction. Residuals after correction is visible, but noise image is corrected correspondingly and therefore giving less weight to regions severely affected for the weighted combination.}
@@ -309,7 +309,7 @@ There is not a unique way to construct a composite and the final result is influ
 Of crucial importance is determining the distance to the quasars to accurately move the objects to the rest frame. Getting the systemic redshift of quasars from emission lines is complicated by the complex physical structure of the broad line regions in which the broad emission lines are emitted. For the bright quasars selected for our composite many of the prominent high-ionization lines visible will arise in hot clouds with large peculiar velocities and will therefore be affected by systematic line-shifts\citep{Richards2002b}. To get a redshift closer to the systemic we choose \oiii$\lambda5007$,  arising in the narrow-line region and therefore less affected by systematic offsets{\color{red} Reference needed}. \oiii~is situated on a broad Fe-complex and slightly blended with \oiii$\lambda$4959 and \hb, with \hb~ both containing broad and narrow components. 
 To get an accurate estimate of the redshift we mark both sides of the line belonging to \oiii$\lambda$5007 where it starts to become blended, fit a low order polynomial to the edges and subtract the estimated pseudo-continuum. We define a Gaussian in terms of the rest wavelength of \oiii~ and leave the redshift as a free parameter and then fit to selected region where a weighted minimization of the residuals is done using least squares and the confidence intervals on the best-fit parameters is determined by resampling from a multivariate Gaussian with best-fit values as the mean and a covariance matrix which is the estimated Hessian at the minimum. The weights used are the inverse variance, $ w =  \frac{1}{\sigma^2}$, where $\sigma$ is the statistical error of the spectrum. The 1$\sigma$ confidence intervals on the fit parameters are set by the 16th and 84th percentile of the resampling realizations. The formal errors obtained from the fit are bound to be under-estimating the true error, since correlation between the pixels are not taken into account. Least squares minimization do not guarantee to find the global minimum of the residuals, but we check visually that the fit is satisfactory. \oiii$\lambda$5007 is visible in all of our spectra in varying strength so additional refinement is not needed. As a starting guess for the redshift we use redshifts queried from SDSS and all fits are visually inspected to check if the fitted redshift is an improvement on the position of \oiii$\lambda$5007. We show a\oiii~fit in \fig{linefit}, where \hb, \oiii$\lambda$4959 and \oiii$\lambda$5007 are clearly detected and marked on the plot. Several broad underlying features make it difficult to model the entire complex by the three lines alone and therefore only the narrowest component of the \oiii-line is used for the fit. Additionally only the upper part of the total line flux is used in the fit. This is similar to what is done in \citet{VandenBerk2001}. A clear velocity offset is visible between the rest-frame determined by \oiii~and \hb. We take this as an indication of high peculiar velocities in the region of \hb-emitting clouds\qtodo{Is this right?}. We convert all vacuum wavelengths to air and transform all redshifts to barycentric standard-of-rest for consistent comparison with SDSS. For all of our spectra we find slight corrections to the SDSS redshifts, based on the fit to \oiii, as is also shown in \tab{targs}. We note that only two out of seven redshifts agree within the errors, but stress that the measured redshifts are not measured in a consistent manner and therefore offsets are expected. SDSS spectral redshift determinations are based on restframe UV lines which are known to exhibit substantial velocity shifts relative to the systemic redshift\qtodo{True? - Reference needed}.
 %===========================================================================
-\begin{figure}[hbtp]
+\begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{Figs/LineFit.pdf}
   \caption[]{Gaussian fit of [OIII] $\lambda$5007. The red solid line is the linear-least-squared best fit with 1$\sigma$ confidence interval. Green dashed lines indicate the position of neighboring lines at the redshift of [OIII]. It can be seen that H$\beta$ is red-shifted as compared with the redshift of [OIII], indicative of large peculiar velocities.}
@@ -353,7 +353,7 @@ Before any combination is done, all spectra have been run through a filter, wher
 Choosing the right combination method is tricky business and different method can yield slightly varying results. The first assumption is that at each pixel, the constituent spectra have a Gaussian distribution around a sample mean and that this mean reflects the expectation value of the sample. Since we have a relatively small sample, even investigating whether we are sampling from a Gaussian distribution is ambiguous. To make a test for normality, we take the mean of 100 pixels along the composite, assuming that the continuum is flat, and make a quantile-quantile plot. Given that we are sampling from a normal distribution the blue points should fall on the red line. Since we one have 7 pixels, determining whether the constituent spectra are normally distributed, is a guess at best. We show the Q-Q plot in \fig{normality}, where it is not immediately evident if we are sampling from a normal distribution, but it is not a bad guess. We run a Shapiro-Wilk test where the same 100 pixels from the central part of the spectrum is used. On each individual collection of pixels we test gives us a 2-sided chi squared probability for the hypothesis test, under the null hypothesis that the sample comes from a normal distribution. With an average over the pixels of $p = 0.37$ we can a least not reject, that we are sampling from a normal distribution. Since we have no reason to expect that we are sampling from a Gaussian distribution and that the distribution is expected to change with wavelength increasing in width as the distance to the normalization region increases, a certain caution is warranted. 
 
 %===========================================================================
-\begin{figure}[hbtp]
+\begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{Figs/normality.pdf}
   \caption[]{Quantile-Quantile plot as a test for normality. An average over 100 pixels in the central regions where the continuum is assumed to be relatively flat is used. The inverse cumulative distribution for the sample is constructed and the plotted against the corresponding quantiles for a normal distribution. The 45 degree line is if we are sampling for a normal distribution. Since the points are slightly steeper, this indicates a more dispersed distribution.}
@@ -410,10 +410,14 @@ with the \textit{luminosity distance}, $D_L$,  obtained using a standard cosmolo
 We show the weighted mean composite in \fig{combined}. Characteristic features of quasars are readily visible. We see several prominent emission lines across the entire spectral range which includes both very broad high-ionization lines and narrower low-ionization lines as is typical for quasar spectra, with both broad and narrow lines superposed with multiple components\citep{Baldwin1995}. We have marked the position and name of the most prominent lines and overplotted them in \fig{composite}.  Analysis of the lines are beyond the scope of this paper.
 
  %===========================================================================
- \begin{figure*}[hbtp]
+ \begin{figure*}[t!]
    \centering
    \includegraphics[width=2.0\columnwidth]{Figs/Combined.pdf}
-   \caption[]{Composite spectrum. \jstodo{First draft for figure. Re-iterate}}
+   \caption[]{\textit{Top panel:} Composite spectrum with prominent emission lines marked. \textit{Upper middle panel:} Measure of intra-spectrum variability. The standard deviation of the constituent spectra as a function of wavelength. To normalize for differing slopes in between the different spectra, the fitted slope in each of the constituent spectra is divided by the standard deviation. 
+   \textit{Lower middle panel:} Signal-to-noise. The composite spectrum is divided by the error spectrum, thus directly giving a measure of the signal strength.
+   \textit{Bottom panel:} Number of contributing spectra as a function of wavelength, 
+   
+   }
   \figlabel{combined}
  \end{figure*}
  %===========================================================================
@@ -446,7 +450,7 @@ Following \cite{Wang2012}, the previous composite used to fit for the dust amoun
 The values obtained with the newly generated composite is entirely consistent with the values published in \cite{Krogager2015}, which is encouraging for the previous use of stitched template. A detailed comparison between the different composites is done in \sect{comparison}.
 
 %===========================================================================
-\begin{figure}[hbtp]
+\begin{figure}[t!]
  \centering
  \includegraphics[width=0.99\columnwidth]{Figs/application.pdf}
  \caption[]{The dust extinction, $A_V$, and redshift has been inferred for three HAQ quasars by fitting for the amount of reddening required to match the template with the observed spectrum. For varying amount of extinction at different redshifts, consistent results are found with previous usage of stitched composites.}
@@ -462,10 +466,10 @@ The values obtained with the newly generated composite is entirely consistent wi
  Significant variation is visible in the the lines of \civ, \mgii, \oiii~ and lines of hydrogen as well as in the \feii-complexes centered around \hb. From 5800 - 11000 \AA~the continuum variability stays almost constant which could indicate a more stable continuum, both temporally and population-wide \qtodo{Is this pushing it too far?}. An increase in variability is observed redwards of 5800 \AA~due to slightly varying power law slopes of the constituent spectra. In the region bluewards of \lya~ the fractional variability reaches 60 percent, testament to the stochastic nature of the lyman alpha forest, but the reader is cautioned that only three spectra contribute significantly at these wavelengths.  
   
 %===========================================================================
-\begin{figure*}[hbtp]
+\begin{figure*}[t!]
 \centering
 \includegraphics[width=1.98\columnwidth]{figs/compo_full_sample.pdf}
-\caption[]{X-shooter quasar weighted arithmetic composite on a linear wavelength scale. The position of several prominent emission lines are marked. Overplot is the corresponding composite generated from the full sample of SDSS quasars fulfilling the selection criteria and general agreement is observed. In red and green is shown the results from fitting both a pure and a broken power-law to the regions specified in \sect{results} and they are observed to be consistent.}
+\caption[]{X-shooter quasar weighted arithmetic composite on a linear wavelength scale. The position of several prominent emission lines are marked. Overplot is the corresponding composite generated from the full sample of SDSS quasars fulfilling the selection criteria and general agreement is observed, albeit with a brighter balmer continuum in the SDSS-constructed composite. In red and green is shown the results from fitting both a pure and a broken power-law to the regions specified in \sect{results} and they are observed to be consistent.}
 \figlabel{composite}
 \end{figure*}
 %===========================================================================
@@ -495,7 +499,7 @@ Figure 1 in \cite{Shen2011} presents the distribution of M$_i(z=2)$ as a functio
 
 
  %===========================================================================
- \begin{figure}[hbtp]
+ \begin{figure}[t!]
    \centering
    \includegraphics[width=0.99\columnwidth]{Figs/color_comparison2.pdf}
    \caption[]{Quasar color, g-i,  as a function of redshift, z. The full quasar sample from SDSS DR10 \citep{Paris2014} is shown in grey color. Bounding contours show the 0.5, 1, 1.5, 2 $\sigma$ contours of the density of points. The blue-grey points are individual quasars from the SDSS sample which satisfy $r <= 17$. Overplotted in blue are the quasars constibuting to the composite presented here. The quasar colors have been marginalized over in the right side where the tall blue lines are at the position of the composite quasars and the short blue-grey lines are from all quasars fulfilling the selection criteria.}
@@ -528,7 +532,7 @@ Despite the variation across selections criteria, luminosities and redshifts, a 
 Differences in the emission lines is also visible. This is to be expected due to the highly varying magnitudes of the constituent objects for the different composites where a decreasing equivalent line width is expected with increasing luminosity\citep{Baldwin1977}. 
 Above 5000 \AA, a clear discrepancy is visible to the \cite{VandenBerk2001}-composite which may be due to host galaxy contamination\citep{Glikman2006}. From \cite{Shen2011}, Figure 9. it is confirmed that this effect is not affecting the X-shooter composite presented here, due to the extreme luminosities, which we investigate in \sect{systematics}.
  %===========================================================================
- \begin{figure*}[hbtp]
+ \begin{figure*}[t!]
    \centering
    \includegraphics[width=1.99\columnwidth]{figs/composite_comparison.pdf}
    \caption[]{Comparison of different composites. The composites by \citet{Lusso2015, VandenBerk2001, Telfer2002, Francis1991} are normalized to the X-shooter composite at $\sim 1450$ \AA~and the composite by \citet{Glikman2006} is normalized to ours at $\sim 3850$ \AA. Significant differences is visible blueward of \lya~due to differing IGM correction methods. Above 5000 \AA~ significant host galaxy contamination is visible in the composite by \citet{VandenBerk2001}. Overplot in blue is a pure power law with slope $\alpha = -1.7$ and normalized at $\sim 1450$ \AA.}
@@ -666,15 +670,8 @@ We have generated a quasar composite covering the entire range from 1000 \AA~to 
 
 
 
-%\bibliographystyle{plain}
 \bibliographystyle{aa-note} 
 \bibliography{/Users/jselsing/Work/Papers/bibtex/library}
-%\bibliography{/Users/jselsing/Work/Papers/bibtex/Cappellari2014.bib}
-%\bibliography{/Users/jselsing/Work/Papers/bibtex/Chen2014b.bib}
-
-
-%\input{/Users/jselsing/Work/Papers/bibtex/library.bib}
-
 
 
 

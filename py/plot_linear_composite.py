@@ -8,6 +8,8 @@ __version__ = "0.0.0"
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
 
+from matplotlib import rc_file
+rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 
 import numpy as np
@@ -91,7 +93,7 @@ def format_axes(ax):
 
 def main():
     latexify()
-
+    import numpy as np
 
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
     data_file = np.genfromtxt(root_dir+'Composite.dat')
@@ -148,15 +150,15 @@ def main():
 
     fig = pl.figure(1, figsize=(12, 4))
     ax = fig.add_subplot(111)
-    # fig, ax = pl.subplots()
+    # fig, ax = pl.subplots(1, figsize=(12, 4))
 
-    ax.plot(wl, wmean_cont,
+    ax.plot(wl, medfilt(wmean_cont, 5),
             lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
 
     ax.plot(wl, power_law(wl, *popt),
-            linestyle='dashed', label ='Power law fit')
+            linestyle='dashed', label ='Pure power law fit')
     ax.plot(wl, power_law2(wl, *popt2),
-            linestyle='dashed', label ='Power law fit')
+            linestyle='dashed', label ='Broken power law fit')
 
     sdss_compo = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_compo.dat')
     sdss_wl = sdss_compo[:,0]
@@ -183,11 +185,6 @@ def main():
         linelist.append(n[1])
         linenames.append(n[0])
 
-    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, ax=ax)
-    for i in ax.lines:
-        if '$' in i.get_label():
-            i.set_alpha(0.3)
-
     pl.semilogy()
     # pl.semilogx()
 
@@ -202,10 +199,30 @@ def main():
     ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
     ax.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50])
 
-    pl.legend(loc=3)
+    # pl.legend(loc=3)
     ax.set_xlim((1100, 11500))
-    ax.set_ylim((0.1, 50))
+    ax.set_ylim((0.1, 200))
     format_axes(ax)
+
+    val = []
+    for p in range(len(linelist)):
+        xcoord = linelist[p]
+        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+        y_val = np.mean(wmean_cont[mask])
+        val.append(2 * y_val)
+    print(val)
+    arrow_tips = val
+    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, arrow_tip=arrow_tips, ax=ax)
+    for i in ax.lines:
+        if '$' in i.get_label():
+            i.set_alpha(0.3)
+
+
+
+
+
+    ax.set_xlabel(r'Wavelength [$\AA$]')
+    ax.set_ylabel(r'Rescaled flux density F$_\lambda$')
     pl.tight_layout()
 
     pl.savefig('../documents/figs/compo_full_sample.pdf')
