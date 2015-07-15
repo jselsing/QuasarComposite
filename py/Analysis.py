@@ -11,9 +11,10 @@ __copyright__ = "Copyright 2015 Jonatan Selsing"
 from matplotlib import rc_file
 rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
+from methods import latexify, format_axes, gauss
 
 import numpy as np
-from gen_methods import medfilt
+from gen_methods import medfilt, smooth
 import glob
 
 import matplotlib.pylab as pl
@@ -24,75 +25,10 @@ import seaborn as sns; sns.set_style('ticks')
 
 
 
-def latexify(fig_width=None, fig_height=None, columns=1):
-    import matplotlib
-    from math import sqrt
-    """Set up matplotlib's RC params for LaTeX plotting.
-    Call this before plotting a figure.
-
-    Parameters
-    ----------
-    fig_width : float, optional, inches
-    fig_height : float,  optional, inches
-    columns : {1, 2}
-    """
-
-    # code adapted from http://www.scipy.org/Cookbook/Matplotlib/LaTeX_Examples
-
-    # Width and max height in inches for IEEE journals taken from
-    # computer.org/cms/Computer.org/Journal%20templates/transactions_art_guide.pdf
-
-    assert(columns in [1,2])
-
-    if fig_width is None:
-        fig_width = 3.39 if columns==1 else 6.9 # width in inches
-
-    if fig_height is None:
-        golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
-        fig_height = fig_width*golden_mean # height in inches
-
-    MAX_HEIGHT_INCHES = 8.0
-    if fig_height > MAX_HEIGHT_INCHES:
-        print("WARNING: fig_height too large:" + fig_height +
-              "so will reduce to" + MAX_HEIGHT_INCHES + "inches.")
-        fig_height = MAX_HEIGHT_INCHES
-
-    params = {'backend': 'Qt4Agg',
-              'text.latex.preamble': ['\usepackage{gensymb}'],
-              'axes.labelsize': 8, # fontsize for x and y labels (was 10)
-              'axes.titlesize': 8,
-              'font.size': 8, # was 10
-              'legend.fontsize': 8, # was 10
-              'xtick.labelsize': 8,
-              'ytick.labelsize': 8,
-              # 'text.usetex': True,
-              'figure.figsize': [fig_width,fig_height],
-              'font.family': 'serif'
-    }
-
-    matplotlib.rcParams.update(params)
-
-SPINE_COLOR = 'gray'
-def format_axes(ax):
-
-    for spine in ['top', 'right']:
-        ax.spines[spine].set_visible(True)
-
-    for spine in ['left', 'bottom', 'top', 'right']:
-        ax.spines[spine].set_color(SPINE_COLOR)
-        ax.spines[spine].set_linewidth(0.5)
-
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
-
-    for axis in [ax.xaxis, ax.yaxis]:
-        axis.set_tick_params(direction='out', color=SPINE_COLOR)
-
-    return ax
 
 
 def main():
-    latexify()
+
 
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'
 
@@ -149,15 +85,38 @@ def main():
     print(*popt)
     print(*popt2)
 
-    fig, (ax1, ax2, ax3, ax4) = pl.subplots(ncols=1, nrows=4, sharex=True, figsize=(12, 12))
+    #Plotting
+    ratio = (1.0 + np.sqrt(5.0))/2.0
+    y_size = 12
+    x_size = 12
+
+    import matplotlib.gridspec as gridspec
+
+    fig = pl.figure(figsize=(x_size, y_size))
+
+    gs = gridspec.GridSpec(4, 1, height_ratios=[2,1,1,1])
+
+    ax1 = pl.subplot(gs[0])
+    ax2 = pl.subplot(gs[1])
+    ax3 = pl.subplot(gs[2])
+    ax4 = pl.subplot(gs[3])
+
+    # fig, (ax1, ax2, ax3, ax4) = pl.subplots(ncols=1, nrows=4, sharex=True, figsize=(12, 12))
 
     #Plotting
     # ax1.plot(wl, power_law2(wl, *popt2) , 'b--')
     # ax1.plot(wl, power_law(wl, *popt) , 'b--')
     ax1.plot(wl, wmean_cont, lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
 
+    nbins = len(wl)
+    from methods import hist
+    log_binned_wl = np.array(hist(wl,[min(wl),max(wl)], int(2*nbins),'log'))
+    from scipy.interpolate import InterpolatedUnivariateSpline
+    sps = InterpolatedUnivariateSpline(wl, std)
+    std_plot = smooth(medfilt(sps(log_binned_wl) , 9), window='hanning', window_len=15)
+    wave_std = log_binned_wl
 
-    ax2.plot(wl, medfilt(std, 3), lw = 0.5, linestyle = 'steps-mid', label='Normalised variance')
+    ax2.plot(wave_std, std_plot, lw = 0.5, linestyle = 'steps-mid', label='Normalised variance')
 
     ax3.plot(wl, wmean_cont/medfilt(err_wmean, 5), lw = 0.5, linestyle = 'steps-mid', label = 'Signal-to-noise')
 
@@ -194,7 +153,7 @@ def main():
     ax1.semilogy()
     ax1.semilogx()
     ax1.set_xlim((1000, 11500 ))
-    ax1.set_ylim((0.1, 500))
+    ax1.set_ylim((0.05, 500))
 
 
     ax2.semilogy()
@@ -218,21 +177,27 @@ def main():
     ax4.set_xticks([1000, 2000, 3000, 5000, 9000])
     # ax4.get_xaxis().tick_bottom()
     # ax4.xaxis.set_minor_locator(mpl.ticker.NullLocator())
+    ax1.xaxis.set_major_locator(mpl.ticker.NullLocator())
+    ax2.xaxis.set_major_locator(mpl.ticker.NullLocator())
+    ax3.xaxis.set_major_locator(mpl.ticker.NullLocator())
+
 
     ax1.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax1.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50])
+    ax1.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200])
     ax2.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax2.set_yticks([0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2])
+    ax2.set_yticks([0.02, 0.05, 0.1, 0.2, 0.5, 1])
+    ax3.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax3.set_yticks([20, 40, 60, 80, 100])
+    ax4.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax4.set_yticks([0, 1, 2, 3, 4, 5, 6, 7, 8])
 
 
 
 
-
-
-    ax1.legend()
-    ax2.legend()
-    ax3.legend()
-    ax4.legend()
+    # ax1.legend()
+    # ax2.legend()
+    # ax3.legend()
+    # ax4.legend()
     pl.tight_layout()
     fig.subplots_adjust(hspace=0)
 
@@ -255,13 +220,15 @@ def main():
         if '$' in i.get_label():
             i.set_alpha(0.3)
 
+    xl = ax1.get_ylim()[1] - ax1.get_ylim()[0]
+
     for p in range(len(linelist)):
          xcoord = linelist[p]
          mask = (wl > xcoord - 1) & (wl < xcoord + 1)
          y_val = np.mean(wmean_cont[mask])
-         # print(y_val)
+         print((y_val/np.log10(xl)))
 
-         ax1.axvline(x=xcoord, ymax=np.log10(y_val)/np.log10(500),  color='black',linestyle='dashed', lw=0.75, alpha=0.75)
+         ax1.vlines(xcoord, ax1.get_ylim()[0], y_val, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
          ax2.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
          ax3.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
          ax4.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
@@ -273,6 +240,7 @@ def main():
 
     # fig = pl.gcf()
     # fig.set_size_inches(10,10)
+    latexify(fig_width=x_size, fig_height=y_size)
     fig.savefig("../documents/figs/Combined.pdf")
     pl.show()
 

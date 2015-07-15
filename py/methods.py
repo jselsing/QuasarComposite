@@ -208,6 +208,118 @@ def common_wavelength(wlarr_old, wlarr_new, fluxarr_old, fill_value = 0.):
     return fluxarr_new
 
 
+import matplotlib
+from math import sqrt
+SPINE_COLOR = 'gray'
+
+def latexify(fig_width=None, fig_height=None, columns=1):
+    """Set up matplotlib's RC params for LaTeX plotting.
+    Call this before plotting a figure.
+
+    Parameters
+    ----------
+    fig_width : float, optional, inches
+    fig_height : float,  optional, inches
+    columns : {1, 2}
+    """
+
+    # code adapted from http://www.scipy.org/Cookbook/Matplotlib/LaTeX_Examples
+
+    # Width and max height in inches for IEEE journals taken from
+    # computer.org/cms/Computer.org/Journal%20templates/transactions_art_guide.pdf
+
+    assert(columns in [1,2])
+
+    if fig_width is None:
+        fig_width = 3.39 if columns==1 else 6.9 # width in inches
+
+    if fig_height is None:
+        golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
+        fig_height = fig_width*golden_mean # height in inches
+
+    MAX_HEIGHT_INCHES = 8.0
+    if fig_height > MAX_HEIGHT_INCHES:
+        print("WARNING: fig_height too large:" + str(fig_height) +
+              "so will reduce to " + str(MAX_HEIGHT_INCHES) + "inches.")
+        fig_height = MAX_HEIGHT_INCHES
+    size = 16
+    params = {'backend': 'Qt4Agg',
+              'text.latex.preamble': ['\usepackage{gensymb}'],
+              'axes.labelsize': size, # fontsize for x and y labels (was 10)
+              'axes.titlesize': size,
+              'font.size': size, # was 10
+              'legend.fontsize': size, # was 10
+              'xtick.labelsize': size,
+              'ytick.labelsize': size,
+              # 'text.usetex': True,
+              'figure.figsize': [fig_width,fig_height],
+              'font.family': 'serif'
+    }
+
+    matplotlib.rcParams.update(params)
+
+
+def format_axes(ax):
+
+    for spine in ['top', 'right']:
+        ax.spines[spine].set_visible(True)
+
+    for spine in ['left', 'bottom', 'top', 'right']:
+        ax.spines[spine].set_color(SPINE_COLOR)
+        ax.spines[spine].set_linewidth(0.5)
+
+    ax.xaxis.set_ticks_position('bottom')
+    ax.yaxis.set_ticks_position('left')
+
+    for axis in [ax.xaxis, ax.yaxis]:
+        axis.set_tick_params(direction='out', color=SPINE_COLOR)
+
+    return ax
+
+
+from gen_methods import medfilt, smooth
+def hist(rawData,xRange,nBins=10,mode='lin'):
+
+    """histogram using linear binning of supplied data
+
+    Input:
+    rawData	-- list containing data to be binned
+    xRange  -- lower(incl)/upper(excl) boundary for numerical values
+    nBin    -- desired number of bins (default =10)
+    mode	-- binning type (possible choices: lin, log)
+
+    Returns: (nothing)
+    """
+    from math   import sqrt,floor,log,exp
+    h = [0]*nBins
+    xMin=float(xRange[0])
+    xMax=float(xRange[1])
+
+    if mode == 'lin':
+        dx = (xMax-xMin)/nBins
+        def binId(val):   return int(floor((val-xMin)/dx))
+        def bdry(bin):	  return xMin+bin*dx, xMin+(bin+1)*dx
+        def GErr(q,n,dx): return sqrt(q*(1-q)/(N-1))/dx
+
+    elif mode == 'log':
+        dx = log(xMax/xMin)/nBins
+        def binId(val):   return int(floor(log(val/xMin)/dx))
+        def bdry(bin):	  return xMin*exp(bin*dx), xMin*exp((bin+1)*dx)
+        def GErr(q,n,dx): return "##"
+
+    for value in rawData:
+        if 0<=binId(value)<nBins:
+          h[binId(value)] += 1
+
+    N=sum(h)
+    binned = []
+    for bin in range(nBins):
+        hRel   = float(h[bin])/N
+        low,up = bdry(bin)
+        binned.append(low)
+        width  = up-low
+        # print(low, up, hRel/width, GErr(hRel,N,width))
+    return binned
 
 
 

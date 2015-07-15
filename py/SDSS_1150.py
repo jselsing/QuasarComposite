@@ -145,7 +145,7 @@ def main():
 
 
     # Load linelist
-    fit_line_positions = np.genfromtxt('fitlinelist.txt', dtype=None)
+    fit_line_positions = np.genfromtxt('data/fitlinelist.txt', dtype=None)
     linelist = []
     for n in fit_line_positions:
         linelist.append(n[1])
@@ -199,99 +199,109 @@ def main():
 
     #Fit
     import scipy.optimize as op
-    best_vals, covar = op.curve_fit(model2, wl_fit, flux_fit - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
-    print(best_vals)
-    z_op = best_vals[-1]
-    print("""Curve_fit results:
-        Redshift = {0} +- {1} (SDSS: {2} +- {3})
-    """.format(z_op, np.sqrt(covar[-1,-1]), z_sdss, z_sdss_err))
+    np.random.seed(12345)
+    y_op = []
+    vals = []
+    for i in np.arange(10000):
+        print('Iteration: ', i)
+        resampled_spec = np.random.normal(flux_fit, fluxerr_fit)
+
+        cont, chebfit = continuum_fit(wl_fit, resampled_spec, fluxerr_fit, edge_mask_len=20)
+        chebfitval = chebyshev.chebval(wl, chebfit)
+
+        best_vals, covar = op.curve_fit(model2, wl_fit, resampled_spec - cont, sigma=fluxerr_fit, absolute_sigma=True, p0=init_vals)
+        vals.append(best_vals)
 
 
-    #Calculate best fit values + confidence values
-    y_op = model2(wl_fit, *best_vals) + cont
-    best_vals[2] = z_sdss
-    y_sdss = model2(wl_fit, *best_vals) + cont
+    up = (np.percentile(vals, 84, axis = 0)[2] - np.mean(vals, axis = 0)[2])
+    down = (np.percentile(vals, 16, axis = 0)[2] - np.mean(vals, axis = 0)[2])
 
-    from methods import ConfInt
-    # y_op_lower, y_op_upper = ConfInt(wl_fit, model2, best_vals, covar, [16,84]) + cont
-
-
-    #Overplot lines
-    fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
-    linelist = []
-    for n in fit_line_positions:
-        linelist.append(n[1])
-    linelist = np.array(linelist)
-
-    # print((1+z_op)*linelist[1])
-    mask = (wl_out < (1+z_op)*linelist[1])
-    wave = wl_out[mask]
-    flux = flux_out[mask]
-    import continuum_mark.interactive
-    normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
-    normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
-
-    normalise.run()
-    pl.show()
-    cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
-
-
-
-
-    pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')
-    pl.plot(wl_out, err_out, color = 'black', lw = 0.2)
-    #pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
-    #pl.plot(wl_fit, y_fit_guess)
-    pl.plot(wl_fit, y_op, 'r-')
-    pl.plot(wl_fit, y_sdss, 'b-')
-    pl.plot(wl_fit, fluxerr_fit)
-
-    # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
-    pl.xlim((14000, 15300))
-    pl.ylim((1e-17, 5e-16))
-    pl.show()
-    flag = 1
-
-
-    from astroquery.irsa_dust import IrsaDust
-    import astropy.coordinates as coord
-    import astropy.units as u
-    C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
-    dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
-    ebv = np.mean(dust_image[0].data)
-    print(ebv)
 
 
     v_bary = ob[0].header['HIERARCH ESO QC VRAD BARYCOR']
     c_km = (2.99792458e8/1000.0)
+
     print("""Curve_fit results:
-        Redshift = {0} +- {1} (SDSS: {2} +- {3})
-    """.format(z_op + v_bary /c_km, np.sqrt(covar[-1,-1]), z_sdss, z_sdss_err))
+        Redshift = {0} + {1} - {2} (SDSS: {3} +- {4})
+    """.format(np.mean(vals, axis = 0)[2] + v_bary /c_km, up, down, z_sdss, z_sdss_err))
 
 
-
-    #Saving to .dat file
-    dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
-          ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
-    data = np.array(zip(wl_out, flux_uncorr_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
-    file_name = "Telluric_uncorrected_science"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
-
-
-
-    #Saving to .dat file
-    dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
-          ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
-    data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
-    file_name = "Telluric_corrected_science"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
-
-
-    #Saving to .dat file
-    dt = [("z_op", np.float64), ("z_sdss", np.float64), ("flag", np.float64), ("ebv", np.float64)]
-    data = np.array(zip([z_op], [z_sdss], [flag], [ebv]), dtype=dt)
-    file_name = "Object_info"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="z_op z_sdss flag ebv ") #, fmt = ['%5.1f', '%2.15E'] )
+    # #Overplot lines
+    # fit_line_positions = np.genfromtxt('plotlinelist.txt', dtype=None)
+    # linelist = []
+    # for n in fit_line_positions:
+    #     linelist.append(n[1])
+    # linelist = np.array(linelist)
+    #
+    # # print((1+z_op)*linelist[1])
+    # mask = (wl_out < (1+z_op)*linelist[1])
+    # wave = wl_out[mask]
+    # flux = flux_out[mask]
+    # import continuum_mark.interactive
+    # normalise = continuum_mark.interactive.continuum_mark(wl_out[mask], flux_out[mask], err_out[mask])
+    # normalise.endpoint = 'n' #str(raw_input('Insert endpoint before interpolation(y/n)? '))
+    #
+    # normalise.run()
+    # pl.show()
+    # cont_out = np.concatenate([normalise.continuum,flux_out[~mask]])
+    #
+    #
+    #
+    #
+    # pl.plot(wl_out, flux_out , color = 'black', lw = 0.2, linestyle = 'steps-mid')
+    # pl.plot(wl_out, err_out, color = 'black', lw = 0.2)
+    pl.plot(wl_fit,flux_fit, color = 'green', lw = 1.0, alpha = 0.5)
+    #pl.plot(wl_fit, y_fit_guess)
+    pl.plot(wl_fit, y_op, 'r-')
+    # pl.plot(wl_fit, y_sdss, 'b-')
+    # pl.plot(wl_fit, fluxerr_fit)
+    #
+    # # pl.fill_between(wl_fit, y_op_lower, y_op_upper, color= 'red', alpha = 0.2)
+    # pl.xlim((14000, 15300))
+    # pl.ylim((1e-17, 5e-16))
+    pl.show()
+    # flag = 1
+    #
+    #
+    # from astroquery.irsa_dust import IrsaDust
+    # import astropy.coordinates as coord
+    # import astropy.units as u
+    # C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
+    # dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
+    # ebv = np.mean(dust_image[0].data)
+    # print(ebv)
+    #
+    #
+    # v_bary = ob[0].header['HIERARCH ESO QC VRAD BARYCOR']
+    # c_km = (2.99792458e8/1000.0)
+    # print("""Curve_fit results:
+    #     Redshift = {0} +- {1} (SDSS: {2} +- {3})
+    # """.format(z_op + v_bary /c_km, np.sqrt(covar[-1,-1]), z_sdss, z_sdss_err))
+    #
+    #
+    #
+    # #Saving to .dat file
+    # dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
+    #       ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
+    # data = np.array(zip(wl_out, flux_uncorr_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
+    # file_name = "Telluric_uncorrected_science"
+    # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
+    #
+    #
+    #
+    # #Saving to .dat file
+    # dt = [("wl", np.float64), ("flux", np.float64), ("error", np.float64), ("bp map", np.float64),
+    #       ("wl_sdss", np.float64), ("flux_sdss", np.float64) , ("flux_cont", np.float64) ]
+    # data = np.array(zip(wl_out, flux_out, err_out, bp_map, wl_sdss, flux_sdss, cont_out), dtype=dt)
+    # file_name = "Telluric_corrected_science"
+    # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl flux fluxerror bp_map wl_sdss flux_sdss cont")#, fmt = ['%5.1f', '%2.15E'] )
+    #
+    #
+    # #Saving to .dat file
+    # dt = [("z_op", np.float64), ("z_sdss", np.float64), ("flag", np.float64), ("ebv", np.float64)]
+    # data = np.array(zip([z_op], [z_sdss], [flag], [ebv]), dtype=dt)
+    # file_name = "Object_info"
+    # np.savetxt(root_dir+"/"+file_name+".dat", data, header="z_op z_sdss flag ebv ") #, fmt = ['%5.1f', '%2.15E'] )
 
 
 

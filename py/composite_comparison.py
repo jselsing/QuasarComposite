@@ -174,6 +174,14 @@ if __name__ == '__main__':
     norm_reg2 = (wave > 3850) & (wave < 3875)
     norm2 = np.median(flux[norm_reg2])
 
+
+    # msk = (wave <  13000)
+    # wave[msk] = smooth(wave[msk], window='hanninh', window_len=10)
+    # flux[msk] = smooth(flux[msk], window='hanning', window_len=20)
+    # err[msk] = err[msk]
+
+
+
     nbins = len(wave)
     log_binned_wl = np.array(hist(wave,[min(wave),max(wave)], int(2*nbins),'log'))
     from scipy.interpolate import InterpolatedUnivariateSpline
@@ -183,10 +191,6 @@ if __name__ == '__main__':
     err = medfilt(sps(log_binned_wl) , 9)
     wave = log_binned_wl
 
-    # msk = (wave <  13000)
-    # wave = wave[msk]
-    # flux = flux[msk]
-    # err = err[msk]
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label='This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
@@ -316,7 +320,7 @@ if __name__ == '__main__':
 
 
 
-    ax.set_xlim((300, 15000))
+    ax.set_xlim((300, 13000))
     ax.set_ylim((0.1, 30))
 
     ax2.set_xlim((700, 1400))

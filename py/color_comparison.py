@@ -319,7 +319,7 @@ def load_sdss_dr12(path):
 
     # ax.set_xlabel(r"M$_i$(z=2)")
     ax.set_xlabel(r"z")
-    ax.set_ylabel("g - i")
+    ax.set_ylabel(r"\textit{g - i}")
 
 
 

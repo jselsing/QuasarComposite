@@ -58,15 +58,17 @@ def main():
 
 
     # TODO Is there a better way to import the txt files?
+    for i in sdssobjects:
+        print(np.shape(np.genfromtxt(i)))
     sdss_data_files = np.array([np.genfromtxt(i) for i in sdssobjects])
 
-    # wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    # wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    # flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    # fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    # bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
-    # flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
-    # n_obj = len(obj_list)
+    wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
+    flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    bp_map = np.array([sdss_data_files[i][:,3] for i in range(len(sdssobjects))])
+    flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    n_obj = len(obj_list)
 
 
     # wl = np.array([(sdss_data_files[i][:,0] ) for i in range(len(sdssobjects))])
@@ -104,8 +106,8 @@ def main():
     pow_slope = []
     indi_pow = []
     # norm_reg = [1420, 3000, 4000, 5600, 6800]
-    norm_reg = np.arange(1420, 8000, 500)
-    # norm_reg = [6800]
+    # norm_reg = np.arange(1420, 8000, 500)
+    norm_reg = [6800]
     # print(norm_reg)
     for mask_ran in norm_reg:
         flux_0 = flux.copy()
@@ -374,6 +376,7 @@ def main():
             norm = np.median(flux_new[n][mask])
             flux_new[n] /= norm
             flux_cont_new[n] /= norm
+            print(flux_cont_new)
             fluxerr_new[n] /= norm
 
             # flux_cont_new[np.where(flux_cont_new == np.NaN)] = 1

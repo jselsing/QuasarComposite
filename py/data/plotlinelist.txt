@@ -23,7 +23,7 @@ $\mathrm{H\gamma}$     4341.68
 
 $\mathrm{H\beta}$      4862.68
 
-#$\mathrm{[OIII]}$       4960.30 
+$\mathrm{[OIII]}$       4960.30 
 $\mathrm{[OIII]}$       5008.24 
 
 
