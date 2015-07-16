@@ -543,6 +543,10 @@ def main():
         #                                           sigma=errofmean[mask], absolute_sigma=True, maxfev = 2000)
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess, maxfev = 2000)
         popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
+
+
+
+
         print("""Composite fit slope geo...{0} +- {1}""".format(popt_geo[1], np.diag(pcov_geo)[1]))
         print("""Composite fit slope wmean...{0} +- {1}""".format(popt_wmean[1], np.diag(pcov_wmean)[1]))
         print("""Composite fit slope mean...{0} +- {1}""".format(popt_mean[1], np.diag(pcov_mean)[1]))
