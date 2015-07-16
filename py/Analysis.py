@@ -100,39 +100,76 @@ def main():
     #Fit
     np.random.seed(12345)
     mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
-    err = ((wmean_cont*std)[std != 0])[mask]
 
-    for i in np.arange(100):
+
+    for i in np.arange(10000):
         print('Iteration: ', i)
         # print((wmean_cont*std)[std != 0])
 
-        resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err_wmean[mask]**2 + err**2))
+
+        # err = ((wmean_cont*std)[std != 0])[mask]
+        # resampled_spec = np.random.normal((wmean_cont)[mask], err)
+        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+        #                                             sigma=err, absolute_sigma=True)
+        # wm.append(popt_wmean)
+        #
+        # err = ((mean*std)[std != 0])[mask]
+        # resampled_spec = np.random.normal((mean)[mask], err)
+        # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+        #                                             sigma=err, absolute_sigma=True)
+        # m.append(popt_mean)
+        #
+        # err = ((median*std)[std != 0])[mask]
+        # resampled_spec = np.random.normal((median[std != 0])[mask], err)
+        # popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+        #                                             sigma=err, absolute_sigma=True)
+        #
+        # med.append(popt_median)
+        #
+        #
+        # err = ((geo_mean*std)[std != 0])[mask]
+        # resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
+        # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+        #                                             sigma=err, absolute_sigma=True)
+        #
+        #
+        # geo.append(popt_geo)
+
+
+
+
+
+
+
+        err = ((wmean_cont*std)[std != 0])[mask]
+        resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
         popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=np.sqrt(err_wmean[mask]**2 + err**2), absolute_sigma=True, maxfev = 1000)
+                                                    sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True)
         wm.append(popt_wmean)
 
-
-        resampled_spec = np.random.normal((mean)[mask], err_mean[mask])
+        err = ((mean*std)[std != 0])[mask]
+        resampled_spec = np.random.normal((mean)[mask], np.sqrt(err**2 + err_mean[mask]**2))
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=err_mean[mask], absolute_sigma=True, maxfev = 1000)
+                                                    sigma=np.sqrt(err**2 + err_mean[mask]**2), absolute_sigma=True)
         m.append(popt_mean)
 
-
+        err = ((median*std)[std != 0])[mask]
         resampled_spec = np.random.normal((median[std != 0])[mask], err)
-        popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess)#,
-                                                    # sigma=err, absolute_sigma=True, maxfev = 1000)
+        popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+                                                    sigma=err, absolute_sigma=True)
 
         med.append(popt_median)
 
+
+        err = ((geo_mean*std)[std != 0])[mask]
         resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
-        popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess)#,
-                                                    # sigma=err, absolute_sigma=True, maxfev = 1000)
+        popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+                                                    sigma=err, absolute_sigma=True)
 
 
         geo.append(popt_geo)
 
 
-        # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
     # print(np.mean(wm, axis=0)[1])
     # print(np.std(wm, axis=0)[1])
     #
