@@ -153,12 +153,12 @@ def main():
     # fig, ax = pl.subplots(1, figsize=(12, 4))
 
     ax.plot(wl, medfilt(wmean_cont, 5),
-            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite')
+            lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite', color=cmap[1])
 
     ax.plot(wl, power_law(wl, *popt),
-            linestyle='dashed', label ='Pure power law fit')
-    ax.plot(wl, power_law2(wl, *popt2),
-            linestyle='dashed', label ='Broken power law fit')
+            linestyle='dashed', label ='Pure power law fit', color=cmap[2])
+    # ax.plot(wl, power_law2(wl, *popt2),
+    #         linestyle='dashed', label ='Broken power law fit', color=cmap[3])
 
     sdss_compo = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_compo.dat')
     sdss_wl = sdss_compo[:,0]
@@ -173,7 +173,7 @@ def main():
 
 
     ax.plot(sdss_wl, sdss_flux * (norm1/norm2),
-            linestyle='solid', label ='Full sample SDSS composite')
+            linestyle='solid', label ='Full sample SDSS composite', color=cmap[0])
 
 
     #Overplot lines

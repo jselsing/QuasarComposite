@@ -146,7 +146,7 @@ if __name__ == '__main__':
     ax.errorbar(wl, medfilt(flux, 3)/norm, yerr=fluxerror/norm, fmt='o', marker='o', capsize=1.5, ms=1, mew=0.5, color='black', elinewidth=0.3, alpha=0.2)
 
 
-    ax.plot(wl_fit, y_op/norm, lw=2, color = cmap[2])
+    ax.plot(wl_fit, y_op/norm, lw=1, color = cmap[2])
     ax.fill_between(wl_fit, y_op_lower/norm, y_op_upper/norm, alpha = 0.5, color = cmap[2])
 
 
@@ -155,7 +155,7 @@ if __name__ == '__main__':
     ax.set_xlim((4700, 5100))
     ax.set_ylim((5e-16, 9e-16))
     ax.set_xlabel(r'Restframe Wavelength [$\AA$]')
-    ax.set_ylabel(r'Flux [erg s$^{-1}$ cm$^{-1}$ $\AA^{-1}$]')
+    ax.set_ylabel(r'Flux density [erg s$^{-1}$ cm$^{-1}$ $\AA^{-1}$]')
     format_axes(ax)
 
 
