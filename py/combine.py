@@ -86,13 +86,13 @@ def main():
 
 
 
-    wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
-    flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
-    bp_map = np.array([sdss_data_files[i][:,3]  for i in range(len(sdssobjects))])
-    flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
-    n_obj = len(obj_list)
+    # wl = np.array([(sdss_data_files[i][:,0] / (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # wl_obs = np.array([sdss_data_files[i][:,0] for i in range(len(sdssobjects))])
+    # flux = np.array([(sdss_data_files[i][:,1] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # fluxerr = np.array([(sdss_data_files[i][:,2] * (1 + redshifts[i])) for i in range(len(sdssobjects))])
+    # bp_map = np.array([sdss_data_files[i][:,3]  for i in range(len(sdssobjects))])
+    # flux_cont = np.array([sdss_data_files[i][:,6] * (1 + redshifts[i]) for i in range(len(sdssobjects))])
+    # n_obj = len(obj_list)
 
 
 
@@ -332,7 +332,7 @@ def main():
         print('g-i', np.array(g_mag) - np.array(i_mag))
         # break
 
-
+        # exit()
 
 
         wl_new_shift = wl_new * (1+2)
@@ -472,7 +472,9 @@ def main():
                 #     print(i)
 
 
-                std[i] = np.std(k[mask] / std_norm.transpose()[i][mask])
+                std[i] = np.std(k[mask] - std_norm.transpose()[i][mask])
+                # std[i] = np.std(k[mask])# / wmean_cont[i])
+
 
             elif len(k[mask]) == 0:
 
@@ -661,12 +663,16 @@ def main():
     # data = np.array(zip(wl_new, wmean), dtype=dt)
     # file_name = "XSH-Composite_7500"
     # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
+    # wmean_cont = wmean_cont[wl_new < 11000]
+    # errofwmean = errofwmean[wl_new < 11000]
+    # wl_new = wl_new[wl_new < 11000]
+
 
     #Saving to .dat file
     dt = [("wl", np.float64), ("wmean_cont", np.float64), ("wmean_cont_error", np.float64) ]
     data = np.array(zip(wl_new, wmean_cont, errofwmean), dtype=dt)
     file_name = "data/templates/Selsing2015.dat"
-    np.savetxt(file_name, data, header="wl wmean ewmean")#, fmt = ['%5.1f', '%2.15E'] )
+    np.savetxt(file_name, data, header="wl wmean ewmean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
 
 if __name__ == '__main__':
     main()

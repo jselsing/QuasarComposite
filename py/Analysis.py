@@ -92,255 +92,108 @@ def main():
 
 
 
-    wl_new = wl
-    wm = []
-    m = []
-    geo = []
-    med = []
-    #Fit
-    np.random.seed(12345)
-    mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
-
-
-    for i in np.arange(10000):
-        print('Iteration: ', i)
-        # print((wmean_cont*std)[std != 0])
-
-
-        # err = ((wmean_cont*std)[std != 0])[mask]
-        # resampled_spec = np.random.normal((wmean_cont)[mask], err)
-        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-        #                                             sigma=err, absolute_sigma=True)
-        # wm.append(popt_wmean)
-        #
-        # err = ((mean*std)[std != 0])[mask]
-        # resampled_spec = np.random.normal((mean)[mask], err)
-        # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-        #                                             sigma=err, absolute_sigma=True)
-        # m.append(popt_mean)
-        #
-        # err = ((median*std)[std != 0])[mask]
-        # resampled_spec = np.random.normal((median[std != 0])[mask], err)
-        # popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-        #                                             sigma=err, absolute_sigma=True)
-        #
-        # med.append(popt_median)
-        #
-        #
-        # err = ((geo_mean*std)[std != 0])[mask]
-        # resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
-        # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-        #                                             sigma=err, absolute_sigma=True)
-        #
-        #
-        # geo.append(popt_geo)
-
-
-
-
-
-
-
-        err = ((wmean_cont*std)[std != 0])[mask]
-        resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
-        popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True)
-        wm.append(popt_wmean)
-
-        err = ((mean*std)[std != 0])[mask]
-        resampled_spec = np.random.normal((mean)[mask], np.sqrt(err**2 + err_mean[mask]**2))
-        popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=np.sqrt(err**2 + err_mean[mask]**2), absolute_sigma=True)
-        m.append(popt_mean)
-
-        err = ((median*std)[std != 0])[mask]
-        resampled_spec = np.random.normal((median[std != 0])[mask], err)
-        popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=err, absolute_sigma=True)
-
-        med.append(popt_median)
-
-
-        err = ((geo_mean*std)[std != 0])[mask]
-        resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
-        popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=err, absolute_sigma=True)
-
-
-        geo.append(popt_geo)
-
-
-    # print(np.mean(wm, axis=0)[1])
-    # print(np.std(wm, axis=0)[1])
+    # wl_new = wl
+    # wm = []
+    # m = []
+    # geo = []
+    # med = []
+    # #Fit
+    # np.random.seed(12345)
+    # mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
     #
-    # print(np.mean(m, axis=0)[1])
-    # print(np.std(m, axis=0)[1])
-
-
-    # popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
-    # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
-
-
-
-    print("""Composite fit slope wmean...{0} +- {1}""".format(np.mean(wm, axis=0)[1],np.std(wm, axis=0)[1]))
-    print("""Composite fit slope mean...{0} +- {1}""".format(np.mean(m, axis=0)[1], np.std(m, axis=0)[1]))
-    print("""Composite fit slope median...{0} +- {1}""".format(np.mean(med, axis=0)[1], np.std(med, axis=0)[1]))
-    print("""Composite fit slope geo...{0} +- {1}""".format(np.mean(geo, axis=0)[1], np.std(geo, axis=0)[1]))
-
-
-
+    #
+    # for i in np.arange(10000):
+    #     print('Iteration: ', i)
+    #     # print((wmean_cont*std)[std != 0])
+    #
+    #
+    #     # err = ((wmean_cont*std)[std != 0])[mask]
+    #     # resampled_spec = np.random.normal((wmean_cont)[mask], err)
+    #     # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #     #                                             sigma=err, absolute_sigma=True)
+    #     # wm.append(popt_wmean)
+    #     #
+    #     # err = ((mean*std)[std != 0])[mask]
+    #     # resampled_spec = np.random.normal((mean)[mask], err)
+    #     # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #     #                                             sigma=err, absolute_sigma=True)
+    #     # m.append(popt_mean)
+    #     #
+    #     # err = ((median*std)[std != 0])[mask]
+    #     # resampled_spec = np.random.normal((median[std != 0])[mask], err)
+    #     # popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #     #                                             sigma=err, absolute_sigma=True)
+    #     #
+    #     # med.append(popt_median)
+    #     #
+    #     #
+    #     # err = ((geo_mean*std)[std != 0])[mask]
+    #     # resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
+    #     # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #     #                                             sigma=err, absolute_sigma=True)
+    #     #
+    #     #
+    #     # geo.append(popt_geo)
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #     err = ((wmean_cont*std)[std != 0])[mask]
+    #     resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
+    #     popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #                                                 sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True)
+    #     wm.append(popt_wmean)
+    #
+    #     err = ((mean*std)[std != 0])[mask]
+    #     resampled_spec = np.random.normal((mean)[mask], np.sqrt(err**2 + err_mean[mask]**2))
+    #     popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #                                                 sigma=np.sqrt(err**2 + err_mean[mask]**2), absolute_sigma=True)
+    #     m.append(popt_mean)
+    #
+    #     err = ((median*std)[std != 0])[mask]
+    #     resampled_spec = np.random.normal((median[std != 0])[mask], err)
+    #     popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #                                                 sigma=err, absolute_sigma=True)
+    #
+    #     med.append(popt_median)
+    #
+    #
+    #     err = ((geo_mean*std)[std != 0])[mask]
+    #     resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
+    #     popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
+    #                                                 sigma=err, absolute_sigma=True)
+    #
+    #
+    #     geo.append(popt_geo)
+    #
+    #
+    # # print(np.mean(wm, axis=0)[1])
+    # # print(np.std(wm, axis=0)[1])
+    # #
+    # # print(np.mean(m, axis=0)[1])
+    # # print(np.std(m, axis=0)[1])
+    #
+    #
+    # # popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
+    # # popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
+    #
+    #
+    #
+    # print("""Composite fit slope wmean...{0} +- {1}""".format(np.mean(wm, axis=0)[1],np.std(wm, axis=0)[1]))
+    # print("""Composite fit slope mean...{0} +- {1}""".format(np.mean(m, axis=0)[1], np.std(m, axis=0)[1]))
+    # print("""Composite fit slope median...{0} +- {1}""".format(np.mean(med, axis=0)[1], np.std(med, axis=0)[1]))
+    # print("""Composite fit slope geo...{0} +- {1}""".format(np.mean(geo, axis=0)[1], np.std(geo, axis=0)[1]))
 
 
 
 
+
+
+
     #
-    # #Plotting
-    # ratio = (1.0 + np.sqrt(5.0))/2.0
-    # y_size = 12
-    # x_size = 12
-    #
-    # import matplotlib.gridspec as gridspec
-    #
-    # fig = pl.figure(figsize=(x_size, y_size))
-    #
-    # gs = gridspec.GridSpec(4, 1, height_ratios=[2,1,1,1])
-    #
-    # ax1 = pl.subplot(gs[0])
-    # ax2 = pl.subplot(gs[1])
-    # ax3 = pl.subplot(gs[2])
-    # ax4 = pl.subplot(gs[3])
-    #
-    # # fig, (ax1, ax2, ax3, ax4) = pl.subplots(ncols=1, nrows=4, sharex=True, figsize=(12, 12))
-    #
-    # #Plotting
-    # # ax1.plot(wl, power_law2(wl, *popt2) , 'b--')
-    # # ax1.plot(wl, power_law(wl, *popt) , 'b--')
-    # ax1.plot(wl, wmean_cont, lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
-    #
-    # nbins = len(wl)
-    # from methods import hist
-    # log_binned_wl = np.array(hist(wl,[min(wl),max(wl)], int(2*nbins),'log'))
-    # from scipy.interpolate import InterpolatedUnivariateSpline
-    # sps = InterpolatedUnivariateSpline(wl, std)
-    # std_plot = smooth(medfilt(sps(log_binned_wl) , 9), window='hanning', window_len=15)
-    # wave_std = log_binned_wl
-    #
-    # ax2.plot(wave_std, std_plot, lw = 0.5, linestyle = 'steps-mid', label='Normalised variance')
-    #
-    # ax3.plot(wl, wmean_cont/medfilt(err_wmean, 5), lw = 0.5, linestyle = 'steps-mid', label = 'Signal-to-noise')
-    #
-    #
-    # ax4.plot(wl,medfilt( n_spec, 151), label='Number of spectra')
-    #
-    #
-    #
-    #
-    #
-    # #Overplot lines
-    # fit_line_positions = np.genfromtxt('data/plotlinelist.txt', dtype=None)
-    #
-    # linelist = []
-    # linenames = []
-    # for n in fit_line_positions:
-    #     linelist.append(n[1])
-    #     linenames.append(n[0])
-    #
-    #
-    #
-    #
-    #
-    # pl.xlabel(r'Rest Wavelength  [$\AA$]')
-    # ax1.set_ylabel(r'Normalised flux density F_{\lambda}')
-    # ax2.set_ylabel(r'Normalised Variance')
-    #
-    # ax3.set_ylabel(r'S/N Ratio')
-    # ax4.set_ylabel(r'Number of spectra')
-    #
-    #
-    #
-    #
-    # ax1.semilogy()
-    # ax1.semilogx()
-    # ax1.set_xlim((1000, 11500 ))
-    # ax1.set_ylim((0.05, 500))
-    #
-    #
-    # ax2.semilogy()
-    # ax2.semilogx()
-    # ax2.set_xlim((1000, 11500 ))
-    # ax2.set_ylim((1e-2, 2.0))
-    #
-    # ax3.semilogx()
-    # ax3.set_xlim((1000, 11500 ))
-    #
-    # ax4.semilogx()
-    # ax4.set_xlim((1000, 11500 ))
-    # ax4.set_ylim((0, 9))
-    #
-    #
-    #
-    # # Formatting axes
-    # import matplotlib as mpl
-    #
-    # ax4.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax4.set_xticks([1000, 2000, 3000, 5000, 9000])
-    # # ax4.get_xaxis().tick_bottom()
-    # # ax4.xaxis.set_minor_locator(mpl.ticker.NullLocator())
-    # ax1.xaxis.set_major_locator(mpl.ticker.NullLocator())
-    # ax2.xaxis.set_major_locator(mpl.ticker.NullLocator())
-    # ax3.xaxis.set_major_locator(mpl.ticker.NullLocator())
-    #
-    #
-    # ax1.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax1.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200])
-    # ax2.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax2.set_yticks([0.02, 0.05, 0.1, 0.2, 0.5, 1])
-    # ax3.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax3.set_yticks([20, 40, 60, 80, 100])
-    # ax4.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax4.set_yticks([0, 1, 2, 3, 4, 5, 6, 7, 8])
-    #
-    #
-    #
-    #
-    # # ax1.legend()
-    # # ax2.legend()
-    # # ax3.legend()
-    # # ax4.legend()
-    # pl.tight_layout()
-    # fig.subplots_adjust(hspace=0)
-    #
-    # format_axes(ax1)
-    # format_axes(ax2)
-    # format_axes(ax3)
-    # format_axes(ax4)
-    #
-    #
-    #
-    # val = []
-    # for p in range(len(linelist)):
-    #     xcoord = linelist[p]
-    #     mask = (wl > xcoord - 1) & (wl < xcoord + 1)
-    #     y_val = np.mean(wmean_cont[mask])
-    #     val.append(1.5 * y_val)
-    # arrow_tips = val
-    # lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, arrow_tip=arrow_tips, ax=ax1)
-    # for i in ax1.lines:
-    #     if '$' in i.get_label():
-    #         i.set_alpha(0.3)
-    #
-    # xl = ax1.get_ylim()[1] - ax1.get_ylim()[0]
-    #
-    # for p in range(len(linelist)):
-    #      xcoord = linelist[p]
-    #      mask = (wl > xcoord - 1) & (wl < xcoord + 1)
-    #      y_val = np.mean(wmean_cont[mask])
-    #      print((y_val/np.log10(xl)))
-    #
-    #      ax1.vlines(xcoord, ax1.get_ylim()[0], y_val, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
-    #      ax2.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
-    #      ax3.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
-    #      ax4.axvline(x=xcoord, color='black',linestyle='das
     # #Plotting
     # ratio = (1.0 + np.sqrt(5.0))/2.0
     # y_size = 12
@@ -488,25 +341,179 @@ def main():
     #      ax2.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
     #      ax3.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
     #      ax4.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.75)
+
+
+    # Plotting
+    ratio = (1.0 + np.sqrt(5.0))/2.0
+    # y_size = 12
+    # x_size = 12
     #
-    #      # trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
-    #      # ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
-    #      # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
-    #
-    #
-    # # fig = pl.gcf()
-    # # fig.set_size_inches(10,10)
-    # latexify(fig_width=x_size, fig_height=y_size)
-    # fig.savefig("../documents/figs/Combined.pdf")
-    # pl.show()hed', lw=0.75, alpha=0.75)
-    #
-    #      # trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
-    #      # ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
-    #      # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
-    #
-    #
-    # # fig = pl.gcf()
-    # # fig.set_size_inches(10,10)
+    latexify(columns=2, fig_height=7)
+    import matplotlib.gridspec as gridspec
+
+    fig = pl.figure()
+
+    gs = gridspec.GridSpec(4, 1, height_ratios=[2,1,1,1])
+
+    ax1 = pl.subplot(gs[0])
+    ax2 = pl.subplot(gs[1])
+    ax3 = pl.subplot(gs[2])
+    ax4 = pl.subplot(gs[3])
+
+    # fig, (ax1, ax2, ax3, ax4) = pl.subplots(ncols=1, nrows=4, sharex=True, figsize=(12, 12))
+
+    #Plotting
+    # ax1.plot(wl, power_law2(wl, *popt2) , 'b--')
+    # ax1.plot(wl, power_law(wl, *popt) , 'b--')
+    ax1.plot(wl, wmean_cont, lw = 0.5, linestyle = 'steps-mid', label='X-shooter wmean composite')
+
+    nbins = len(wl)
+    from methods import hist
+    log_binned_wl = np.array(hist(wl,[min(wl),max(wl)], int(2*nbins),'log'))
+    from scipy.interpolate import InterpolatedUnivariateSpline
+    sps = InterpolatedUnivariateSpline(wl, std)
+    std_plot = smooth(medfilt(sps(log_binned_wl) , 9), window='hanning', window_len=15)
+    wave_std = log_binned_wl
+
+    ax2.plot(wave_std, std_plot, lw = 0.5, linestyle = 'steps-mid', label='Normalised variability')
+
+    ax3.plot(wl, wmean_cont/medfilt(err_wmean, 5), lw = 0.5, linestyle = 'steps-mid', label = 'Signal-to-noise')
+
+
+    ax4.plot(wl,medfilt( n_spec, 1), label='Number of spectra', lw=0.5)
+
+
+
+
+
+    #Overplot lines
+    fit_line_positions = np.genfromtxt('data/plotlinelist.txt', dtype=None)
+
+    linelist = []
+    linenames = []
+    for n in fit_line_positions:
+        linelist.append(n[1])
+        linenames.append(n[0])
+
+
+
+
+
+    pl.xlabel(r'Rest Wavelength  [$\AA$]')
+    ax1.set_ylabel(r'Normalised flux density F$_{\lambda}$')
+    ax2.set_ylabel(r'Normalised Variability  $\delta$F$_{\lambda}$')
+
+    ax3.set_ylabel(r'S/N Ratio')
+    ax4.set_ylabel(r'Number of spectra')
+
+
+
+
+    ax1.semilogy()
+    ax1.semilogx()
+    ax1.set_xlim((1000, 11500 ))
+    ax1.set_ylim((0.05, 500))
+
+
+    ax2.semilogy()
+    ax2.semilogx()
+    ax2.set_xlim((1000, 11500 ))
+    ax2.set_ylim((0.001, 90))
+
+    ax3.semilogx()
+    ax3.set_xlim((1000, 11500 ))
+
+    ax4.semilogx()
+    ax4.set_xlim((1000, 11500 ))
+    ax4.set_ylim((0, 9))
+
+
+
+    # Formatting axes
+    import matplotlib as mpl
+
+    ax4.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax4.set_xticks([1000, 2000, 3000, 5000, 9000])
+    # ax4.get_xaxis().tick_bottom()
+    # ax4.xaxis.set_minor_locator(mpl.ticker.NullLocator())
+    ax1.xaxis.set_major_locator(mpl.ticker.NullLocator())
+    ax2.xaxis.set_major_locator(mpl.ticker.NullLocator())
+    ax3.xaxis.set_major_locator(mpl.ticker.NullLocator())
+
+
+    ax1.yaxis.set_minor_locator(mpl.ticker.NullLocator())
+    ax2.yaxis.set_minor_locator(mpl.ticker.NullLocator())
+
+    ax1.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax1.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200])
+    ax2.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax2.set_yticks([0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30])
+    ax3.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax3.set_yticks([20, 40, 60, 80, 100])
+    ax4.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax4.set_yticks([0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+
+
+
+    # ax1.legend()
+    # ax2.legend()
+    # ax3.legend()
+    # ax4.legend()
+    pl.tight_layout()
+    fig.subplots_adjust(hspace=0)
+
+    format_axes(ax1)
+    format_axes(ax2)
+    format_axes(ax3)
+    format_axes(ax4)
+
+
+
+    val = []
+    for p in range(len(linelist)):
+        xcoord = linelist[p]
+        mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+        y_val = np.mean(wmean_cont[mask])
+        val.append(1.5 * y_val)
+    arrow_tips = val
+    lineid_plot.plot_line_ids(wl, wmean_cont, linelist, linenames, arrow_tip=arrow_tips, ax=ax1)
+    for i in ax1.lines:
+        if '$' in i.get_label():
+            i.set_alpha(0.3)
+            i.set_linewidth(0.75)
+
+    xl = ax1.get_ylim()[1] - ax1.get_ylim()[0]
+
+    for p in range(len(linelist)):
+         xcoord = linelist[p]
+         mask = (wl > xcoord - 1) & (wl < xcoord + 1)
+         y_val = np.mean(wmean_cont[mask])
+         print((y_val/np.log10(xl)))
+
+         ax1.vlines(xcoord, ax1.get_ylim()[0], y_val, color='black',linestyle='dashed', lw=0.75, alpha=0.3)
+         ax2.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.3)
+         ax3.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.3)
+         ax4.axvline(x=xcoord, color='black',linestyle='dashed', lw=0.75, alpha=0.3)
+
+         # trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
+         # ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
+         # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
+
+
+    # fig = pl.gcf()
+    # fig.set_size_inches(10,10)
+
+    fig.savefig("../documents/figs/Combined.pdf")
+    pl.show()
+
+         # trans = ax1.get_xaxis_transform() # x in data untis, y in axes fraction
+         # ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
+         # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
+
+
+    # fig = pl.gcf()
+    # fig.set_size_inches(10,10)
     # latexify(fig_width=x_size, fig_height=y_size)
     # fig.savefig("../documents/figs/Combined.pdf")
     # pl.show()

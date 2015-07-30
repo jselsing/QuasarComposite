@@ -104,8 +104,11 @@ def inter_arm_cut(wl_arr = [] ,flux_arr = [], fluxerr_arr=[], transmission_arr=[
 
 if __name__ == '__main__':
     ratio = (1.0 + np.sqrt(5.0))/2.0
-    latexify()
-    fig, ax = pl.subplots(figsize=(5*ratio, 5))
+    # latexify(figsize=(5*ratio, 5))
+    # latexify(fig_width=5*ratio, fig_height=5)
+    latexify(columns=1)
+    fig, ax = pl.subplots()
+
     # fig.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=0.95)
     # ax = fig.add_subplot(111)
 
@@ -199,6 +202,9 @@ if __name__ == '__main__':
                 ax.set_ylim((-1.5e-16, 6e-16))
 
 
+                import matplotlib as mpl
+                # ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+                ax.set_xticks([9000, 12000, 15000, 18000, 21000])
 
 
                 format_axes(ax)

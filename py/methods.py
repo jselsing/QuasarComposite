@@ -242,7 +242,7 @@ def latexify(fig_width=None, fig_height=None, columns=1):
         print("WARNING: fig_height too large:" + str(fig_height) +
               "so will reduce to " + str(MAX_HEIGHT_INCHES) + "inches.")
         fig_height = MAX_HEIGHT_INCHES
-    size = 16
+    size = 8
     params = {'backend': 'Qt4Agg',
               'text.latex.preamble': ['\usepackage{gensymb}'],
               'axes.labelsize': size, # fontsize for x and y labels (was 10)

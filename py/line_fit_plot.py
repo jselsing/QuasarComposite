@@ -15,6 +15,14 @@ rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 from methods import latexify, format_axes, gauss
 
+import numpy as np
+from gen_methods import medfilt, smooth
+import glob
+
+import matplotlib.pylab as pl
+import lineid_plot
+import seaborn as sns; sns.set_style('ticks')
+cmap = sns.color_palette("cubehelix", 4)
 # def model2(t, amp2, sig22g, z):
 #         tmp = gauss(t, abs(amp2), (1+z)*linelist[2], sig22g)
 #         return tmp
@@ -22,14 +30,7 @@ from methods import latexify, format_axes, gauss
 
 
 if __name__ == '__main__':
-    from astropy.io import fits
-    import numpy as np
-    import matplotlib.pylab as pl
-    import seaborn as sns; sns.set_style('ticks')
-    #cmap = sns.cubehelix_palette(n_colors=6, start=1, rot=0.2, gamma=1.0, hue=0.8, light=0.85, dark=0.15, reverse=True, as_cmap=False)
-    cmap = sns.color_palette("cubehelix", 4)
 
-    latexify()
 
 
     # datfile = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/SDSS0820+1306/Telluric_corrected_science.dat')
@@ -124,7 +125,7 @@ if __name__ == '__main__':
 
     print(np.mean(vals, axis = 0))
 
-    y_op_lower, y_op_upper = np.mean(y_op, axis=0) - np.std(y_op, axis=0), np.mean(y_op, axis=0) + np.std(y_op, axis=0)
+    y_op_lower, y_op_upper = np.mean(y_op, axis=0) - 2*np.std(y_op, axis=0), np.mean(y_op, axis=0) + 2*np.std(y_op, axis=0)
     y_op = np.mean(y_op, axis=0)
     # def autocorr(x):
     #     result = np.correlate(x, x, mode='full')
@@ -139,11 +140,15 @@ if __name__ == '__main__':
 
     #Plotting
     ratio = (1.0 + np.sqrt(5.0))/2.0
-    fig, ax = pl.subplots(figsize=(5*ratio, 5))
+    latexify()
+    fig, ax = pl.subplots()
+    # latexify(fig_width=4*ratio, fig_height=4, columns=1)
+    # latexify(columns=1)
+    # fig, ax = pl.subplots()
 
     from gen_methods import medfilt
     # ax.plot(wl, medfilt(flux, 3)/norm, drawstyle='steps-mid', lw = 0.5, alpha=0.5)
-    ax.errorbar(wl, medfilt(flux, 3)/norm, yerr=fluxerror/norm, fmt='o', marker='o', capsize=1.5, ms=1, mew=0.5, color='black', elinewidth=0.3, alpha=0.2)
+    ax.errorbar(wl, medfilt(flux, 3)/norm, yerr=fluxerror/norm, fmt='o', marker='o', capsize=0.75, ms=0.25, mew=0.25, color='black', elinewidth=0.15, alpha=0.2)
 
 
     ax.plot(wl_fit, y_op/norm, lw=1, color = cmap[2])
@@ -154,15 +159,18 @@ if __name__ == '__main__':
 
     ax.set_xlim((4700, 5100))
     ax.set_ylim((5e-16, 9e-16))
+
+
+
+
+    # ax.set_xticks([4750, 4850, 4950, 5050, 5150])
+    format_axes(ax)
     ax.set_xlabel(r'Restframe Wavelength [$\AA$]')
     ax.set_ylabel(r'Flux density [erg s$^{-1}$ cm$^{-1}$ $\AA^{-1}$]')
-    format_axes(ax)
-
-
-
-
-
-
+    pl.tight_layout()
+    import matplotlib as mpl
+    ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax.set_xticks([4700, 4800, 4900, 5000, 5100])
     #Overplot lines
     fit_line_positions = np.genfromtxt('data/lineplotlinelist.txt', dtype=None)
     import lineid_plot
@@ -180,9 +188,12 @@ if __name__ == '__main__':
     for i in ax.lines:
         if '$' in i.get_label():
             i.set_alpha(0.3)
+            i.set_linewidth(0.75)
+
+
+
 
     fig.tight_layout()
-
 
 
 
