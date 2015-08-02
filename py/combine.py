@@ -663,16 +663,16 @@ def main():
     # data = np.array(zip(wl_new, wmean), dtype=dt)
     # file_name = "XSH-Composite_7500"
     # np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
-    # wmean_cont = wmean_cont[wl_new < 11000]
-    # errofwmean = errofwmean[wl_new < 11000]
-    # wl_new = wl_new[wl_new < 11000]
+    wmean_cont = wmean_cont[wl_new < 11350]
+    errofwmean = errofwmean[wl_new < 11350]
+    wl_new = wl_new[wl_new < 11350]
 
 
     #Saving to .dat file
     dt = [("wl", np.float64), ("wmean_cont", np.float64), ("wmean_cont_error", np.float64) ]
     data = np.array(zip(wl_new, wmean_cont, errofwmean), dtype=dt)
     file_name = "data/templates/Selsing2015.dat"
-    np.savetxt(file_name, data, header="wl wmean ewmean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
+    np.savetxt(file_name, data, header="wl	weighted mean	error of weighted mean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
 
 if __name__ == '__main__':
     main()

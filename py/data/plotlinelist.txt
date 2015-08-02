@@ -2,7 +2,7 @@
 
 
 
-$\mathrm{Ly\beta}$      1025.72 
+#$\mathrm{Ly\beta}$      1025.72 
 $\mathrm{Ly\alpha}$     1215.67 
 #$\mathrm{NV}$           1240.14 
 

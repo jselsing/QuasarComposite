@@ -14,6 +14,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass{aa}    %% Astronomy & Astrophysics style class aa.cls v8.2
+%\documentclass[referee]{aa} 
 
 \usepackage{graphicx,url,twoopt,natbib}
 \usepackage[varg]{txfonts}           %% A&A font choice
@@ -134,7 +135,7 @@ Maries Vej 30, 2100 Copenhagen, Denmark. %\and
 % \abstract{}{}{}{}{} 
 % 5 {} token are mandatory
  
-\abstract{ Quasi-steller object (QSO) spectral templates are important both to QSO
+\abstract{Quasi-steller object (QSO) spectral templates are important both to QSO
   physics and for investigations that use QSOs as probes of
   intervening gas and dust. However, combinations of various QSO
   samples obtained at different times and with different instruments
@@ -534,8 +535,7 @@ $\lesssim 3\times 10^{-5}$, less than reported errors.
   \centering
   \includegraphics[width=0.99\columnwidth]{figs/LineFit.pdf}
   \caption[]{Gaussian fit of [OIII] $\lambda$5007. The red solid line is the
-linear-least-squared best fit and the thin shaded region around the best fit
-line is the 1$\sigma$ confidence interval. Grey dashed lines indicate the
+linear-least-squared best fit. Grey dashed lines indicate the
 position of neighboring lines at the redshift of [OIII].}
   \figlabel{linefit}
 \end{figure}
@@ -581,7 +581,7 @@ rest-frame.
 Since our spectra have significantly better resolution than the
 nominal values and the UVB and VIS arms have a sampling of $0.2$
 \AA/pix we will discard spectral information to make sure that we are
-not oversampling. We create a wavelength grid from 1000-11670 \AA~in
+not oversampling. We create a wavelength grid from 1000 -- 11350 \AA~in
 steps of 0.4 \AA, giving $\sim$ 16000 spectral elements. The input spectra are moved to the rest-frame
 by dividing the wavelengths with $(1 + z)$ and to conserve flux we
 multiply the flux density with a corresponding $(1 + z)$. The spectrum
@@ -790,7 +790,7 @@ paper.
  %===========================================================================
  \begin{figure*}[t!]
    \centering
-   \includegraphics[width=2.0\columnwidth]{figs/Combined.pdf}
+   \includegraphics[width=1.99\columnwidth]{figs/Combined.pdf}
    \caption[]{\textit{Top panel:} Composite spectrum with prominent emission
 lines marked. \textit{Upper middle panel:} Measure of intra-spectrum
 variability. The standard deviation of the constituent spectra as a function of
@@ -1058,7 +1058,7 @@ inferred will be the average amount over a large sample.
 %===========================================================================
 \begin{figure*}[t!]
 \centering
-\includegraphics[width=1.98\columnwidth]{figs/compo_full_sample.pdf}
+\includegraphics[width=1.99\columnwidth]{figs/compo_full_sample.pdf}
 \caption[]{X-shooter weighted arithmetic quasar composite on a linear wavelength
 scale in light brown. The position of several prominent emission lines are
 marked. Overplotted in dark green is the corresponding composite generated from

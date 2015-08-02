@@ -500,6 +500,11 @@ def main():
          # ann = pl.annotate(fit_line_positions[p,][0], xy=(xcoord, 1.05 ), fontsize='x-small', rotation = 90, xycoords=trans)
          # ax1.annotate(fit_line_positions[p,][0],xy=(xcoord, y_val * 2.0 ),fontsize='x-small', rotation = 90)
 
+    a = ax1.findobj(mpl.text.Annotation)
+    for i in a:
+        if '$' in i.get_label():
+            i.set_size(10)
+
 
     # fig = pl.gcf()
     # fig.set_size_inches(10,10)

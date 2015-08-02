@@ -175,6 +175,10 @@ def main():
     for i in ax.lines:
         if '$' in i.get_label():
             i.set_alpha(0.3)
+    a = ax.findobj(mpl.text.Annotation)
+    for i in a:
+        if '$' in i.get_label():
+            i.set_size(10)
 
 
     # a = ax.findobj(mpl.text.Annotation)

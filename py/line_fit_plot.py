@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     print(np.mean(vals, axis = 0))
 
-    y_op_lower, y_op_upper = np.mean(y_op, axis=0) - 2*np.std(y_op, axis=0), np.mean(y_op, axis=0) + 2*np.std(y_op, axis=0)
+    y_op_lower, y_op_upper = np.mean(y_op, axis=0) - np.std(y_op, axis=0), np.mean(y_op, axis=0) + np.std(y_op, axis=0)
     y_op = np.mean(y_op, axis=0)
     # def autocorr(x):
     #     result = np.correlate(x, x, mode='full')
@@ -171,6 +171,8 @@ if __name__ == '__main__':
     import matplotlib as mpl
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
     ax.set_xticks([4700, 4800, 4900, 5000, 5100])
+    # ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
+    ax.set_yticks([5e-16, 6e-16, 7e-16, 8e-16, 9e-16])
     #Overplot lines
     fit_line_positions = np.genfromtxt('data/lineplotlinelist.txt', dtype=None)
     import lineid_plot
@@ -191,7 +193,10 @@ if __name__ == '__main__':
             i.set_linewidth(0.75)
 
 
-
+    a = ax.findobj(mpl.text.Annotation)
+    for i in a:
+        if '$' in i.get_label():
+            i.set_size(8)
 
     fig.tight_layout()
 
