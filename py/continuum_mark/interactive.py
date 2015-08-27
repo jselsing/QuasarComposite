@@ -4,7 +4,7 @@
 from matplotlib import rc_file
 rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 import matplotlib.pyplot as plt
-from continuum_mark import methods
+import methods
 from pylab import pause
 from matplotlib.lines import Line2D
 import numpy as np
@@ -12,31 +12,9 @@ import numpy as np
 __all__ = ["continuum_mark"]
 
 
-def binning1d(array,bin):
-    
-    """
-    Used to bin low S/N 1D  response data from xshooter.
-    Calculates the biweighted mean (a la done in Kriek'10). 
-    Returns binned 1dimage
-    """
-#    ;--------------
-    s=len((array))
-    outsize=s/bin
-    res = np.zeros((outsize))
-    for i in np.arange(0,s-(bin+1),bin):
-             res[((i+bin)/bin-1)] = np.sum(array[i:i+bin])/bin
-    return res
-
-
-
-def f8(seq):
-    seen = set()
-    return np.array([i for i, x in enumerate(seq) if x not in seen and not seen.add(x)])
-
-
 class continuum_mark(object):
     """
-    A normalisation suite.
+    A continuum estimation suite.
 
     Key-bindings
     
@@ -49,12 +27,7 @@ class continuum_mark(object):
               1. sort the continuum-point-array according to the x-values
               2. fit a spline and evaluate it in the wavelength points
               3. plot the continuum
-      'n'
-          
-              Apply normalisation
-      'w'
-          
-              Write to file      
+
 
       'y'
           
@@ -67,17 +40,7 @@ class continuum_mark(object):
       'd'
           
               Delete point under mouse    
-              
-      't'
-          
-              Filter points by low-order chebyshev fitting and clipping values of high sigma iteratively until continuum is found        
-              
-      'm'
-            
-              Mask values (spectrum - continuum fit) > 2 sigma
 
-      'i'
-              Run through the process y-t-enter-mask until the median value of the realisations converge
     """
 
 
@@ -262,6 +225,8 @@ class continuum_mark(object):
                                self.ax, self.leg, self.con, endpoints = self.endpoint,
                                endpoint_order = self.endpoint_order)
             self.canvas.draw() 
+
+
 
 
         self.ax.relim()
