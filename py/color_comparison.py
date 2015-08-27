@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 from __future__ import division, print_function
 
-__all__ = ["Module Name"]
-__version__ = "0.0.0"
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
-
 
 from matplotlib import rc_file
 rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
@@ -166,111 +162,111 @@ def load_sdss_dr12(path):
     print(np.mean( r_obj -  r_obj_sdss), np.std( r_obj - r_obj_sdss))
     print(np.mean( i_obj -  i_obj_sdss), np.std( i_obj - i_obj_sdss))
     print(np.mean( z_obj -  z_obj_sdss), np.std( z_obj - z_obj_sdss))
-    # # pl.show()
-    # colors = ['z', 'g - i', 'i']
-    # gi = data['g'] - data['i']
-    #
-    #
-    #
-    # # data_color = np.array(zip(mi , gi))
-    # data_color = np.array(zip(z , gi, data['i']))
-    #
-    #
-    #
-    #
-    # # data_color = data_color[(np.logical_and(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5), data_color[:,0] < -28.0))]
-    # data_color = data_color[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
-    # # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
-    # data_color = data_color[(data_color[:,1] >= -5)]
-    # # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
-    #
-    # color_data = pd.DataFrame(data_color, columns=colors)
-    #
-    #
-    # # latexify()
-    # # Set up the subplot grid
-    # ratio = 5
-    # fig_width = 8
-    #
-    # golden_mean = (np.sqrt(5)-1.0)/2.0    # Aesthetic ratio
-    # fig_height = 1.0 * fig_width*golden_mean
-    #
-    #
-    #
-    # latexify(fig_width=fig_width, fig_height=fig_height)
-    # fig = pl.figure(figsize=(fig_width, fig_height))
-    # gs = pl.GridSpec(ratio + 1, ratio + 1)
-    #
-    # ax = fig.add_subplot(gs[1:, :-1])
-    # # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax)
-    # ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax)
-    #
-    # x = np.array(color_data['z'])
-    # y = np.array(color_data['g - i'])
-    # imag = np.array(color_data['i'])
-    #
-    #
-    # import triangle
-    #
-    # # print(np.mean(x), np.std(y))
-    # print(np.mean(x), np.std(x))
-    # # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
-    # # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
-    #
-    # # print(np.shape(data['i']))
-    # # print(np.shape(x))
-    #
-    # mask = (imag < 17.0) & ((1 < x) & (x < 2.3))
-    # # ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
-    # triangle.hist2d(x, y, bins=200, ax=ax, smooth=0.3)
-    # ax.scatter(x[mask] , y[mask] ,  marker='o', s=10, facecolor=cmap[1], lw = 0, cmap=cmap, alpha= 1.0)
-    # ax.scatter(zz_obj, g_obj - i_obj, s = 25, c=cmap[2], alpha = 1.0)
-    #
-    # format_axes(ax)
-    # format_axes(ax_marg_y)
-    # pl.setp(ax_marg_y.get_yticklabels(), visible=False)
-    # pl.setp(ax_marg_y.yaxis.get_majorticklines(), visible=False)
-    # pl.setp(ax_marg_y.yaxis.get_minorticklines(), visible=False)
-    # pl.setp(ax_marg_y.xaxis.get_majorticklines(), visible=False)
-    # pl.setp(ax_marg_y.xaxis.get_minorticklines(), visible=False)
-    # pl.setp(ax_marg_y.get_xticklabels(), visible=False)
-    # ax_marg_y.xaxis.grid(False)
-    # despine(ax=ax_marg_y, bottom=True)
-    # sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["black"], "gridsize": 200, "alpha": 0.2},
-    #              vertical=True, axlabel=False)
-    # sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": cmap[2], "alpha": 1.0},
-    #              vertical=True, axlabel=False)
-    # # sns.distplot(y[mask], hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 0.5, "color": cmap[1], "alpha": 0.3},
-    # #              vertical=True, axlabel=False)
-    # sns.distplot(y[mask], hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": cmap[1], "gridsize": 200, "alpha": 0.3},
-    #              vertical=True, axlabel=False)
-    # # sns.kdeplot(color_data, ax = ax, cmap='Greys', n_levels=50, norm=PowerNorm(gamma=0.3),
-    # #             shade=True, gridsize=100, linewidths = (0.5,), alpha=0.7)
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    # # ax.set_xlabel(r"M$_i$(z=2)")
-    # ax.set_xlabel(r"z")
-    # ax.set_ylabel(r"$g - i$")
-    #
-    #
-    #
-    # # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
-    # ax.set_xlim((0.0, 3.5))
-    # ax.set_ylim((-0.5, 1.0))
-    #
-    # format_axes(ax)
-    # fig.tight_layout()
-    # pl.savefig('../documents/figs/color_comparison2.pdf')
     # pl.show()
+    colors = ['z', 'g - i', 'i']
+    gi = data['g'] - data['i']
+
+
+
+    # data_color = np.array(zip(mi , gi))
+    data_color = np.array(zip(z , gi, data['i']))
+
+
+
+
+    # data_color = data_color[(np.logical_and(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5), data_color[:,0] < -28.0))]
+    data_color = data_color[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+    data_color = data_color[(data_color[:,1] >= -5)]
+    # data = data[(np.logical_and(data_color[:,0] > -40.0, data_color[:,1] >= -5))]
+
+    color_data = pd.DataFrame(data_color, columns=colors)
+
+
+    # latexify()
+    # Set up the subplot grid
+    ratio = 5
+    fig_width = 8
+
+    golden_mean = (np.sqrt(5)-1.0)/2.0    # Aesthetic ratio
+    fig_height = 1.0 * fig_width*golden_mean
+
+
+
+    latexify(fig_width=fig_width, fig_height=fig_height)
+    fig = pl.figure(figsize=(fig_width, fig_height))
+    gs = pl.GridSpec(ratio + 1, ratio + 1)
+
+    ax = fig.add_subplot(gs[1:, :-1])
+    # ax_marg_x = fig.add_subplot(gs[0, :-1], sharex=ax)
+    ax_marg_y = fig.add_subplot(gs[1:, -1], sharey=ax)
+
+    x = np.array(color_data['z'])
+    y = np.array(color_data['g - i'])
+    imag = np.array(color_data['i'])
+
+
+    import triangle
+
+    # print(np.mean(x), np.std(y))
+    print(np.mean(x), np.std(x))
+    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
+    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
+
+    # print(np.shape(data['i']))
+    # print(np.shape(x))
+
+    mask = (imag < 17.0) & ((1 < x) & (x < 2.3))
+    # ax.scatter(mi_obj, g_obj - i_obj, s = 15, c=sns.xkcd_rgb["denim blue"], alpha = 0.7)
+    triangle.hist2d(x, y, bins=200, ax=ax, smooth=0.3)
+    ax.scatter(x[mask] , y[mask] ,  marker='o', s=10, facecolor=cmap[1], lw = 0, cmap=cmap, alpha= 1.0)
+    ax.scatter(zz_obj, g_obj - i_obj, s = 25, c=cmap[2], alpha = 1.0)
+
+    format_axes(ax)
+    format_axes(ax_marg_y)
+    pl.setp(ax_marg_y.get_yticklabels(), visible=False)
+    pl.setp(ax_marg_y.yaxis.get_majorticklines(), visible=False)
+    pl.setp(ax_marg_y.yaxis.get_minorticklines(), visible=False)
+    pl.setp(ax_marg_y.xaxis.get_majorticklines(), visible=False)
+    pl.setp(ax_marg_y.xaxis.get_minorticklines(), visible=False)
+    pl.setp(ax_marg_y.get_xticklabels(), visible=False)
+    ax_marg_y.xaxis.grid(False)
+    despine(ax=ax_marg_y, bottom=True)
+    sns.distplot(y, hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": sns.xkcd_rgb["black"], "gridsize": 200, "alpha": 0.2},
+                 vertical=True, axlabel=False)
+    sns.distplot(g_obj - i_obj, hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 1.5, "color": cmap[2], "alpha": 1.0},
+                 vertical=True, axlabel=False)
+    # sns.distplot(y[mask], hist=False, rug=True, kde=False, ax=ax_marg_y, rug_kws={"height": 0.5, "color": cmap[1], "alpha": 0.3},
+    #              vertical=True, axlabel=False)
+    sns.distplot(y[mask], hist=False, kde=True, ax=ax_marg_y, kde_kws={"shade": True, "color": cmap[1], "gridsize": 200, "alpha": 0.3},
+                 vertical=True, axlabel=False)
+    # sns.kdeplot(color_data, ax = ax, cmap='Greys', n_levels=50, norm=PowerNorm(gamma=0.3),
+    #             shade=True, gridsize=100, linewidths = (0.5,), alpha=0.7)
+
+
+
+
+
+
+
+
+
+
+
+    # ax.set_xlabel(r"M$_i$(z=2)")
+    ax.set_xlabel(r"z")
+    ax.set_ylabel(r"$g - i$")
+
+
+
+    # ax.set_xlim((np.mean(x) - 5* np.std(x), np.mean(x) + 2* np.std(x)))
+    ax.set_xlim((0.0, 3.5))
+    ax.set_ylim((-0.5, 1.0))
+
+    format_axes(ax)
+    fig.tight_layout()
+    pl.savefig('../documents/figs/color_comparison2.pdf')
+    pl.show()
 
 
 

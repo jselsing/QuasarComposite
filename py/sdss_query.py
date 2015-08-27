@@ -192,7 +192,7 @@ def treat_sdss_spectra(outfile = "outfile"):
     dt = [("sdss_wl", np.float64), ("sdss_compo", np.float64)]
     data = np.array(zip(wl_new, wmean), dtype=dt)
     file_name = "sdss_compo"
-    np.savetxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+file_name+'.dat', data, header="wl flux") #, fmt = ['%5.1f', '%2.15E'] )
+    # np.savetxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+file_name+'.dat', data, header="wl flux") #, fmt = ['%5.1f', '%2.15E'] )
 
 
     # for i, k, l in zip(data_in['plate'], data_in['mjd'], data_in['fiberID']):
