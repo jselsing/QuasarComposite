@@ -7,8 +7,7 @@ from __future__ import division, print_function
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2015 Jonatan Selsing"
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+
 
 from methods import latexify, format_axes, gauss
 
@@ -39,8 +38,15 @@ def main():
     median = data_file[:,6]
     n_spec = data_file[:,7]
     std = data_file[:,8]
+    std_norm = data_file[:,9]
+    wmean_cont = data_file[:,10]
 
-    wmean_cont = data_file[:,9]
+
+    # pl.plot(wl, mean)
+    # pl.plot(wl, wmean_cont)
+    # pl.plot(wl, geo_mean)
+    # pl.plot(wl, median)
+    # pl.show()
 
 
 
@@ -67,7 +73,7 @@ def main():
         tmp = a_tmp * x_tmp ** (k_tmp + b_tmp * x_tmp)
         return tmp
 
-    par_guess = [1, -1.7]
+    par_guess = [1, -1.70]
     par_guess2 = [1, 5700, -1.7, -1.7]
     wmean[np.where(np.isnan(wmean) == True)] = 0
 
@@ -80,7 +86,7 @@ def main():
     print(*popt2)
 
 
-    par_guess = [1, -1.0]
+    par_guess = [1, -1.7]
 
     wl_new = wl
     wm = []
@@ -92,7 +98,7 @@ def main():
     mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
 
 
-    for i in np.arange(10000):
+    for i in np.arange(10):
         print('Iteration: ', i)
         err = ((wmean_cont*std)[std != 0])[mask]
         resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
@@ -109,19 +115,21 @@ def main():
         err = ((median*std)[std != 0])[mask]
         resampled_spec = np.random.normal((median[std != 0])[mask], err)
         popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=err, absolute_sigma=True)
+                                                    sigma=err, absolute_sigma=True, maxfev=600)
 
         med.append(popt_median)
 
 
         err = ((geo_mean*std)[std != 0])[mask]
         resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
+        # pl.plot(wl_new[mask], resampled_spec)
         popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
-                                                    sigma=err, absolute_sigma=True)
+                                                    sigma=err, absolute_sigma=True, maxfev=600)
 
 
         geo.append(popt_geo)
-
+    # pl.plot(wl, geo_mean)
+    # pl.show()
 
 
     print("""Composite fit slope wmean...{0} +- {1}""".format(np.mean(wm, axis=0)[1],np.std(wm, axis=0)[1]))
@@ -152,7 +160,7 @@ def main():
     from methods import hist
     log_binned_wl = np.array(hist(wl,[min(wl),max(wl)], int(2*nbins),'log'))
     from scipy.interpolate import InterpolatedUnivariateSpline
-    sps = InterpolatedUnivariateSpline(wl, std)
+    sps = InterpolatedUnivariateSpline(wl, std_norm)
     std_plot = smooth(medfilt(sps(log_binned_wl) , 9), window='hanning', window_len=15)
     wave_std = log_binned_wl
 
@@ -185,7 +193,7 @@ def main():
     ax1.semilogy()
     ax1.semilogx()
     ax1.set_xlim((1000, 11500 ))
-    ax1.set_ylim((0.05, 500))
+    ax1.set_ylim((0.1, 750))
 
 
     ax2.semilogy()
@@ -216,11 +224,11 @@ def main():
     ax2.yaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     ax1.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax1.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200])
+    ax1.set_yticks([0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500])
     ax2.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
     ax2.set_yticks([0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30])
     ax3.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax3.set_yticks([20, 40, 60, 80, 100])
+    ax3.set_yticks([50, 100, 150, 200, 250, 300])
     ax4.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
     ax4.set_yticks([0, 1, 2, 3, 4, 5, 6, 7, 8])
 
@@ -264,7 +272,7 @@ def main():
 
 
 
-    # fig.savefig("../documents/figs/Combined.pdf")
+    fig.savefig("../documents/figs/Combined.pdf", rasterized=True, dpi=600)
     pl.show()
 
 

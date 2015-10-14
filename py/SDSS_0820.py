@@ -21,10 +21,9 @@ def main():
     import glob
     import numpy as np
     from xshoo.combine import inter_arm_cut
-    from matplotlib import rc_file
-    rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
     import matplotlib.pyplot as pl
-
+    from methods import latexify
+    latexify()
     #Files
     obj_name = 'SDSS0820+1306'
     root_dir = '/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+obj_name
@@ -90,7 +89,27 @@ def main():
     bp_map.append(1)
 
 
+    # from astroquery.irsa_dust import IrsaDust
+    # import astropy.coordinates as coord
+    # import astropy.units as u
+    # print(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg)
+    # C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
+    # print(C)  
+    # dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
+    # ebv = np.mean(dust_image[0].data)
+    # ebv_loc = np.mean(dust_image[0].data[40:42,40:42])
+    # print(ebv)
+    # print(ebv_loc)
 
+    # print(dust_image[0].data.shape)
+    # g = np.zeros(np.shape(dust_image[0].data))
+    # g[40:42,40:42] = 0.01
+    # p = dust_image[0].data + g
+
+    # pl.imshow(p, interpolation='nearest')
+    # pl.colorbar()
+    # pl.show()
+    # exit()
 
     import json
     import urllib2
@@ -233,7 +252,7 @@ def main():
     import astropy.units as u
     C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
     dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
-    ebv = np.mean(dust_image[0].data)
+    ebv = np.mean(dust_image[0].data[40:42,40:42])
 
 
     # Saving telluric uncorrected data to .dat file

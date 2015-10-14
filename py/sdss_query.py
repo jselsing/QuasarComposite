@@ -24,11 +24,10 @@ def get_sdss_spectra(outfile = "outfile", N_spec = 5):
 
 
 
-
     res = SDSS.query_sql(query)
 # (subClass = 'BROADLINE') AND
 
-    print(res['subClass'])
+    # print(res['subClass'])
     spectra = []
     var = []
     waves = []
@@ -39,6 +38,7 @@ def get_sdss_spectra(outfile = "outfile", N_spec = 5):
     num_skipped = 0
     count = 1
     n_spec = len(res['specObjID'])
+
     for i in range(n_spec):
         # print(res['subClass'][i])
         try:
@@ -75,7 +75,7 @@ def get_sdss_spectra(outfile = "outfile", N_spec = 5):
 
         print('Number of spectrum processed: {0} out of {1}'.format(count, n_spec - num_skipped))
     print("   %i spectra skipped" % num_skipped)
-
+    # exit()
 
 
     np.savez(outfile,
@@ -102,6 +102,7 @@ def treat_sdss_spectra(outfile = "outfile"):
     waves = data_in['wave']
     redshifts = data_in['z']
     n_obj = len(redshifts)
+    print(n_obj)
     # print(redshifts)
     # print(np.shape(waves))
     # print(waves / (redshifts))
@@ -192,11 +193,8 @@ def treat_sdss_spectra(outfile = "outfile"):
     dt = [("sdss_wl", np.float64), ("sdss_compo", np.float64)]
     data = np.array(zip(wl_new, wmean), dtype=dt)
     file_name = "sdss_compo"
-    # np.savetxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+file_name+'.dat', data, header="wl flux") #, fmt = ['%5.1f', '%2.15E'] )
+    np.savetxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/'+file_name+'.dat', data, header="wl flux") #, fmt = ['%5.1f', '%2.15E'] )
 
-
-    # for i, k, l in zip(data_in['plate'], data_in['mjd'], data_in['fiberID']):
-    #     print(str(i)+'+'+str(k)+'+'+str(l))
 
 
 
@@ -206,6 +204,6 @@ if __name__ == '__main__':
     file_name = "SDSS_spectra"
     outfile = root_dir+"/"+file_name+'.npz'
 
-    #get_sdss_spectra(outfile = outfile, N_spec= 150)
+    get_sdss_spectra(outfile = outfile, N_spec= 1500)
     treat_sdss_spectra(outfile = outfile)
 

@@ -11,8 +11,8 @@ __copyright__ = "Copyright 2014 Jonatan Selsing"
 
 
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+# from matplotlib import rc_file
+# rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 from methods import latexify, format_axes, gauss, hist
 
@@ -21,76 +21,6 @@ import matplotlib.pylab as pl
 import seaborn as sns; sns.set_style('ticks')
 #cmap = sns.cubehelix_palette(n_colors=6, start=1, rot=0.2, gamma=1.0, hue=0.8, light=0.85, dark=0.15, reverse=True, as_cmap=False)
 cmap = sns.color_palette("cubehelix", 6)
-
-# import matplotlib
-#
-# from math import sqrt
-# SPINE_COLOR = 'gray'
-#
-# def latexify(fig_width=None, fig_height=None, columns=1):
-#     """Set up matplotlib's RC params for LaTeX plotting.
-#     Call this before plotting a figure.
-#
-#     Parameters
-#     ----------
-#     fig_width : float, optional, inches
-#     fig_height : float,  optional, inches
-#     columns : {1, 2}
-#     """
-#
-#     # code adapted from http://www.scipy.org/Cookbook/Matplotlib/LaTeX_Examples
-#
-#     # Width and max height in inches for IEEE journals taken from
-#     # computer.org/cms/Computer.org/Journal%20templates/transactions_art_guide.pdf
-#
-#     assert(columns in [1,2])
-#
-#     if fig_width is None:
-#         fig_width = 3.39 if columns==1 else 6.9 # width in inches
-#
-#     if fig_height is None:
-#         golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
-#         fig_height = fig_width*golden_mean # height in inches
-#
-#     MAX_HEIGHT_INCHES = 8.0
-#     if fig_height > MAX_HEIGHT_INCHES:
-#         print("WARNING: fig_height too large:" + fig_height +
-#               "so will reduce to" + MAX_HEIGHT_INCHES + "inches.")
-#         fig_height = MAX_HEIGHT_INCHES
-#
-#     params = {'backend': 'Qt4Agg',
-#               'text.latex.preamble': ['\usepackage{gensymb}'],
-#               'axes.labelsize': 8, # fontsize for x and y labels (was 10)
-#               'axes.titlesize': 8,
-#               'font.size': 8, # was 10
-#               'legend.fontsize': 8, # was 10
-#               'xtick.labelsize': 8,
-#               'ytick.labelsize': 8,
-#               #'text.usetex': True,
-#               'figure.figsize': [fig_width,fig_height],
-#               'font.family': 'serif'
-#     }
-#
-#     matplotlib.rcParams.update(params)
-#
-#
-# def format_axes(ax):
-#
-#     for spine in ['top', 'right']:
-#         ax.spines[spine].set_visible(True)
-#
-#     for spine in ['left', 'bottom', 'top', 'right']:
-#         ax.spines[spine].set_color(SPINE_COLOR)
-#         ax.spines[spine].set_linewidth(0.5)
-#
-#     ax.xaxis.set_ticks_position('bottom')
-#     ax.yaxis.set_ticks_position('left')
-#
-#     for axis in [ax.xaxis, ax.yaxis]:
-#         axis.set_tick_params(direction='out', color=SPINE_COLOR)
-#
-#     return ax
-
 
 
 def read_text(filename = 'test.dat', wave_ext = 0, flux_ext = 1, err_ext = 2, err=False):
@@ -118,7 +48,7 @@ if __name__ == '__main__':
     fig = pl.figure()
     fig.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=0.95)
     ax = fig.add_subplot(111)
-    ax2 = pl.axes([0.15, 0.2, .4, .4], axisbg='white')
+    ax2 = pl.axes([0.16, 0.22, .4, .4], axisbg='white')
 
     #Selsing et al. 2015
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Selsing2015.dat'
@@ -153,10 +83,10 @@ if __name__ == '__main__':
     flux = flux[np.where(wave <= 11400)]
     err = err[np.where(wave <= 14000)]
     positive = (flux - err > 0 )
-    ax.plot(wave, flux, label='This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
-    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
-    ax2.plot(wave, flux, label = 'This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
-    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0])
+    ax.plot(wave[1::1], flux[1::1], label='This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0], rasterized=True)
+    ax2.plot(wave[1::1], flux[1::1], label = 'This work', zorder=5, lw = 0.75, color = cmap[0], linestyle='steps-mid')
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[0], rasterized=True)
 
 
     #Lusso et al. 2015
@@ -169,9 +99,9 @@ if __name__ == '__main__':
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1], linestyle='steps-mid')
-    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[1])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[1], rasterized=True)
     ax2.plot(wave, flux, label = 'Lusso+15', zorder=4, lw = 0.5, alpha = 1.0, color = cmap[1], linestyle='steps-mid')
-    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[1])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[1], rasterized=True)
 
 
 
@@ -186,7 +116,7 @@ if __name__ == '__main__':
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label = 'Glikman+06', zorder=2, lw = 0.5, alpha = 1.0, color = cmap[2], linestyle='steps-mid')
-    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[2])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[2], rasterized=True)
 
 
 
@@ -206,9 +136,9 @@ if __name__ == '__main__':
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3], linestyle='steps-mid')
-    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[3])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[3], rasterized=True)
     ax2.plot(wave, flux, label = 'Vanden Berk+01', zorder=3, lw = 0.5, alpha = 1.0, color = cmap[3], linestyle='steps-mid')
-    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[3])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[3], rasterized=True)
 
 
 
@@ -228,9 +158,9 @@ if __name__ == '__main__':
 
     positive = (flux - err > 0 )
     ax.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4], linestyle='steps-mid')
-    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[4])
+    ax.fill_between(wave, flux - err, flux +  err, alpha=0.2, label=r'1 $\sigma$ confidence interval', color = cmap[4], rasterized=True)
     ax2.plot(wave, flux, label = 'Telfer+02', zorder=1, lw = 0.5, alpha = 1.0, color = cmap[4], linestyle='steps-mid')
-    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[4])
+    ax2.fill_between(wave, flux - err, flux +  err, alpha=0.2, where=positive, label=r'1 $\sigma$ confidence interval', color = cmap[4], rasterized=True)
 
 
 
@@ -275,22 +205,22 @@ if __name__ == '__main__':
     # Formatting axes
     import matplotlib as mpl
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_xticks([1000, 2000, 3000, 5000, 10000])
+    ax.set_xticks([100, 200, 500, 1000, 2000, 5000, 10000])
     ax.get_xaxis().tick_bottom()
     # ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_yticks([0.5, 1, 2, 5, 10, 20, 50])
-
+    # ax.set_yticks([0.5, 1, 2, 5, 10, 20, 50])
+    ax.set_yticks([0.3, 1, 3, 10, 30, 100, 300])
 
 
 
 
     ax.set_xlim((300, 13000))
-    ax.set_ylim((0.1, 30))
+    ax.set_ylim((0.15, 110))
 
     ax2.set_xlim((700, 1400))
-    ax2.set_ylim((3, 9))
+    ax2.set_ylim((3*3, 9*3))
     #ax2.semilogy()
 
 
@@ -312,5 +242,5 @@ if __name__ == '__main__':
 
 
     pl.tight_layout()
-    pl.savefig('../documents/figs/composite_comparison.pdf')
+    pl.savefig('../documents/figs/composite_comparison.pdf', rasterized=True)
     pl.show()

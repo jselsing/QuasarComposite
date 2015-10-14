@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+
 import matplotlib.pyplot as plt
 import methods
 from pylab import pause
@@ -99,7 +98,7 @@ class continuum_mark(object):
     def run(self):
         self.ax.relim()
         self.ax.autoscale_view(True,True,True)
-        self.fig.canvas.manager.window.raise_()
+        # self.fig.canvas.manager.window.raise_()
         self.fig.canvas.draw()
 
     def draw_callback(self, event):

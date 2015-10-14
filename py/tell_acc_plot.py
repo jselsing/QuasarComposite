@@ -2,9 +2,10 @@
 """
 Short script to plot the accuracy of the optimal template for the telluric correction
 """
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
-
+# from matplotlib import rc_file
+# rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+# import matplotlib
+# matplotlib.use('cairo')
 
 import numpy as np
 import glob
@@ -106,7 +107,7 @@ if __name__ == '__main__':
     ratio = (1.0 + np.sqrt(5.0))/2.0
     # latexify(figsize=(5*ratio, 5))
     # latexify(fig_width=5*ratio, fig_height=5)
-    latexify(columns=1)
+    latexify(columns=2)
     fig, ax = pl.subplots()
 
     # fig.subplots_adjust(left=0.1, right=0.95, bottom=0.1, top=0.95)
@@ -145,7 +146,7 @@ if __name__ == '__main__':
                 sps = InterpolatedUnivariateSpline(wave, flux)
                 flux = medfilt(sps(log_binned_wl) , 35)
                 wave = log_binned_wl
-                ax.plot(wave, flux, label='Corrected', zorder=5, lw = 1.75, color = cmap[0], linestyle='steps-mid')
+                ax.plot(wave, flux/1e-16, label='Corrected', zorder=5, lw = 1.25, color = cmap[0], linestyle='steps-mid', rasterized=True)
 
 
 
@@ -158,7 +159,7 @@ if __name__ == '__main__':
                 sps = InterpolatedUnivariateSpline(wave, flux)
                 flux = medfilt(sps(log_binned_wl) , 5)
                 wave = log_binned_wl
-                ax.plot(wave, flux, label='Corrected', zorder=3, lw = 0.75, color = cmap[2], linestyle='steps-mid')
+                ax.plot(wave, flux/1e-16, label='Corrected', zorder=3, lw = 0.25, color = cmap[2], linestyle='steps-mid', rasterized=True)
 
 
 
@@ -173,13 +174,13 @@ if __name__ == '__main__':
                 wave = log_binned_wl
 
 
-                ax.plot(wave, flux, label = 'Uncorrected', zorder=4, lw = 0.75, alpha = 1.0, color = cmap[1], linestyle='steps-mid')
+                ax.plot(wave, flux/1e-16, label = 'Uncorrected', zorder=4, lw = 0.25, alpha = 1.0, color = cmap[1], linestyle='steps-mid', rasterized=True)
 
 
 
 
                 ax.set_xlabel(r'Wavelength [$\AA$]')
-                ax.set_ylabel(r'Rescaled flux density F$_\lambda$')
+                ax.set_ylabel(r'Flux density [10$^{-16}$ erg s$^{-1}$ cm$^{-2}$ $\AA^{-1}$]')
 
 
 
@@ -199,7 +200,7 @@ if __name__ == '__main__':
 
 
                 ax.set_xlim((7000, 22000))
-                ax.set_ylim((-1.5e-16, 6e-16))
+                ax.set_ylim((-1.5e-16/1e-16, 6e-16/1e-16))
 
 
                 import matplotlib as mpl
@@ -207,9 +208,14 @@ if __name__ == '__main__':
                 ax.set_xticks([9000, 12000, 15000, 18000, 21000])
 
 
+                for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                             ax.get_xticklabels() + ax.get_yticklabels()):
+                    item.set_fontsize(16)
+
                 format_axes(ax)
                 pl.tight_layout()
-                fig.savefig("../documents/figs/tell_corr_QC.pdf", clobber=True)
+
+                fig.savefig("../documents/figs/tell_corr_QC.pdf", clobber=True,bbox_inches='tight')
                 pl.show(block=True)
             # print fig.axes
                 

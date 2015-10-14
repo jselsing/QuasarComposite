@@ -8,8 +8,6 @@ __version__ = "0.0.0"
 __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 from methods import latexify, format_axes, gauss
 
@@ -42,7 +40,8 @@ def main():
     median = data_file[:,6]
     n_spec = data_file[:,7]
     std = data_file[:,8]
-    wmean_cont = data_file[:,9]
+    std_norm = data_file[:,9]
+    wmean_cont = data_file[:,10]
 
     from scipy.interpolate import InterpolatedUnivariateSpline
     mask = (np.where(err_wmean != 0))
@@ -141,12 +140,12 @@ def main():
     ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_yticks([0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50])
+    ax.set_yticks([0.3, 1, 3, 10, 30, 100, 300])
     ax.yaxis.set_minor_locator(mpl.ticker.NullLocator())
 
     # pl.legend(loc=3)
     ax.set_xlim((1000, 11500))
-    ax.set_ylim((0.1, 200))
+    ax.set_ylim((0.2, 500))
     format_axes(ax)
 
 

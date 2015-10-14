@@ -10,9 +10,10 @@ __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2015 Jonatan Selsing"
 
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
-
+# from matplotlib import rc_file
+# rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+# import matplotlib
+# matplotlib.use('cairo')
 from methods import latexify, format_axes, gauss
 
 import numpy as np
@@ -140,7 +141,7 @@ if __name__ == '__main__':
 
     #Plotting
     ratio = (1.0 + np.sqrt(5.0))/2.0
-    latexify()
+    latexify(columns=2)
     fig, ax = pl.subplots()
     # latexify(fig_width=4*ratio, fig_height=4, columns=1)
     # latexify(columns=1)
@@ -148,17 +149,17 @@ if __name__ == '__main__':
 
     from gen_methods import medfilt
     # ax.plot(wl, medfilt(flux, 3)/norm, drawstyle='steps-mid', lw = 0.5, alpha=0.5)
-    ax.errorbar(wl, medfilt(flux, 3)/norm, yerr=fluxerror/norm, fmt='o', marker='o', capsize=0.75, ms=0.25, mew=0.25, color='black', elinewidth=0.15, alpha=0.2)
+    ax.errorbar(wl[1::10], ((medfilt(flux, 3)/norm)/1e-16)[1::10], yerr=((fluxerror/norm)/1e-16)[1::10], fmt=".k", capsize=0, elinewidth=0.5, ms=3, rasterized=True)
 
 
-    ax.plot(wl_fit, y_op/norm, lw=1, color = cmap[2])
-    ax.fill_between(wl_fit, y_op_lower/norm, y_op_upper/norm, alpha = 0.5, color = cmap[2])
+    ax.plot(wl_fit, (y_op/norm)/1e-16, lw=1, color = cmap[2], rasterized=True)
+    ax.fill_between(wl_fit, (y_op_lower/norm)/1e-16, (y_op_upper/norm)/1e-16, alpha = 0.5, color = cmap[2], rasterized=True)
 
 
 
 
     ax.set_xlim((4700, 5100))
-    ax.set_ylim((5e-16, 9e-16))
+    ax.set_ylim((5e-16/1e-16, 9e-16/1e-16))
 
 
 
@@ -166,13 +167,15 @@ if __name__ == '__main__':
     # ax.set_xticks([4750, 4850, 4950, 5050, 5150])
     format_axes(ax)
     ax.set_xlabel(r'Restframe Wavelength [$\AA$]')
-    ax.set_ylabel(r'Flux density [erg s$^{-1}$ cm$^{-1}$ $\AA^{-1}$]')
-    pl.tight_layout()
+    ax.set_ylabel(r'Flux density [10$^{-16}$ erg s$^{-1}$ cm$^{-2}$ $\AA^{-1}$]')
+    fig.tight_layout()
+
+
     import matplotlib as mpl
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
     ax.set_xticks([4700, 4800, 4900, 5000, 5100])
     # ax.yaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    ax.set_yticks([5e-16, 6e-16, 7e-16, 8e-16, 9e-16])
+    ax.set_yticks([5e-16/1e-16, 6e-16/1e-16, 7e-16/1e-16, 8e-16/1e-16, 9e-16/1e-16])
     #Overplot lines
     fit_line_positions = np.genfromtxt('data/lineplotlinelist.txt', dtype=None)
     import lineid_plot
@@ -196,13 +199,18 @@ if __name__ == '__main__':
     a = ax.findobj(mpl.text.Annotation)
     for i in a:
         if '$' in i.get_label():
-            i.set_size(8)
+            i.set_size(16)
 
+
+    for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                 ax.get_xticklabels() + ax.get_yticklabels()):
+        item.set_fontsize(16)
+# 
     fig.tight_layout()
 
 
 
 
 
-    pl.savefig("../documents/figs/LineFit.pdf", clobber=True)
+    pl.savefig("../documents/figs/LineFit.pdf", clobber=True, bbox_inches='tight', rasterized=True)
     pl.show()

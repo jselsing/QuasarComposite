@@ -11,11 +11,12 @@ __copyright__ = "Copyright 2014 Jonatan Selsing"
 
 def main():
     """Main script to prepare x-shooter observations for combination"""
-    from matplotlib import rc_file
-    rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+
     from astropy.io import fits
     import glob
     import matplotlib.pyplot as pl
+    from methods import latexify
+    latexify()
     import numpy as np
     from xshoo.combine import inter_arm_cut
 
@@ -72,6 +73,13 @@ def main():
         else:
            bp_map.append(0)
     bp_map.append(1)
+
+
+    # from gen_methods import medfilt
+    # pl.plot(wl_out, medfilt(flux_out, 15))
+    # pl.show()
+    # exit()
+
 
     import json
     import urllib2
@@ -213,7 +221,7 @@ def main():
     import astropy.units as u
     C = coord.SkyCoord(ob[0].header['RA']*u.deg, ob[0].header['DEC']*u.deg, frame='fk5')
     dust_image = IrsaDust.get_images(C, radius=2 *u.deg, image_type='ebv')[0]
-    ebv = np.mean(dust_image[0].data)
+    ebv = np.mean(dust_image[0].data[40:42,40:42])
 
 
     # Saving telluric uncorrected data to .dat file
