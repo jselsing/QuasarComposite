@@ -148,7 +148,7 @@ Maries Vej 30, 2100 Copenhagen, Denmark. %\and
   spectrum covers the full rest-frame range from Ly$\beta$ to 11000
   {\AA} without any significant host contamination. Assuming a power
   law continuum for the composite we find a spectral slope of $\alpha$
-  = \textbf{1.700$\pm$0.006}, which is steeper than previously found in the
+  = \textbf{1.72$\pm$0.01}, which is steeper than previously found in the
   literature. We attribute the differences to the fact that we have a
   larger spectral wavelength coverage, which allows us to effectively
   avoid fitting regions affected either by strong QSO emissions lines
@@ -598,16 +598,16 @@ wavelength, at least up to 6000 \AA~ \citep{VandenBerk2004}. The
 region closest to 6000 \AA~free of contaminating emission is just
 redwards of H$\alpha$ in the region 7000 - 7500 \AA. Each spectrum has
 been divided by the median flux in this region and therefore the order in which the combination is done does not
-matter.  All spectra have been run
-through a filter where if the change from pixel to pixel is greater
-than 20 percent, the pixel is flagged and excluded from the
-combination. This is to exclude noisy pixels and pixels affected too
-strongly by telluric absorption correction. We have investigated
+matter. \textbf{Before combination, all spectra have been run
+through a filter where if the change between neighbouring pixels is greater
+than 10 percent, the pixel is flagged as a bad and excluded from the
+combination. Consequtive comparison is carried out between pixels in order of ascending wavelength. This filtering algothm is applied to exclude noisy pixels from the pipeline and pixels affected too
+strongly by residuals from the telluric absorption correction. We have investigated
 whether this exclusion changes the shape of the combined continuum and
 no effect was visible. This way of flagging noisy pixels, ensures that
 we retain as much signal as possible without introducing very noisy
 isolated pixels. As many as 5 percent of the total number of pixels is
-rejected in the worst case.
+rejected in the worst case.}
 
 
 %====================================================================
@@ -620,10 +620,9 @@ that at each pixel of the composite, the constituent spectra have a Gaussian
 distribution around a sample mean and that this mean reflects the
 expectation value of the sample. Since we have a relatively small
 sample, even investigating whether we are sampling from a Gaussian
-distribution is ambiguous. To make a test for normality, we take the
-mean of 100 pixels along the composite, assuming that the continuum is
-flat, and make a \textbf{quantile-quantile plot, shown in \Fig{normality}.} Given
-that we are sampling from a normal distribution the blue points should
+distribution is ambiguous. \textbf{To make a test for normality, we take the
+mean value of 100 pixels along each on the constituent spectra and, assuming that the continuum is
+flat in the region chosen, make a \textbf{quantile-quantile plot, shown in \Fig{normality}.} Given that the constituent spectra are normally distributed, the blue points should
 fall on the red line. From
 \fig{normality} it is not immediately evident if we are sampling from
 a normal distribution, but it cannot be excluded. We run a
@@ -631,9 +630,9 @@ Shapiro-Wilk test where the same 100 pixels from the central part of
 the spectrum is used. On each individual collection of pixels the test
 gives us a p-value for the hypothesis test,
 under the null hypothesis that the sample comes from a normal
-distribution. With an average p-value over the pixels of $p = 0.37$ we can at
+distribution. With an average p-value over the pixels of $p = 0.55$ we can at
 least not reject, that we are sampling from a normal
-distribution. Since we have no prior reason to expect that we are
+distribution.} Since we have no prior reason to expect that we are
 sampling from a Gaussian distribution and that the distribution is
 expected to change with wavelength increasing in width as the distance
 to the normalization region increases, a certain amount of caution is
@@ -775,8 +774,8 @@ As is often seen, the continuum level is shrouded by a myriad of emission lines,
 Balmer continuum and Fe-complexes scattered across the entire spectrum, making
 the intrinsic shape of the continuum difficult to estimate \citep{Elvis2001}. 
 The composite spectrum covers from \lyb ~in the bluest part of our spectrum to
-Pa$\gamma$ in the reddest, where a straight line adequately describes the
-continuum from \lya~and redwards. \textbf{Blueward of \lya~the spectral}
+Pa$\gamma$ in the reddest, \textbf{where a power-law adequately describes the
+continuum from \lya~and redwards.} \textbf{Blueward of \lya, the spectral}
 continuum changes slope towards a shallower spectral slope. The change in slope
 is a consequence of the accretion disk mechanism responsible for the continuum
 emission where the position of the spectral break is set by the temperature of the
@@ -809,8 +808,8 @@ wavelength range are: 1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500\AA,
 which we use to fit both with a single power-law and a broken one, with a
 break redwards of \hb~at 5700 \AA~as is reported by other authors
 \citep[e.g.,][]{VandenBerk2001}. For the single power law we obtain
-$\alpha_\lambda = -1.70$, where for a broken power law, we obtain a spectral
-index $\alpha_\lambda = -1.70$ below 5700 \AA, and $\alpha_\lambda = -1.72$
+$\alpha_\lambda = -1.72$, where for a broken power law, we obtain a spectral
+index $\alpha_\lambda = -1.73$ below 5700 \AA, and $\alpha_\lambda = -1.72$
 above, consistent with a single power law describing the continuum from  \lya
 ~to Pa$\gamma$. The break in \cite{VandenBerk2001} is attributed to
 contamination from the host galaxies \citep{Glikman2006} and adapting the same
@@ -850,7 +849,10 @@ quasars across a large range of apparent physical conditions.
 The values obtained with our composite is entirely consistent with the values
 published in \cite{Krogager2015}, which is encouraging for the previous use of
 the stitched template. A detailed comparison between the different composites is
-presented in \sect{comparison}.
+presented in \sect{comparison}. 
+
+\textbf{There exists a distribution of slopes for quasar continua and when using the composite presented here, the intrinsic slope of the modelled quasar is highly degenerate with the amount of dust inferred \citep{Reichard2003a}. Since attenuation by dust is stronger at shorter wavelengths, extinction introduces a curvature in the spectrum which is seperate from a pure change in slope. see
+\citet{Krawczyk2015} for a discussion of \textit{red vs. reddened}. }
 
 %===========================================================================
 \begin{figure}[t!]
@@ -1084,7 +1086,7 @@ over a large wavelength range. The simultaneous existence of lines
 arising in such different environments around objects differing by
 many orders of magnitude in luminosity is caused by the varying
 conditions in the emitting clouds which ensure that each \textbf{ionic species has optimal} conditions to produce line emission \citep{Baldwin1995}.
-Significant differences between the composites are visible redwards of
+Significant differences between the composites are visible \textbf{bluewards} of
 \lya~where different methods for IGM absorption correction has been
 employed. No correction has been applied in the composites by
 \citet{Francis1991} and \citet{VandenBerk2001} and a sharp decrease in
@@ -1137,7 +1139,7 @@ in \sect{systematics}.
  \input{tabs/comparison.tex} 
  
 Despite the similarity visible in the direct comparison, it is
-remarkable that the power law slope redwards of 10000 \AA~is found to
+remarkable that \textbf{the power-law slope bluewards} of 10000 \AA~is found to
 be varying by more than 30 per cent between the different authors. We
 compile the results from the different composites in
 \tab{comparison}. One likely reason for the discrepancies is the
@@ -1146,7 +1148,7 @@ wavelength coverage allows a better continuum to be selected,
 especially selecting regions unaffected by Balmer continuum and broad
 \feii~complexes. A more direct comparison of the slopes, where an
 explicit fit to the same regions is made, is not possible due to the
-different wavelength coverages.
+different wavelength coverages. \textbf{A small region free of line-emission just redwards of \lya~ is covered by most of the composites in the comparison, but fitting a power-law to such a small region would largely leave the inferred slope dependant on the exact ranges chosen for the fit.}
 
 
 
@@ -1379,7 +1381,7 @@ flux density at $5100$ {\AA} and convert to luminosity following
 \begin{eqnarray}\eqlabel{l5100}
 L_{5100} &=&    4 \pi D_{L} ^{2} \lambda_{5100}  F_{\lambda5100}
 \end{eqnarray}
-we find and average $\log L_{5100} = 46.7 \pm 0.2$ which is an order of
+we find and average \textbf{$\log L_{5100} = 46.7 \pm 0.1$} which is an order of
 magnitude larger than the highest luminosity bin in \cite{Shen2011} which is
 assumed to be free of host galaxy contamination. This is consistent with what is
 found by \citet{Hopkins2007}, that host galaxy light is likely a small
@@ -1424,7 +1426,7 @@ composite values for clarity regarding the format in \tab{example}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgements}  \sectlabel{Acknowledgements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\textbf{We thank the anonymous referee for constructive feedback which has helped improve the strength of the work.}
 We thank Marianne Vestergaard and Jens Hjorth for useful discussions and
 suggestions. The Dark Cosmology Centre is funded by the DNRF.  
 This research made use of Astropy, a community-developed core Python package for
@@ -1432,7 +1434,7 @@ Astronomy \citep{TheAstropyCollaboration2013}. The analysis and plotting has bee
 
 
 
-\clearpage
+%\clearpage
 
 %\def\mybibdoicolor{\color{blue!75!black}} %change color to suit.
 %\newcommand*{\doi}[1]{\href{http://dx.doi.org/\detokenize{#1}

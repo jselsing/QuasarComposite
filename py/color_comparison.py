@@ -161,7 +161,7 @@ def load_sdss_dr12(path):
     print(ric)
     # print(np.mean(Mz0-ric), np.std(Mz0-ric))
     # print(np.mean(ric-man), np.std(ric-man))
-    exit()
+    # exit()
     print(np.mean(1 - u_obj / u_obj_sdss), np.std(1 - u_obj / u_obj_sdss))
     print(np.mean(1 - g_obj / g_obj_sdss), np.std(1 - g_obj / g_obj_sdss))
     print(np.mean(1 - r_obj / r_obj_sdss), np.std(1 - r_obj / r_obj_sdss))
@@ -204,8 +204,8 @@ def load_sdss_dr12(path):
 
 
 
-    latexify(fig_width=fig_width, fig_height=fig_height)
-    fig = pl.figure(figsize=(fig_width, fig_height))
+    latexify(columns=2)
+    fig = pl.figure()
     gs = pl.GridSpec(ratio + 1, ratio + 1)
 
     ax = fig.add_subplot(gs[1:, :-1])
@@ -275,6 +275,10 @@ def load_sdss_dr12(path):
     ax.set_ylim((-0.5, 1.0))
 
     format_axes(ax)
+    for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                 ax.get_xticklabels() + ax.get_yticklabels()):
+        item.set_fontsize(16)
+    
     fig.tight_layout()
     pl.savefig('../documents/figs/color_comparison2.pdf')
     pl.show()

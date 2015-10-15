@@ -78,14 +78,14 @@ def main():
     wmean[np.where(np.isnan(wmean) == True)] = 0
 
     mask = (wl > 1300) & (wl < 1350) | (wl > 1425) & (wl < 1475) | (wl > 5500) & (wl < 5800) | (wl > 7300) & (wl < 7500)
-
-    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess, sigma=err_wmean[mask], absolute_sigma=True)
-    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2, sigma=err_wmean[mask], absolute_sigma=True)
+    err = ((wmean_cont*std)[std != 0])[mask]
+    popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess, sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True, maxfev=5000)
+    popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2, sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True, maxfev=5000)
 
     print(*popt)
     print(*popt2)
 
-
+    # exit()
     par_guess = [1, -1.7]
 
     wl_new = wl

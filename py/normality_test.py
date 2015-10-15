@@ -11,8 +11,8 @@ __author__ = "Jonatan Selsing (jselsing@dark-cosmology.dk)"
 __copyright__ = "Copyright 2014 Jonatan Selsing"
 
 
-from matplotlib import rc_file
-rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
+# from matplotlib import rc_file
+# rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
 
 from methods import latexify, format_axes, gauss
 
@@ -22,7 +22,7 @@ import numpy as np
 if __name__ == '__main__':
     dat = np.genfromtxt('data/regularised.dat')
     print(np.shape(dat))
-    n_test = (dat[5800 : 5900,:-1])
+    n_test = (dat[5800 : 5900,:])
     # Checking for normality
     from matplotlib import pyplot as plt
     import seaborn as sns; sns.set_style('ticks')
@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
     #Plotting
     ratio = (1.0 + np.sqrt(5.0))/2.0
-    latexify(fig_width=5*ratio, fig_height=5)
-    fig, ax = plt.subplots(figsize=(5*ratio, 5))
+    latexify(columns=2)
+    fig, ax = plt.subplots()
     for i, k in enumerate(n_test):
         # k = np.hstack((k, [np.median(k)]))
         # pl.plot(n, '.' , hold=True)
@@ -49,16 +49,23 @@ if __name__ == '__main__':
         # sigma = np.std(k)
         # plt.plot(bins, mlab.normpdf(bins, mu, sigma), hold=True)
     mtest = np.mean(n_test, axis = 0)
+    print(mtest)
     # mtest = n_test
     # print(k)
     # stats.probplot(k, dist="norm", plot=plt)
     sm.qqplot(mtest, fit=True, line='45', ax=ax)
+
     print(np.mean(p_val))
     # latexify(fig_width=5*ratio, fig_height=5)
     format_axes(ax)
 
     # pl.xlabel(r'Normalised value [input/median(input)]')
     # pl.ylabel(r'Arbitrary scale')
+
+    for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
+                 ax.get_xticklabels() + ax.get_yticklabels()):
+        item.set_fontsize(16)
+    
     fig.tight_layout()
     plt.savefig("../documents/figs/normality.pdf", dpi= 150)
     plt.show(block=True)
