@@ -182,7 +182,7 @@ if __name__ == '__main__':
 
 
     x = np.arange(0 , 15000, 0.1)
-    y = x ** -(1.70)
+    y = x ** -(1.72)
     norm_reg1 = (x > 1425) & (x < 1450)
     norm = np.median(y[norm_reg1])
     y *= (norm1 / norm)

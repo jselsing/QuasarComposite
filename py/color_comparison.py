@@ -122,6 +122,9 @@ def load_sdss_dr12(path):
 
 
     mi = data_file[1].data.field('MI')[mask]
+
+
+
     # print(len(mi))
     dgmi = data_file[1].data.field('DGMI')[mask]
 
@@ -157,11 +160,13 @@ def load_sdss_dr12(path):
     K_corr = np.array([-0.048, -0.248, -0.268, -0.287, -0.258, -0.233, -0.143, -0.0])
     Mz0 = np.array([-28.512270824785411, -29.337462849149809, -29.032421150963174, -29.423493429879706, -29.153275130431958, -29.555455539949492, -29.524955755590376,  -29.523504957708496])
     man = np.array([-30.298323565145147, -29.360045514753516, -29.689430324083425, -29.628957755719547, -29.963623975285195, -29.435128337695879, -30.800366679167887, -31.357612565943803])
-    ric = Mz0 + K_corr
+    ric = Mz0 - K_corr
     print(ric)
-    # print(np.mean(Mz0-ric), np.std(Mz0-ric))
-    # print(np.mean(ric-man), np.std(ric-man))
-    # exit()
+
+    print(np.mean(mi), np.std(mi))
+    print(np.mean(ric), np.std(ric))
+
+    exit()
     print(np.mean(1 - u_obj / u_obj_sdss), np.std(1 - u_obj / u_obj_sdss))
     print(np.mean(1 - g_obj / g_obj_sdss), np.std(1 - g_obj / g_obj_sdss))
     print(np.mean(1 - r_obj / r_obj_sdss), np.std(1 - r_obj / r_obj_sdss))
@@ -278,7 +283,7 @@ def load_sdss_dr12(path):
     for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
                  ax.get_xticklabels() + ax.get_yticklabels()):
         item.set_fontsize(16)
-    
+
     fig.tight_layout()
     pl.savefig('../documents/figs/color_comparison2.pdf')
     pl.show()

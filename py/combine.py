@@ -93,12 +93,10 @@ def main():
 
 
 
-    flux_johan = []
-    # fig, ax = pl.subplots(2, sharex=True)
-    # for mask_ran in range(1500,9000, 1500):
+
     pow_slope = []
     indi_pow = []
-    # norm_reg = [1420, 3000, 4000, 5600, 6800]
+
     # norm_reg = np.arange(1420, 8000, 500)
     norm_reg = [6800]
     # print(norm_reg)
@@ -305,44 +303,6 @@ def main():
 
 
 
-        # filter = glob.glob('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_filtercurves/i.dat')[0]
-        # filter = np.genfromtxt(filter)
-        # wl_filt = filter[:,0]
-        # filt = filter[:,1]
-
-        # wl_new_shift = wl_new * (1+1)
-        # filt_new =  common_wavelength(wl_filt, wl_new_shift, filt, fill_value=0.0)
-        # miz2 = []
-        # for n in range(n_obj+1):
-        #     flux_cont_new[n] /= (1+1)
-
-        #     # fig, ax = pl.subplots(1)
-        #     # ax.plot(wl_new_shift, filt_new)
-        #     # ax2 = ax.twinx()
-        #     # ax2.plot(wl_new_shift, medfilt(flux_cont_new[n],31))
-        #     # pl.show()
-        #     # prod = medfilt
-        #     prod = medfilt(filt_new * flux_cont_new[n], 29)
-
-        #     numerator = np.sum(prod * wl_new_shift)
-        #     denom = np.sum(filt_new * (3e18/wl_new_shift))
-        #     f_nu = numerator / denom
-        #     i_band_mag = -2.5 * np.log10(f_nu) - 48.6
-        #     dl = (cosmo.luminosity_distance(redshifts[n])) * 1e5
-        #     # dl = 1
-        #     M = -5 * np.log10(dl.value) + i_band_mag
-        #     miz2.append(M)
-        #     # print(obj_list[n])
-        #     # print(M, i_band_mag, redshifts[n])
-        # print(miz2)
-
-
-        # print(np.mean(np.array(miz2) - np.array(miz0)), np.std(np.array(miz2) - np.array(miz0)))
-
-
-
-
-        # exit()
 
         std_norm = np.zeros(np.shape(flux_cont_new))
         print(n_obj)
@@ -352,26 +312,16 @@ def main():
             norm = np.median(flux_new[n][mask])
             flux_new[n] /= norm
             flux_cont_new[n] /= norm
-            # print(flux_cont_new)
             fluxerr_new[n] /= norm
-
-            # flux_cont_new[np.where(flux_cont_new == np.NaN)] = 1
-
             par_guess = [2e6, -1.5]
-            # mask = (wl_new > 1350) & (wl_new < 1365) | (wl_new > 4200) & (wl_new < 4230) | (wl_new > 5500) & (wl_new < 6035) #| (wl_new > 7800) & (wl_new < 7950)
             mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
             popt, pcov = optimize.curve_fit(power_law, wl_new[mask], flux_cont_new[n][mask], p0=par_guess,
                                             sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
-
             std_norm[n] = power_law(wl_new, *popt)
             indi_pow.append(popt[1])
 
 
-            # ax.plot(wl_new, power_law(wl_new, *popt), '--', lw = 0.5)
-        #     pl.plot(wl_new, medfilt(flux_cont_new[n], 5), lw = 0.5, label= str(mask_ran))
-        # pl.semilogx()
-        # pl.semilogy()
-        # pl.show()
+
 
         #Ensuring pixel usage blueward of Lya
         for i, k in enumerate(bp_map_new):
@@ -466,61 +416,18 @@ def main():
                 std[i] = 0
                 std_norm_out[i] = 0
 
-        # ax.plot(wl_new, wmean_cont / np.median(wmean_cont), lw = 0.2)
-        # ax[0].plot(wl_new, wmean / np.mean(wmean), lw = 0.5, label= str(mask_ran))
-        # print(np.mean(wmean))
-        # ii  = (wl_new > 6800) & (wl_new < 6800 + 100)
-        # norm = np.median(wmean_cont[ii])
-        # ax.plot(wl_new, wmean_cont / norm , lw = 0.5, label= str(mask_ran))
-        # test =  wmean_cont / norm
-        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
-        # norm = np.median(geo_mean[ii])
-        # geo_mean_norm = geo_mean / norm
-        # ax[0].plot(wl_new, medfilt(geo_mean_norm, 5), lw = 0.5, label= str(mask_ran) + '_geo')
-
-
-        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
-        # norm = np.median(wmean_cont[ii])
-        # wmean_cont_norm = wmean_cont / norm
-        # ax[0].plot(wl_new, medfilt(wmean_cont / norm, 5), lw = 0.5, label= str(mask_ran) + '_wmean')
-
-        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
-        # norm = n.median(median[ii])
-        # ax[0].plot(wl_new, 1 - medfilt(wmean_cont_norm, 5)/medfilt(median/norm, 5), lw = 0.5, label= str(mask_ran) + '_median')
-        # test = 1 - medfilt(wmean_cont_norm[median != 0.],5 ) /medfilt((median[median != 0.]/norm),5)
-        # print(test)
-        # print("""{0}  +- {1} """.format(np.mean(test), np.std(test)))
-
-        # ii  = (wl_new > 6900) & (wl_new < 6900 + 50)
-        # norm = np.median(mean[ii])
-        # ax[0].plot(wl_new, 1 - medfilt(wmean_cont_norm, 5)/medfilt(mean / norm, 5), lw = 0.5, label= str(mask_ran) + '_mean')
-        # test = 1 - medfilt(wmean_cont_norm[mean != 0.],5 )/medfilt((mean[mean != 0.] / norm),5 )
-        # print("""{0}  +- {1} """.format(np.mean(test), np.std(test)))
+ 
         par_guess = [1, -1.7]
         par_guess2 = [1, 5700, -1.7, -1.7]
-        # par_guess3 = [1, -1.0, -0.00001]
 
-
-
-        # pl.plot(wl, power_law2(wl, par_guess))
-        # pl.show()
-        # geo_mean_norm[np.where(np.isnan(geo_mean_norm) == True)] = 0
-
-        # mask = (wl_new > 1350) & (wl_new < 1365) | (wl_new > 4200) & (wl_new < 4230) | (wl_new > 5500) & (wl_new < 6035) | (wl_new > 7800) & (wl_new < 7950)
         mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
         popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
         popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess,
-                                                    sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
-        print(popt_wmean)
-        # popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess, maxfev = 2000)
-        # print(popt_wmean)
+                                                    sigma=np.sqrt((std[mask])**2 + errofwmean[mask]**2), absolute_sigma=True, maxfev = 2000)
+
         popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2,
                                                    sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
-        print(popt_wmean2)
-        # popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2, maxfev = 2000)
-        # print(popt_wmean2)
-        # popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess,
-        #                                           sigma=errofmean[mask], absolute_sigma=True, maxfev = 2000)
+
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess, maxfev = 2000)
         popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
 
@@ -534,19 +441,9 @@ def main():
         print("""Individual slope mean...{0} +- {1}""".format(np.mean(indi_pow), np.std(indi_pow)))
         print("""Individual slope median...{0} +- {1}""".format(np.median(indi_pow), np.std(indi_pow)))
 
-        # ax.plot(wl_new, power_law2(wl_new, *popt2) , '--', lw = 0.5)
-        # ax[0].plot(wl_new, power_law(wl_new, *popt_wmean) , 'b--', lw = 0.5)
-        # ax[0].plot(wl_new, power_law(wl_new, *popt_mean) , 'b--', lw = 0.5)
-
         pow_slope.append(popt_wmean[1])
 
-        # ax.plot(wl_new, wmean_cont, lw = 0.5, label= str(mask_ran))
 
-        # for n in range(n_obj):
-            # plot individual spectra
-            # ax.plot(wl_new, medfilt(flux_cont_new[n] , 51), lw=0.5, alpha = 0.5, color='grey')
-        # pl.semilogy()
-        # pl.show()
 
 
         # TODO Methodize this?
@@ -559,10 +456,6 @@ def main():
             if len(n[np.where(n != 0)]) == len(redshifts):
                 spec.append(n / np.median(n))
 
-        # std = std / np.sqrt(n_spec)
-
-        # ax[1].plot(wl_new, std, lw = 0.2)
-        #Saving ready spectra
 
         #Saving to .dat file
         dt = [("wl", np.float64), ("wmean", np.float64) ]
@@ -571,61 +464,10 @@ def main():
         np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
 
 
-
-        # flux_johan.append(geo_mean.transpose())
-
-    # np.savetxt('test2.dat', zip(wl_new, *flux_johan), header="wl 1500 3000 4500 6000 7500")#, fmt = ['%5.1f', '%2.15E'] )
-
-    # ax[0].semilogy()
-    # ax[0].semilogx()
-    # ax[1].semilogy()
-    # ax[1].semilogx()
-    # ax[0].legend()
-    # pl.show()
-
-
-
-    # fig, ax = pl.subplots(1)
-    # ax.plot(norm_reg, pow_slope, '.')
     print("""Power law slopes:
         Mean = {0}
         Std  = {1}
     """.format(np.mean(pow_slope), np.std(pow_slope)))
-    # ax.set_xlabel('Normalisation region')
-    # ax.set_ylabel('Power law slope')
-    # ax.invert_yaxis()
-    # pl.show()
-
-    # Checking for normality
-    # from matplotlib import pyplot as plt
-    import matplotlib.mlab as mlab
-    import scipy.stats as stats
-    # p_val = []
-    # print(spec)
-    # fig, ax = plt.subplots()
-    # for i, k in enumerate(wmean_cont[10000:10110]):
-    #     print(k)
-        # pl.plot(n, '.' , hold=True)
-        # k = k / np.median(k)
-        # print(k)
-        # k = np.hstack((k,np.mean(k)))
-        # print(k)
-        # print(k)
-        # p_val.append((stats.normaltest(k)[1]))
-        # n, bins, patches = plt.hist(k, 10, hold=True)
-        # mu = np.mean(k)
-        # sigma = np.std(k)
-        # plt.plot(bins, mlab.normpdf(bins, mu, sigma), hold=True)
-        # stats.probplot(k, dist="norm", plot=plt)
-    # print(np.mean(p_val))
-
-
-    # pl.xlabel(r'Normalised value [input/median(input)]')
-    # pl.ylabel(r'Arbitrary scale')
-    # pl.savefig("../documents/normality.pdf", dpi= 150)
-    # plt.show(block=True)
-
-
 
 
     #Saving to .dat file
@@ -646,18 +488,19 @@ def main():
     wl_new = wl_new[wl_new < 11350]
 
 
-
-    # pl.clf()
-    # fig, ax = pl.subplots()
-    # ax.plot(wl_new, wmean_cont, drawstyle='steps-mid', lw = 0.5)
-    # ax.errorbar(wl_new, wmean_cont, yerr=errofwmean, fmt=".k", capsize=0, elinewidth=0.6)
-    # pl.show()
-
     #Saving to .dat file
     dt = [("wl", np.float64), ("wmean_cont", np.float64), ("wmean_cont_error", np.float64) ]
     data = np.array(zip(wl_new, wmean_cont, errofwmean), dtype=dt)
     file_name = "data/templates/Selsing2015.dat"
     np.savetxt(file_name, data, header="wl	weighted mean	error of weighted mean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
+
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("wmean_cont", np.float64), ("wmean_cont_error", np.float64) ]
+    data = np.array(zip(wl_new, wmean_cont, errofwmean), dtype=dt)
+    file_name = "../Selsing2015.dat"
+    np.savetxt(file_name, data, header="wl  weighted mean   error of weighted mean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
+
+
 
 if __name__ == '__main__':
     main()
