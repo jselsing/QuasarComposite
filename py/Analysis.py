@@ -68,7 +68,7 @@ def main():
         return tmp
 
     par_guess = [1, -1.70]
-    par_guess2 = [1, 5700, -1.7, -1.7]
+    par_guess2 = [1, 5000, -1.7, -1.7]
     wmean[np.where(np.isnan(wmean) == True)] = 0
 
     mask = (wl > 1300) & (wl < 1350) | (wl > 1425) & (wl < 1475) | (wl > 5500) & (wl < 5800) | (wl > 7300) & (wl < 7500)
@@ -79,7 +79,7 @@ def main():
     print(*popt)
     print(*popt2)
 
-    exit()
+
     par_guess = [1, -1.7]
 
     wl_new = wl
@@ -92,7 +92,7 @@ def main():
     mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
 
 
-    for i in np.arange(10000):
+    for i in np.arange(10):
         print('Iteration: ', i)
         err = ((std)[std != 0])[mask]
         resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
@@ -266,7 +266,7 @@ def main():
 
 
 
-    # fig.savefig("../documents/figs/Combined.pdf", rasterized=True, dpi=600)
+    fig.savefig("../documents/figs/Combined.pdf", rasterized=True, dpi=600)
     pl.show()
 
 

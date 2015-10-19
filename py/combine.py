@@ -418,15 +418,15 @@ def main():
 
  
         par_guess = [1, -1.7]
-        par_guess2 = [1, 5700, -1.7, -1.7]
+        par_guess2 = [1, 5000, -1.7, -1.7]
 
         mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
         popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], geo_mean[mask], p0=par_guess)
         popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], wmean_cont[mask], p0=par_guess,
-                                                    sigma=np.sqrt((std[mask])**2 + errofwmean[mask]**2), absolute_sigma=True, maxfev = 2000)
+                                                    sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
 
-        popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2,
-                                                   sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
+        # popt_wmean2, pcov_wmean2 = optimize.curve_fit(power_law2, wl_new[mask], wmean_cont[mask], p0=par_guess2,
+        #                                            sigma=errofwmean[mask], absolute_sigma=True, maxfev = 2000)
 
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess, maxfev = 2000)
         popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], mean[mask], p0=par_guess)
