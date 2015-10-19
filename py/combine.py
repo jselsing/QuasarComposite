@@ -400,7 +400,7 @@ def main():
 
 
                 std_norm_out[i] = np.std(k[mask] - std_norm.transpose()[i][mask])
-                std[i] = np.std(k[mask])# / wmean_cont[i])
+                std[i] = np.std(k[mask])
 
 
             elif len(k[mask]) == 0:
@@ -478,11 +478,7 @@ def main():
     file_name = "Composite"
     np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl mean mean_error wmean wmean_error geo_mean median n_spec std std_norm_out wmean_cont")#, fmt = ['%5.1f', '%2.15E'] )
 
-    # #Saving to .dat file
-    dt = [("wl", np.float64), ("wmean", np.float64) ]
-    data = np.array(zip(wl_new, wmean), dtype=dt)
-    file_name = "XSH-Composite_7500"
-    np.savetxt(root_dir+"/"+file_name+".dat", data, header="wl wmean")#, fmt = ['%5.1f', '%2.15E'] )
+
     wmean_cont = wmean_cont[wl_new < 11350]
     errofwmean = errofwmean[wl_new < 11350]
     wl_new = wl_new[wl_new < 11350]

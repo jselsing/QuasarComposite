@@ -42,12 +42,6 @@ def main():
     wmean_cont = data_file[:,10]
 
 
-    # pl.plot(wl, mean)
-    # pl.plot(wl, wmean_cont)
-    # pl.plot(wl, geo_mean)
-    # pl.plot(wl, median)
-    # pl.show()
-
 
 
     #Fitting power laws
@@ -78,14 +72,14 @@ def main():
     wmean[np.where(np.isnan(wmean) == True)] = 0
 
     mask = (wl > 1300) & (wl < 1350) | (wl > 1425) & (wl < 1475) | (wl > 5500) & (wl < 5800) | (wl > 7300) & (wl < 7500)
-    err = ((wmean_cont*std)[std != 0])[mask]
+    err = ((std)[std != 0])[mask]
     popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess, sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True, maxfev=5000)
     popt2, pcov2 = optimize.curve_fit(power_law2, wl[mask], wmean_cont[mask], p0=par_guess2, sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True, maxfev=5000)
 
     print(*popt)
     print(*popt2)
 
-    # exit()
+    exit()
     par_guess = [1, -1.7]
 
     wl_new = wl
@@ -98,21 +92,21 @@ def main():
     mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
 
 
-    for i in np.arange(10):
+    for i in np.arange(10000):
         print('Iteration: ', i)
-        err = ((wmean_cont*std)[std != 0])[mask]
+        err = ((std)[std != 0])[mask]
         resampled_spec = np.random.normal((wmean_cont)[mask], np.sqrt(err**2 + err_wmean[mask]**2))
         popt_wmean, pcov_wmean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
                                                     sigma=np.sqrt(err**2 + err_wmean[mask]**2), absolute_sigma=True)
         wm.append(popt_wmean)
 
-        err = ((mean*std)[std != 0])[mask]
+        err = ((std)[std != 0])[mask]
         resampled_spec = np.random.normal((mean)[mask], np.sqrt(err**2 + err_mean[mask]**2))
         popt_mean, pcov_mean = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
                                                     sigma=np.sqrt(err**2 + err_mean[mask]**2), absolute_sigma=True)
         m.append(popt_mean)
 
-        err = ((median*std)[std != 0])[mask]
+        err = ((std)[std != 0])[mask]
         resampled_spec = np.random.normal((median[std != 0])[mask], err)
         popt_median, pcov_median = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
                                                     sigma=err, absolute_sigma=True, maxfev=600)
@@ -120,7 +114,7 @@ def main():
         med.append(popt_median)
 
 
-        err = ((geo_mean*std)[std != 0])[mask]
+        err = ((std)[std != 0])[mask]
         resampled_spec = np.random.normal((geo_mean[std != 0])[mask], err)
         # pl.plot(wl_new[mask], resampled_spec)
         popt_geo, pcov_geo = optimize.curve_fit(power_law, wl_new[mask], resampled_spec, p0=par_guess,
@@ -272,7 +266,7 @@ def main():
 
 
 
-    fig.savefig("../documents/figs/Combined.pdf", rasterized=True, dpi=600)
+    # fig.savefig("../documents/figs/Combined.pdf", rasterized=True, dpi=600)
     pl.show()
 
 

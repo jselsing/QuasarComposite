@@ -85,23 +85,14 @@ def main():
 
 
     #Plotting
-    # ratio = (1.0 + np.sqrt(5.0))/2.0
-    # latexify(fig_width=10*ratio, fig_height=5)
-    # fig, ax = pl.subplots(figsize=(10*ratio, 5))
     latexify(columns=2)
     fig, ax = pl.subplots()
-    # latexify(fig_width=14, fig_height=5, columns=2)
-    # fig = pl.figure(1, figsize=(14, 5))
-    # ax = fig.add_subplot(111)
-    # fig, ax = pl.subplots(1, figsize=(12, 4))
 
     ax.plot(wl, medfilt(wmean_cont, 5),
             lw = 0.5, alpha=1.0, linestyle = 'steps-mid', label='X-shooter mean composite', color=cmap[1])
 
     ax.plot(wl, power_law(wl, *popt),
             linestyle='dashed', label ='Pure power law fit', color=cmap[2])
-    # ax.plot(wl, power_law2(wl, *popt2),
-    #         linestyle='dashed', label ='Broken power law fit', color=cmap[3])
 
     sdss_compo = np.genfromtxt('/Users/jselsing/Work/X-Shooter/CompositeRedQuasar/processed_data/sdss_compo.dat')
     sdss_wl = sdss_compo[:,0]
@@ -129,13 +120,11 @@ def main():
         linenames.append(n[0])
 
     pl.semilogy()
-    # pl.semilogx()
 
     # Formatting axes
     import matplotlib as mpl
 
     ax.xaxis.set_major_formatter(mpl.ticker.ScalarFormatter())
-    # ax.set_xticks([1100, 3000, 5000])
     ax.get_xaxis().tick_bottom()
     ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
 
@@ -147,9 +136,6 @@ def main():
     ax.set_xlim((1000, 11500))
     ax.set_ylim((0.2, 500))
     format_axes(ax)
-
-
-
 
 
 
@@ -178,13 +164,6 @@ def main():
     for i in a:
         if '$' in i.get_label():
             i.set_size(10)
-
-
-    # a = ax.findobj(mpl.text.Annotation)
-    # for i in a:
-    #     # print(i)
-    #     if '$' in i.get_label():
-    #        i.set_size = 'medium'
 
 
     pl.savefig('../documents/figs/compo_full_sample.pdf')

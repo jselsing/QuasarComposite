@@ -159,14 +159,13 @@ def load_sdss_dr12(path):
 
     K_corr = np.array([-0.048, -0.248, -0.268, -0.287, -0.258, -0.233, -0.143, -0.0])
     Mz0 = np.array([-28.512270824785411, -29.337462849149809, -29.032421150963174, -29.423493429879706, -29.153275130431958, -29.555455539949492, -29.524955755590376,  -29.523504957708496])
-    man = np.array([-30.298323565145147, -29.360045514753516, -29.689430324083425, -29.628957755719547, -29.963623975285195, -29.435128337695879, -30.800366679167887, -31.357612565943803])
     ric = Mz0 - K_corr
     print(ric)
 
     print(np.mean(mi), np.std(mi))
     print(np.mean(ric), np.std(ric))
 
-    exit()
+
     print(np.mean(1 - u_obj / u_obj_sdss), np.std(1 - u_obj / u_obj_sdss))
     print(np.mean(1 - g_obj / g_obj_sdss), np.std(1 - g_obj / g_obj_sdss))
     print(np.mean(1 - r_obj / r_obj_sdss), np.std(1 - r_obj / r_obj_sdss))
@@ -224,12 +223,8 @@ def load_sdss_dr12(path):
 
     import triangle
 
-    # print(np.mean(x), np.std(y))
     print(np.mean(x), np.std(x))
-    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=10, linewidths = (0.5,))
-    # p = sns.kdeplot(color_data, ax = ax, cmap=cmap, gridsize=500, linewidths = (0.5,), n_levels=25)
 
-    # print(np.shape(data['i']))
     # print(np.shape(x))
 
     mask = (imag < 17.0) & ((1 < x) & (x < 2.3))

@@ -11,9 +11,6 @@ __copyright__ = "Copyright 2014 Jonatan Selsing"
 
 
 
-# from matplotlib import rc_file
-# rc_file('/Users/jselsing/Pythonlibs/plotting/matplotlibstyle.rc')
-
 from methods import latexify, format_axes, gauss, hist
 
 import numpy as np
@@ -59,16 +56,9 @@ if __name__ == '__main__':
     norm_reg2 = (wave > 3850) & (wave < 3875)
     norm2 = np.median(flux[norm_reg2])
 
-
-    # msk = (wave <  13000)
-    # wave[msk] = smooth(wave[msk], window='hanninh', window_len=10)
-    # flux[msk] = smooth(flux[msk], window='hanning', window_len=20)
-    # err[msk] = err[msk]
     from scipy.interpolate import InterpolatedUnivariateSpline as spline
     f = spline(wave[np.where(flux != 0)], flux[np.where(flux != 0)])
     flux = f(wave)
-    # print(flux)
-    # exit()
 
 
     nbins = len(wave)
@@ -168,28 +158,21 @@ if __name__ == '__main__':
     #Francis et al. 1991
     filename = '/Users/jselsing/Work/Projects/QuasarComposite/py/data/templates/Francis1991orig.dat'
     wave, flux = read_text(filename=filename, err=False)
-    #flux = flux/wave
     norm_reg1 = (wave > 1425) & (wave < 1450)
     norm = np.median(flux[norm_reg1])
     flux *= (norm1 / norm)
 
-    #mask = (wave < 2000)
-    #wave = wave[mask]
-    #flux = flux[mask]
 
     ax.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5], linestyle='steps-mid')
     ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5], linestyle='steps-mid')
 
 
     x = np.arange(0 , 15000, 0.1)
-    y = x ** -(1.72)
+    y = x ** -(1.70)
     norm_reg1 = (x > 1425) & (x < 1450)
     norm = np.median(y[norm_reg1])
     y *= (norm1 / norm)
     ax.plot( x , y)
-
-
-
 
 
 
@@ -221,13 +204,6 @@ if __name__ == '__main__':
 
     ax2.set_xlim((700, 1400))
     ax2.set_ylim((3*3, 9*3))
-    #ax2.semilogy()
-
-
-    #ax2.semilogx(data[3:8,1],data[3:8,2])
-    #pl.setp(ax2, xticks=[], yticks=[])
-
-
 
 
     # set the linewidth of each legend object

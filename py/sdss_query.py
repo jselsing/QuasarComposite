@@ -164,14 +164,6 @@ def treat_sdss_spectra(outfile = "outfile"):
     print("""Individual slope median...{0} +- {1}""".format(np.median(indi_pow), np.std(indi_pow)))
 
 
-     #   ax.plot(wl_new, spectra_new[n])
-    #pl.show()
-
-
-
-
-
-
 
 
 
