@@ -167,6 +167,8 @@ if __name__ == '__main__':
     ax2.plot(wave, flux, label = 'Francis+91', zorder=4, lw = 1.0, alpha = 1.0, color = cmap[5], linestyle='steps-mid')
 
 
+
+
     x = np.arange(0 , 15000, 0.1)
     y = x ** -(1.70)
     norm_reg1 = (x > 1425) & (x < 1450)
