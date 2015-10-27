@@ -29,7 +29,7 @@
 
 
 \usepackage{color,hyperref}
-
+%\usepackage[hidelinks]{hyperref}
 
 
 
@@ -63,10 +63,6 @@
 \newcommand{\sectionname}{Sect.}
 \newcommand{\Sect}[1]{\sectionname~\ref{sect:#1}}
 \newcommand{\sect}[1]{\Sect{#1}}
-\newcommand{\sectionnamei}{Section}
-\newcommand{\Secti}[1]{\sectionnamei~\ref{sect:#1}}
-\newcommand{\secti}[1]{\Secti{#1}}
-
 \newcommand{\sectalt}[1]{\ref{sect:#1}}
 \newcommand{\App}[1]{Appendix~\ref{sect:#1}}
 \newcommand{\app}[1]{\App{#1}}
@@ -91,6 +87,7 @@
 
 %% Useful shortcuts
 \newcommand{\fluxunit}{erg s$^{-1}$ cm$^{-2}$ \AA$^{-1}$} 
+
 \newcommand{\myemail}{jselsing@dark-cosmology.dk}
 
 
@@ -110,13 +107,11 @@
 
 \begin{document}  
 \title{An X-shooter composite of bright $1<z<2$ quasars from UV to
-  infrared \thanks{Based on observations made with telescopes at the
+  Infrared \thanks{Based on observations made with telescopes at the
     European Southern Observatory at La Silla/Paranal, Chile under
-    program 090.A-0147(A).}, \thanks{The quasar composite is available in electronic form
-    at the CDS via anonymous ftp to \href{http://cdsarc.u-strasbg.fr/}{cdsarc.u-strasbg.fr} (\href{http://130.79.128.5}{130.79.128.5}) 
-    or via \url{http://cdsweb.u-strasbg.fr/cgi-bin/qcat?J/A+A/}. Source code and composite is also made public at \url{https://github.com/jselsing/QuasarComposite}.}}
+    program 090.A-0147(A).}}
 
-\titlerunning{X-shooter quasar composite}
+\titlerunning{X-shooter Quasar Composite}
 
 
 \author{J. Selsing\inst{1}, J.~P.~U. Fynbo\inst{1}, L. Christensen\inst{1},
@@ -139,22 +134,24 @@ Maries Vej 30, 2100 Copenhagen, Denmark. %\and
 \abstract{Quasi-stellar object (QSO) spectral templates are important both to QSO
   physics and for investigations that use QSOs as probes of
   intervening gas and dust. However, combinations of various QSO
-  samples obtained at different times and with different instruments so as
-  to expand a composite and to cover a wider rest frame wavelength region may
-  create systematic effects, and the contribution from QSO hosts may
-  contaminate the composite. We have constructed a composite spectrum 
+  samples obtained at different times and with different instruments
+  to expand a composite to cover a larger rest frame wavelength region may
+  create systematic effects and the contribution from QSO hosts may
+  contaminate the composite. Here we construct a composite spectrum 
   from luminous blue QSOs at $1< z < 2.1$ selected from
-  the Sloan Digital Sky Survey (SDSS).  The observations with X-shooter simultaneously cover ultraviolet (UV)
+  the Sloan Digital Sky Survey (SDSS).  The observations with X-shooter cover simultaneously ultra violet (UV)
   to near-infrared (NIR) light, which ensures that the composite
   spectrum covers the full rest-frame range from Ly$\beta$ to 11350
-  {\AA} without any significant host contamination. Assuming a power-law continuum for the composite we find a spectral slope of $\alpha_\lambda$
+  {\AA} without any significant host contamination. Assuming a power
+  law continuum for the composite we find a spectral slope of $\alpha_\lambda$
   = 1.70$\pm$0.01, which is steeper than previously found in the
-  literature. We attribute the differences to our broader spectral wavelength coverage, which allows us to effectively
-  avoid fitting any regions that are affected either by strong QSO emissions lines
-  (e.g., Balmer lines and complex [Fe II] blends) or by intrinsic host
+  literature. We attribute the differences to the fact that we have a
+  larger spectral wavelength coverage, which allows us to effectively
+  avoid fitting regions affected either by strong QSO emissions lines
+  (e.g. Balmer lines, and complex [Fe II] blends) or by intrinsic host
   galaxy emission. Finally, we demonstrate the application of the
-  QSO composite spectrum for evaluating the reddening in other
-  QSOs.}
+  QSO composite spectrum to evaluate the reddening in other
+  QSOs. }
 
 
 \keywords{quasars: general - Galaxies: ISM - Methods:  data analysis -
@@ -170,9 +167,10 @@ Techniques: spectroscopic}
 \section{Introduction}     \sectlabel{introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Template spectra built as composites of many carefully selected
-individual spectra are useful for a wide range of purposes, e.g., detecting features that are too weak to be detected in individual
-spectra, identifying objects that differ from the template, using
-in modeling/spectral energy distribution (SED) fitting, etc. Examples of such composite spectra
+individual spectra are useful for a wide range of purposes, e.g., the
+detection of features that are too weak to be detected in individual
+spectra, identification of objects that differ from the template, use
+in modeling/spectral energy distribution (SED) fitting etc. Examples of such composite spectra
 include template spectra of various classes of galaxies
 \citep{Mannucci2001, Shapley2003, Dobos2012}, QSOs
 \citep{CristianiS.andVio1990, Boyle1990, Francis1991, Zheng1997,
@@ -188,11 +186,11 @@ a good match \citep{Richards2003,Hopkins2004}. In some cases steeper
 extinction curves are required
 \citep{Fynbo2013,Jiang2013,Leighly2014}.
 
-The wavelength coverage of a single instrument is always limited, and
+The wavelength coverage of a single instrument is always limited and
 therefore templates from different telescopes sample different parts
 of the SED. The redshift distribution of QSOs
-are exploited to extend the wavelength coverage of a single instrument,
-rejecting wavelength regions affected by strong atmospheric
+are exploited to extend the wavelength coverage of a single instrument
+and rejecting wavelength regions affected by strong atmospheric
 absorption, but as a consequence, different wavelength regions of the
 template will be constructed from differing redshift
 intervals. Several instruments can be combined to extend the
@@ -200,76 +198,73 @@ wavelength coverage of a single template as is done in
 \citet{Glikman2006} where SDSS \citep{Gunn2006} and IRTF, SpeX
 \citep{Rayner2003} are combined to cover the range from 2700 \AA~ to
 37000 \AA, or several templates can be combined to cover regions of
-interest as done in \citet{Zhou2010}, where the template of
+interest as done in \citet{Zhou2010} where the template of
 \citet{VandenBerk2001} is stitched together at 3000 \AA~with the
 composite by \citet{Glikman2006}. 
 
 The template by \citet{VandenBerk2001} is widely used in studies
-involving QSOs, where it has been very useful as a cross-correlation
+involving QSOs, where it has seen great use as a cross-correlation
 template to determine redshifts \citep{Stoughton2002, Rafiee2011}, as
 a model for the optical QSO SEDs \citep{Croom2004, Hopkins2006,
-  Hopkins2007}, and for studies of the host galaxies of AGN
-\citep{Kauffmann2003b}. When using the \citet{VandenBerk2001} template,
+  Hopkins2007} and for studies of the host galaxies of AGN
+\citep{Kauffmann2003b}. When using the \citet{VandenBerk2001} template
 it is important to know that it contains significant host galaxy
-contamination, in particular at redder wavelengths \citep[e.g.,][their
+contamination in particular at redder wavelengths \citep[e.g.,][their
   Fig.~5]{Fynbo2013}.  In this paper, we use data from the X-shooter
 spectrograph to build a new QSO template that covers the full range
 from rest-frame Ly$\beta$ to 11350 {\AA} based on bright SDSS QSOs and
 observed with a single instrument over this spectral range. 
 
 In \sect{sample} we describe the sample selection and provide details
-of the observations. \secti{construct} describes the construction of
-the composite spectrum, and \sect{results} presents the resulting
+of the observations. \sect{construct} describes the construction of
+the composite spectrum and \sect{results} presents the resulting
 composite. In \sect{discuss} we perform a comparison with existing
 composites and in \sect{conclusion} offer our conclusion. We use the
 cosmological parameters from \citet{Planck2014} with $H_{0} = 67.77$
-km s$^{-1}$ Mpc$^{-1}$, $\Omega_{M} = 0.3071$, and $\Omega_{\Lambda} =
+km s$^{-1}$ Mpc$^{-1}$, $\Omega_{M} = 0.3071$ and $\Omega_{\Lambda} =
 0.6914$ throughout the entire paper.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Issues with the currently most used template}   \sectlabel{problem}
+\section{Issues with the current most used template}   \sectlabel{problem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The currently most widely used QSO template is the SDSS template of
-\citet{VandenBerk2001}. As described very clearly in that paper, the
+\citet{VandenBerk2001}. As described very clearly in that paper the
 SDSS composite spectrum shows a significant change to a shallower
 spectral slope around 5000 \AA. This is mainly attributed to
 contaminating light from the underlying host galaxies. Other effects
-also contribute, such as the emission from a hot dust component, but the
-dominating factor is probably the host contamination. Our main
+also contribute, e.g. emission from a hot dust component, but the
+dominating factor is likely the host contamination. Our main
 motivation for building a QSO template without this problem is the
 following: A search for dust-reddened QSOs using
 near-IR (NIR) selection of QSOs has been initiated \citep{Fynbo2013, Krogager2015}. 
 In the central southern SDSS footprint, Stripe 82 \citep{Annis2014}, about 50 such candidate QSOs have been studied using the
-New Technology Telescope (NTT). 
-
-Although the search was for QSOs reddened by foreground absorber
-galaxies, most systems turned out to be QSOs reddened by dust in their
-host galaxies. The optical spectra can be matched well by the SDSS
+New Technology Telescope (NTT). Although the search was for QSOs reddened by foreground absorber
+galaxies most systems turned out to be QSOs reddened by dust in their
+host galaxies. The optical spectra can be well matched by the SDSS
 template spectrum reddened by SMC-like extinction curve, but the NIR
 (rest frame optical) photometry from the UKIRT Infrared Deep Sky Survey (UKIDSS) cannot be simultaneously
-fitted. The problem is illustrated in Fig. 6 in \citet{Fynbo2013},
+fitted. The problem is illustrated in Fig. 6 in \citet{Fynbo2013}
 where they attempt to model the EFOSC2 spectrum of a dust-reddened QSO
 at z = 1.16 observed in that survey. As seen, the SDSS spectrum and
-photometry can be matched well with the Vanden Berk template, but the
+photometry can be well matched with the Vanden Berk template, but the
 photometry from UKIDSS is much too blue for even the unreddened
 template. This is not a unique case, but a problem that is seen for
-all the dust-reddened QSOs found in their search.  In the SDSS
+all the dust reddened QSOs found in their search.  In the SDSS
 composite, the QSOs which contribute to the spectrum at $ > 5000$
 \AA~have to be at fairly low redshifts ($z \lesssim 0.5$). These QSOs
-have absolute magnitudes that are three to four magnitudes fainter than bright
+have absolute magnitudes that are $3-4$ magnitudes fainter than bright
 $z > 1.5$ QSOs \citep[e.g.,][their Fig.~1]{VandenBerk2001}. They are
-also likely to have the brightest rest frame optical host galaxies, so host contamination is not surprising. 
-
-By selecting intrinsically
+also likely to have the brightest rest frame optical host galaxies and
+hence host contamination is not surprising. By selecting intrinsically
 brighter QSOs at higher redshifts we should be able to avoid the
-problem with host contamination.  To circumvent the problem
-of host galaxy contamination, \citet{Fynbo2013} and
+problem with host contamination.  In order to circumvent the issue
+with host galaxy contamination, \citet{Fynbo2013} and
 \citet{Krogager2015} stitched together template spectra from different
-authors, which increases the wavelength coverage and avoids host galaxy
+authors which increases the wavelength coverage and avoids host galaxy
 contamination, but by extension introduces different selection
 effects. The composite by \citet{Glikman2006} is stitched together
 with the one by \citet{VandenBerk2001} at $3000$ \AA~and covers the
@@ -278,10 +273,10 @@ constructed with different instruments and an intrinsic differing QSO
 sample across the entire wavelength range.  What we present here is a
 small, well-defined sample selected to cover from \lyb~to \ha~and the
 entirety of the "Small Blue Bump" to effectively determine the
-continuum level on both sides, which is crucial for normalizing
+continuum level on both sides, which is crucial for normalization of
 the input spectra. This will effectively also allow us to determine
 the slope of the far-UV better by having access to more uncontaminated
-continuum, simply because of the increased wavelength coverage.
+continuum, simply due to the increased wavelength coverage.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -297,8 +292,8 @@ the literature have been based on hundreds of spectra, but this is
 neither possible nor necessary for us. We are mainly interested in
 tracing the shape of the continuum with negligible host contamination
 and wide wavelength coverage and for that a smaller sample will
-suffice. From the 166,583 quasars presented in the SDSS DR10 quasar catalog \citep{Paris2014}, 173 objects fulfill our selection criteria. Of these quasars, 102 have declinations $\lesssim +15^\circ$ from which we select seven without signs of BAL activity or other strong associated absorption systems. The selected quasars have SDSS spectra and are observable in a single visitor run at the Very Large Telescope (VLT). With this sample, all rest frame
-wavelengths from \lya~to 8500 \AA~will be covered by at least four
+suffice. From the 166,583 quasars presented in the SDSS DR10 quasar catalog \citep{Paris2014}, 173 objects fulfill our selection criteria. Of these quasars, 102 have declinations $\lesssim +15^\circ$ from which we select 7 without signs of BAL activity or other strong associated absorption systems. The selected quasars have SDSS spectra and are observable in a single visitor run at the Very Large Telescope (VLT). With this sample, all rest frame
+wavelengths from \lya~to 8500 \AA~will be covered by at least 4
 spectra. For all of the spectra we cover the region between \oii~and
 \oiii. This is useful for determination of precise systemic
 redshifts. The targeted QSOs, their coordinates and redshifts are
@@ -339,7 +334,7 @@ highest-resolution spectra while minimizing the correlation between adjacent
 pixels in the rectification. The spectra were extracted by simple integration in
 the nodding window of the rectified image and were flux calibrated using
 spectrophotometric standards \citep{Vernet2010, Hamuy1994}. The seeing during the
-flux-standard star observations was significantly below the 5 arcsec slit width
+flux standard star observations was significantly below the 5 arcsec slit width
 used for the observations of the spectrophotometric standard stars and slit
 losses will therefore be negligible. To check the accuracy of the flux
 calibration the corresponding spectra observed by SDSS \citep{Ahn2014} are
@@ -349,17 +344,19 @@ level. This can both be attributed to erroneous flux calibration in one of the
 spectra or intrinsic object variability, which is observed to be of this order
 \citep{MacLeod2012, Morganson2014}. We discuss this in more detail in
 \sect{systematics}.
-
+%Observations of hot B-type dwarf stars taken close in time were used to make a
+%correction for telluric absorption lines, which depend heavily on the
+%atmospheric conditions at the time of observation.
 
 \input{tabs/targets.tex}
 
 
 
 %====================================================================
-\subsection{Telluric correction}   \sectlabel{telluric}
+\subsection{Telluric Correction}   \sectlabel{telluric}
 %====================================================================
 
-All ground-based observations suffer from atmospheric absorption, which
+All ground based observations suffer from atmospheric absorption. This
 is especially true in the Visual (VIS) and Near-Infra-Red (NIR) arms
 of X-shooter where there are regions of telluric absorption from water
 vapor and other molecules with almost zero transmission. Because of
@@ -412,7 +409,7 @@ resulting corrected spectrum. We review the consequences of this in
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Composite construction}   \sectlabel{construct}
+\section{Composite Construction}   \sectlabel{construct}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 There is no unique way to construct a composite and the final result is
@@ -429,9 +426,9 @@ the rest frame. Getting the systemic redshift of quasars from emission
 lines is complicated by the complex physical structure of the broad
 line regions in which the broad emission lines are emitted. For the
 bright quasars selected for our composite many of the prominent
-high-ionization lines visible will arise in hot clouds with high
+high-ionization lines visible will arise in hot clouds with large
 peculiar velocities and will therefore be affected by systematic
-line shifts \citep{Tytler1992, Richards2002b, Gaskell2013}. To get a
+line-shifts \citep{Tytler1992, Richards2002b, Gaskell2013}. To get a
 redshift closer to the systemic we choose \oiii, arising in the
 narrow-line region and therefore less affected by systematic offsets
 \citep{Hewett2010}. \oiii~is situated on a broad Fe-complex and
@@ -446,7 +443,7 @@ to the edges and subtract the estimated pseudo-continuum.
 We define a Gaussian in terms of the rest wavelength of \oiii~and
 leave the redshift as a free parameter and fit to the selected
 region where a weighted minimization of the residuals is done using
-least squares. The best-fit value and the confidence intervals on the
+least squares. The best fit value and the confidence intervals on the
 best-fit parameters is determined by resampling the spectrum within
 the errors and repeating the continuum estimation and the fit on the
 resampled spectrum 10000 times. The weights used are the inverse
@@ -462,26 +459,26 @@ from SDSS and all fits are visually inspected to check if the fitted
 redshift is an improvement on the position of \oiii. We show a fit to
 \oiii~ in \Fig{linefit}, where \hb, [\ion{O}{iii}]$\lambda$4959 and
 \oiii~ are clearly detected and marked on the plot with vertical
-dashed lines. We transform all redshifts to barycentric standard of rest for consistent
+dashed lines. We transform all redshifts to barycentric standard-of-rest for consistent
 comparison with SDSS. For all of our spectra we find slight
 corrections to the SDSS redshifts, based on the fit to \oiii, as is
 also shown in \tab{targs}. We note that only one out of seven
 redshifts agree within the errors, but stress that the measured
 redshifts are not measured in a consistent manner and therefore
 offsets are expected. SDSS spectral redshift determinations are based
-on rest frame UV lines, which are known to exhibit substantial velocity
+on rest frame UV lines which are known to exhibit substantial velocity
 shifts relative to the systemic redshift \citep{Tytler1992,
   Hewett2010}. The wavelength calibration is accurate to within 1
-pixel \citep{Kruhler2015}, which translates into a redshift error
+pixel \citep{Kruhler2015} which translates into a redshift error
 $\lesssim 3\times 10^{-5}$, less than reported errors.
 
 %===========================================================================
 \begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{figs/LineFit.pdf}
-  \caption[]{Gaussian fit to [OIII]$\lambda$5007 for the object SDSS1354-0013. The red solid line is the
-linear least squared best fit. Gray dashed lines indicate the
-position of neighboring lines at the redshift of [OIII]. Only every 10th data point is shown for clarity.}
+  \caption[]{Gaussian fit of [OIII]$\lambda$5007 for the object SDSS1354-0013}. The red solid line is the
+linear-least-squared best fit. Grey dashed lines indicate the
+position of neighboring lines at the redshift of [OIII]. Only every 10th data point is shown for clarity.
   \figlabel{linefit}
 \end{figure}
 %===========================================================================
@@ -490,7 +487,7 @@ position of neighboring lines at the redshift of [OIII]. Only every 10th data po
 
 
 %====================================================================
-\subsection{Galactic extinction correction} \sectlabel{extinct}
+\subsection{Galactic Extinction Correction} \sectlabel{extinct}
 %====================================================================
 
 The spectra are all corrected for Galactic extinction. Extinction
@@ -499,7 +496,7 @@ using the recalibration from \citet{Schlafly2011}. Extinction values
 in a 1.5 arcmin radius around the source are extracted from the map yielding four pixels from which an arithmetic average is taken. The reddening law by
 \citet{Fitzpatrick1999} with optical total-to-selective extinction
 ratio $R_V = 3.1$ is used to deredden each spectrum. The average value
-of the reddening for our objects is low, $E(B-V)$ = 0.033, so we
+of the reddening for our objects is small, $E(B-V)$ = 0.033, so we
 expect any residual effect of the Galactic extinction to be minimal.
 
 
@@ -533,7 +530,7 @@ resampled onto the newly defined common wavelength grid. Since the
 constituent spectra have different sampling than the target grid, we
 will introduce additional correlations between neighboring
 pixels. The high S/N ratio of the individual spectra combined with a goal to
-find a spectral slope over a very wide wavelength range implies that the
+find a spectral slope over a very large wavelength range implies that the
 interpolated pixel-to-pixel uncertainties does not affect the final results.
 
 
@@ -542,7 +539,7 @@ interpolated pixel-to-pixel uncertainties does not affect the final results.
 \subsection{IGM absorption correction} \sectlabel{igm}
 %====================================================================
 At redshifts higher than $z\sim1.6$, the rest-frame coverage of X-shooter
-reaches blueward of \lya~and these spectra are therefore affected by
+reaches bluewards of \lya~and these spectra are therefore affected by
 \lya-forest absorption, blueward of the \lya-line. A common way to correct for
 this absorption is to obtain a spectrum at a sufficiently high resolution to be
 able to trace the continuum emission by visual inspection. At $z < 2 $ the
@@ -580,7 +577,7 @@ variability the most, the spectra have been scaled in the region with
 the least intrinsic continuum variability, which decreases with
 wavelength, at least up to 6000 \AA~\citep{VandenBerk2004}. The
 region closest to 6000 \AA~free of contaminating emission is just
-redward of H$\alpha$ in the region 7000 - 7500 \AA. Each spectrum has
+redwards of H$\alpha$ in the region 7000 - 7500 \AA. Each spectrum has
 been divided by the median flux in this region and therefore the order in which the combination is done does not
 matter. Before combination, all spectra have been run
 through a filter where if the change between neighboring pixels is greater
@@ -626,7 +623,7 @@ warranted.
 \begin{figure}[t!]
   \centering
   \includegraphics[width=0.99\columnwidth]{figs/normality.pdf}
-  \caption[]{Quantile-quantile plot as a test for normality. An average over 100
+  \caption[]{Quantile-Quantile plot as a test for normality. An average over 100
 pixels in the central regions where the continuum is assumed to be relatively
 flat is used. The inverse cumulative distribution for the sample is constructed
 and plotted against the corresponding quantiles for a normal distribution. The
@@ -641,12 +638,12 @@ sample mean is the inverse variance weighted mean, given again that the
 constituent spectra at each wavelength bin can be treated as stochastic
 variables that follow a normal distribution $\mathcal{N}(\mu, \sigma_i^2)$ with
 mean $\mu$ and variance $\sigma_i^2$. The inverse variance weighted mean is
-calculated as
+calculated as:
 \begin{eqnarray} \eqlabel{wmean}
 \bar{f_{\lambda}} &=& \frac{ \sum_{i=1}^n \left( f_{\lambda, i} \sigma_{\lambda,
 i}^{-2} \right)}{\sum_{i=1}^n \sigma_{\lambda, i}^{-2}},
 \end{eqnarray}
-with the variance of the weighted mean given as
+with the variance of the weighted mean given as: 
 
 \begin{eqnarray} \eqlabel{sigma-wmean}
 \sigma_{\bar{f_{\lambda}}}^2 &=& \frac{ 1 }{\sum_{i=1}^n \sigma_{\lambda,
@@ -658,8 +655,8 @@ and in the error spectrum, meaning that we will underestimate the errors in the
 resulting composite spectrum where the missed statistical noise will be hiding
 in pixel-to-pixel variations. Additionally, since our objects are fairly bright,
 the Poisson noise in our spectra will be non-negligible and thus we are
-incorporating the pixel values themselves into their weights, which leads to a
-bias in the result toward spectra of lower signal-to-noise. We check how the
+incorporating the pixel values themselves into their weights which leads to a
+bias in the result towards spectra of lower signal-to-noise. We check how the
 combination method employed affects the qualitative features in our spectrum in
 \sect{systematics}.
 
@@ -673,7 +670,7 @@ using the redshift, converted to absolute magnitudes. Synthetic photometry is
 the process by which the apparent magnitudes in a bandpass is obtained from a
 spectrum by convolution with the filter quantum efficiency curve
 \citep{Bessell2005}. Following \citet{Bessell2012} and \citet{Casagrande2014} we
-calculate the synthetic AB magnitudes using
+calculate the synthetic AB magnitudes using:
 
 \begin{eqnarray}\eqlabel{abmag}
 m_{\textmd{AB}_x} &=& -2.5 \log_{10} \left(  \frac{\int f_\lambda \,  T_{x}  \,
@@ -683,18 +680,18 @@ m_{\textmd{AB}_x} &=& -2.5 \log_{10} \left(  \frac{\int f_\lambda \,  T_{x}  \,
 where $f_\lambda (\lambda)$ is the observed flux density in units of \fluxunit~
 for the spectra and $T_{x} $ is the total system
 fractional throughput in band $x$. The apparent magnitude can then be converted
-to absolute magnitude using
+to absolute magnitude using:
 
 \begin{eqnarray}\eqlabel{absmag}
 M_{\textmd{AB}_x} &=& -5 \log_{10} \left[  \frac{D_L }{10 \mathrm{pc}}   \right]
 + m_{\textmd{AB}_x} ,
 \end{eqnarray}
-with the \textit{luminosity distance}, $D_L$,  calculated using a standard
+with the \textit{luminosity distance}, $D_L$,  obtained using a standard
 cosmological calculator\footnote{astropy.cosmology}. Using the SDSS i-band filter transmission curve\footnote{\url{http://classic.sdss.org/dr7/instruments/imager/filters/i.dat}}, interpolated to the spectral element size, we get the absolute i-band magnitudes, M$_i(z=0)$.
 The largest compilation of quasar absolute magnitudes to date is
 \cite{Paris2014}, in which the K-corrected, i-band magnitudes normalized at $z = 2$, $\mathrm{M_i (z=2)}$, for the 166,583 quasars in DR10 are
 presented. To get the corresponding magnitudes for the composite constituent
-quasars at $z = 2$, we follow the prescription from \cite{Richards2006b} in which the absolute magnitude for an observer at $z = 0$ is converted to that of an observer at $z = 2$. This is done to minimize the systematic effect on the magnitude of the K-correction arising from the varying continuum slopes of quasars. The farther away that a given quasar is from the normalization redshift, the greater the error from a wrongly assumed continuum slope. Choosing $z = 2$ as the normalization redshift, which is close to the peak in quasar number density as a function of time \citep{Richards2006b, Hopkins2007}, minimizes this error. We have not substituted the assumed slope of $\alpha
+quasars at $z = 2$, we follow the prescription from \cite{Richards2006b} in which the absolute magnitude for an observer at $z = 0$ is converted to that of an observer at $z = 2$. This is done to minimize the systematic effect on the magnitude of the K-correction arising from the varying continuum slopes of quasars. The further away from the normalization redshift a given quasar is, the greater will be the error from a wrongly assumed continuum slope. Choosing $z = 2$ as the normalization redshift, which is close to the peak in quasar number density as a function of time \citep{Richards2006b, Hopkins2007}, minimizes this error. We have not substituted the assumed slope of $\alpha
   = 1.5$ with the updated value, for consistency with the comparison sample.
 
 
@@ -707,8 +704,8 @@ quasars at $z = 2$, we follow the prescription from \cite{Richards2006b} in whic
 
 We show the weighted mean composite in \fig{combined}. Characteristic features
 of quasars are readily visible. We see several prominent emission lines across
-the entire spectral range, which includes both very broad high-ionization lines
-and narrower low-ionization lines as is typical of quasar spectra, with both
+the entire spectral range which includes both very broad high-ionization lines
+and narrower low-ionization lines as is typical for quasar spectra, with both
 broad and narrow lines superposed with multiple components \citep{Baldwin1995}.
 We have marked the position and name of the most prominent lines and overplotted
 them in \fig{combined}.  Analyses of the lines are beyond the scope of this
@@ -739,23 +736,23 @@ As is often seen, the continuum level is shrouded by a myriad of emission lines,
 Balmer continuum and Fe-complexes scattered across the entire spectrum, making
 the intrinsic shape of the continuum difficult to estimate \citep{Elvis2001}. 
 The composite spectrum covers from \lyb ~in the bluest part of our spectrum to
-Pa$\gamma$ in the reddest, where a power law adequately describes the
-continuum from \lya~and redward. Blueward of \lya, the spectral
-continuum changes slope toward a shallower spectral slope. The change in slope
+Pa$\gamma$ in the reddest, where a power-law adequately describes the
+continuum from \lya~and redwards. Blueward of \lya, the spectral
+continuum changes slope towards a shallower spectral slope. The change in slope
 is a consequence of the accretion disk mechanism responsible for the continuum
 emission where the position of the spectral break is set by the temperature of the
 accretion disk \citep{Pereyra2006}. The correction for \lya-forest absorption is
 described in \sect{igm}.
 Between $\sim$2000 \AA~and $\sim$5000 \AA, excess emission compared with a
-pure power law is detected, consistent with the \textit{small blue bump}
+pure power-law is detected, consistent with the \textit{small blue bump}
 \citep{Wills1985}, which consists of a blend of Balmer continuum and \feii
 ~lines, with both broad and narrow components.
 
- The continuum of a single quasar spectrum is usually modeled as a power law, $f_{\lambda}
-\propto \lambda^{\alpha_{\lambda}}$, but a weighted mean spectrum of a sample of power-law continua
-does not, in general, result in a power law with a slope equal to the mean slope of
-the individual quasar spectra. In principle, a geometric mean of a sample of power laws
-\textit{should} result in a power law with a spectral index being the mean of the individual spectral indices, as is shown in
+ A single quasar spectrum is usually modeled by a power-law, $f_{\lambda}
+\propto \lambda^{\alpha_{\lambda}}$, but a weighted mean spectrum of a sample of power-laws
+does not, in general, result in a power-law with a slope equal to the mean slope of
+the individual quasar spectra. In principle, a geometric mean of a sample of power-laws
+\textit{should} result in a power-law with a spectral index being the mean of the individual spectral indices, as is shown in
 \App{math}. We compare the composite obtained by taking the geometric mean with
 that obtained by the weighted average and no significant difference is detected
 between the two composites. We therefore take the weighted mean composite as
@@ -763,13 +760,13 @@ representative of the constituent spectra. This potential cause of systematic
 error due to combination methods is investigated more in \sect{systematics}.
 
 Regions free of contaminating line emission are very scarce and fitting a
-power law to the composite in manually specified regions is not guaranteed to
+power-law to the composite in manually specified regions is not guaranteed to
 reflect the spectral index of the continuum. A quantitative measure of the shape
 can be obtained by carefully selecting regions that appear relatively unaffected
 by line emission in excess of the continuum. The regions that cover the widest
 wavelength range are: 1300 - 1350, 1425 - 1475, 5500 - 5800, 7300 - 7500\AA,
-which we use to fit both with a single power law and a broken one, with a
-break redward of \hb~at 5000 \AA~as is reported by other authors
+which we use to fit both with a single power-law and a broken one, with a
+break redwards of \hb~at 5000 \AA~as is reported by other authors
 \citep[e.g.,][]{VandenBerk2001}. For the single power law we obtain
 $\alpha_\lambda = -1.70$, where for a broken power law, we obtain a spectral
 index $\alpha_\lambda = -1.69$ below 5000 \AA, and $\alpha_\lambda = -1.73$
@@ -808,20 +805,20 @@ amount consists of the composite generated by \cite{VandenBerk2001} stitched
 together with the composite by \cite{Glikman2006} at 3000 \AA. Thus, two
 different composites built from differing samples have been treated as a single
 composite. That this has been successful is a testament to the similarity of
-quasars across a wide range of apparent physical conditions. 
+quasars across a large range of apparent physical conditions. 
 The values obtained with our composite is entirely consistent with the values
 published in \cite{Krogager2015}, which is encouraging for the previous use of
 the stitched template. A detailed comparison between the different composites is
 presented in \sect{comparison}. 
 
-There exists a distribution of slopes for quasar continua and when using the composite presented here, the intrinsic slope of the modeled quasar is highly degenerate with the amount of dust inferred \citep{Reichard2003a}. Since attenuation by dust is stronger at shorter wavelengths, extinction introduces a curvature in the spectrum, which is separate from a pure change in slope, see
+There exists a distribution of slopes for quasar continua and when using the composite presented here, the intrinsic slope of the modeled quasar is highly degenerate with the amount of dust inferred \citep{Reichard2003a}. Since attenuation by dust is stronger at shorter wavelengths, extinction introduces a curvature in the spectrum which is separate from a pure change in slope, see
 \citet{Krawczyk2015} for a discussion of \textit{red vs. reddened} quasars.. 
 
 %===========================================================================
 \begin{figure}[t!]
  \centering
  \includegraphics[width=0.99\columnwidth]{figs/application.pdf}
- \caption[]{Dust extinction, $A_V$, and redshift has been inferred
+ \caption[]{The dust extinction, $A_V$, and redshift has been inferred
    for three HAQ quasars by fitting for the amount of reddening
    required to match the template with the observed spectrum. The
    black spectra are taken at the Nordic Optical Telescope (NOT) using
@@ -837,7 +834,7 @@ There exists a distribution of slopes for quasar continua and when using the com
  \subsection{Intra-spectrum variability}  \sectlabel{variability}
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-To gauge the intra-spectrum variability, the power-law slope of each individual
+To gauge the intra-spectrum variability, the power law slope of each individual
 spectrum is subtracted from the flux points at each wavelength thereby removing
 the variability due to different slopes. The standard deviation is then taken of
 the normalized spectra, which then reflects the variability of the spectra around
@@ -849,7 +846,7 @@ Significant variation is visible in the lines of \civ,
 \mgii, \oiii~and lines of hydrogen as well as in the \feii-complexes
 centered on \hb. From \civ~to \hb~an increase in continuum
 variability is observed, likely due to the quasar-to-quasar
-variability of the small blue bump. In the region blueward of \lya~the fractional variability reaches 60 per cent, attributed to the
+variability of the small blue bump. In the region bluewards of \lya~the fractional variability reaches 60 per cent, attributed to the
 stochastic nature of the Lyman-$\alpha$ forest.
 
 
@@ -861,12 +858,12 @@ The applicability of quasar composites as tools for template matching
 and dust estimation largely hinges on the ability of the composite to
 represent an intrinsic target spectrum. The broad usage and success of
 previous composites largely confirms this ability. That the
-constructed composites are representative of a large group of
+constructed composites are representative for a large group of
 differently selected quasars is a testament to the homogeneity of the
 quasar population and the universality of the emission mechanism.  The
 remarkable uniformity of the average spectral properties across
 luminosity and redshift indicates very similar underlying physical
-mechanisms that can be understood in terms of Eigenvector 1
+mechanisms which can be understood in terms of Eigenvector 1
 \citep{Boroson1992, Francis1992} where the Eddington ratio drives the
 relative strength of the lines, and orientation effects influences the
 observed kinematics of the lines \citep{Shen2014a}. The specific local
@@ -888,7 +885,7 @@ completeness \citep{Richards2002, VandenBerk2005}. It is clear that
 the sample presented here represents some of the brightest quasars
 existing between redshift 1 and 2. It is therefore potentially a
 biased subset of the global quasar population. Quasars have previously
-been shown to exhibit a high degree of homogeneity over many orders
+been shown to exhibit a large degree of homogeneity over many orders
 of magnitude \citep{Dietrich2002}, but this is only true for quasars
 resembling \textit{average} quasars and not exotic sub-types. To
 ensure that the targets selected for this sample are not outliers in
@@ -901,7 +898,7 @@ first confirm that the quasars selected here are among the
 intrinsically brightest visible in $i$-band with a 2.7 sigma magnitude
 distance from the mean absolute $i$-band magnitude, normalized at redshift 2,
 M$_i(z=2)$ of the full SDSS quasar catalog for DR10. Despite their luminosities the colors are representative
-of the subset fulfilling the selection criteria. As a consistency
+for the subset fulfilling the selection criteria. As a consistency
 check, the composite generated in this work is used to fit for the
 dust content of quasars with varying degree of extinction and
 consistent results were obtained as compared with composites generated
@@ -923,7 +920,7 @@ satisfy $r <= 17$. Overplotted in pink are the quasars contributing to the
 composite presented here. The quasar colors have been marginalized over in the
 right side where the tall pink lines are at the position of the composite
 quasars and the olive shaded area is the kernel density estimation of the
-distribution of quasars fulfilling the selection criteria. The gray-shaded area
+distribution of quasars fulfilling the selection criteria. The grey shaded area
 is the projection of the DR10 quasar sample.}
   \figlabel{color_comparison}
  \end{figure}
@@ -938,7 +935,7 @@ longer and variability magnitudes smaller \citep{VandenBerk2004,
 with luminosity \citep{wu2015} which in turn affects the temperature
 of the accretion disc \citep{shakura1973, Pereyra2006} and thereby the
 position of the "big blue bump" and the degree to which the continuum
-is well modeled by a single power law \citep[see also][for a
+is well modeled by a single power-law \citep[see also][for a
   discussion]{Lusso2015}. As can be seen from \fig{color_comparison},
 the quasars selected for the composite represent average colors for
 the subset fulfilling the sample cuts. An immediate consequence of
@@ -965,21 +962,21 @@ inferred will be the average amount over a large sample.
 \begin{figure*}[t!]
 \centering
 \includegraphics[width=1.99\columnwidth]{figs/compo_full_sample.pdf}
-\caption[]{X-shooter weighted arithmetic mean quasar composite on a linear wavelength
+\caption[]{X-shooter weighted arithmetic mean} quasar composite on a linear wavelength
 scale in light brown. The positions of several prominent emission lines are
 marked. Overplotted in dark green is the corresponding composite generated from
 the full sample of SDSS quasars fulfilling the selection criteria and general
 agreement is observed, albeit with a brighter Balmer continuum in the
 SDSS-constructed composite. In purple is shown the results from fitting both a
-pure and a broken power law to the regions specified in \sect{results} and they
-are observed to be indistinguishable.}
+pure and a broken power-law to the regions specified in \sect{results} and they
+are observed to be indistinguishable.
 \figlabel{composite}
 \end{figure*}
 %================
 
 
 Because of the low number statistics used for the sample presented in this work, a
-further bias can be that the targets are not representative of the
+further bias can be that the targets are not representative for the
 population fulfilling the cuts imposed in the selection. As
 highlighted in \fig{color_comparison}, the objects selected here are comparable in color to the full sample fulfilling the selection criteria. To
 quantify the bias against the selection, we construct a composite in
@@ -989,7 +986,7 @@ generated from the SDSS spectra of the full sample fulfilling the
 selection criteria on the one constructed with X-shooter. It is clear
 that there are small differences in the shape of the composite
 constructed from the full sample and the small sample, but
-qualitatively the shape remains the same. Calculating the power-law
+qualitatively the shape remains the same. Calculating the power law
 slope in each individual SDSS spectrum yields $\alpha_\lambda = -1.6\pm 0.3$,
 but this number is difficult to interpret due to the narrow continuum
 region free of emission lines (1300 - 1350 \AA~and 1425 - 1475
@@ -1005,7 +1002,7 @@ We compare the X-shooter composite to composites from the literature by the foll
 \citet{Francis1991, VandenBerk2001, Telfer2002, Glikman2006} and
 \citet{Lusso2015}. \citet{Francis1991} generated a composite from 688
 LBQS (Large Bright Quasar Survey)-quasars observed mainly with the Multiple Mirror Telescope (MMT). The absolute magnitudes cover $\sim -22$
-and $\sim -28$ at a redshift range $0.05 < z < 3.36$ subject to a
+and $\sim -28$ at a redshift-range $0.05 < z < 3.36$ subject to a
 significant Malmquist bias for which the mean absolute magnitude is a
 strong function of rest-frame wavelength, with the brightest objects
 contributing at shortest wavelengths and visa versa for the faint
@@ -1026,11 +1023,11 @@ so of comparable brightness, but at slightly larger distances.
 
 Regardless of the variation across selection criteria, luminosities and
 redshifts, a remarkable similarity in the overall shape is visible
-over a wide wavelength range. The simultaneous existence of lines
+over a large wavelength range. The simultaneous existence of lines
 arising in such different environments around objects differing by
 many orders of magnitude in luminosity is caused by the varying
 conditions in the emitting clouds which ensure that each ionic species has optimal conditions to produce line emission \citep{Baldwin1995}.
-Significant differences between the composites are visible blueward of
+Significant differences between the composites are visible bluewards of
 \lya~where different methods for IGM absorption correction has been
 employed. No correction has been applied in the composites by
 \citet{Francis1991} and \citet{VandenBerk2001} and a sharp decrease in
@@ -1039,7 +1036,7 @@ mostly at shorter wavelengths, significant \lya~absorption is
 expected regardless due to the \lya~opacity evolution
 \citep{Moller1990, Madau1995, DallAglio2008}. The IGM correction of
 \citet{Telfer2002} is a hybrid in which some manual and some
-statistical correction has been applied. \citet{Lusso2015} rely on a purely statistical correction that is calculated
+statistical correction has been applied. \citet{Lusso2015} rely on a purely statistical correction which has been calculated
 by integrating the neutral hydrogen column density distribution at $z
 \sim 2.4$ measured by \cite{Prochaska2014b}. The IGM correction in the
 X-shooter composite presented here is done in each individual spectrum
@@ -1076,7 +1073,7 @@ contamination}.
      3850$ \AA. Significant differences are visible blueward of
      \lya~due to differing IGM correction methods. Above 5000 \AA~
      significant host galaxy contamination is visible in the composite
-     by \citet{VandenBerk2001}. Overplot in blue is a power law
+     by \citet{VandenBerk2001}. Overplot in blue is a pure power law
      with slope $\alpha_\lambda = -1.70$ and normalized at $\sim 1450$ \AA.}
    \figlabel{composite_comparison}
  \end{figure*}
@@ -1084,7 +1081,7 @@ contamination}.
  \input{tabs/comparison.tex} 
  
 Despite the similarity visible in the direct comparison, it is
-remarkable that the power-law slope blueward of 10000 \AA~is found to
+remarkable that the power-law slope bluewards of 10000 \AA~is found to
 be varying by more than 30 per cent between the different authors. We
 compile the results from the different composites in
 \tab{comparison}. One likely reason for the discrepancies is the
@@ -1093,7 +1090,7 @@ wavelength coverage allows a better continuum to be selected,
 especially selecting regions unaffected by Balmer continuum and broad
 \feii~complexes. A more direct comparison of the slopes, where an
 explicit fit to the same regions is made, is not possible due to the
-different wavelength coverage. A narrow region free of line emission just redward of \lya~is covered by most of the composites in the comparison, but fitting a power law to such a narrow region for a small sample would largely leave the inferred slope dependent on the exact ranges chosen for the fit.
+different wavelength coverage. A small region free of line-emission just redwards of \lya~is covered by most of the composites in the comparison, but fitting a power-law to such a small region for a small sample would largely leave the inferred slope dependent on the exact ranges chosen for the fit.
 
 
 
@@ -1124,9 +1121,9 @@ used the weighted arithmetic mean, which was chosen because it is the maximum
 likelihood estimator of the mean, given that we are sampling from a normal
 distribution with independent sampling. This combination method, however, has
 systematic differences from other methods, especially the danger of biasing the
-composite toward the highest signal-to-noise spectra. 
+composite towards the highest signal-to-noise spectra. 
 
-To test whether we are biased toward high S/N spectra we compare the
+To test whether we are biased towards high S/N spectra we compare the
 weighted mean spectrum with the composite created from the median. We
 perform the comparison by constructing a fractional difference
 spectrum, which is a ratio between the two composites. There is very
@@ -1170,7 +1167,7 @@ the different methods is encouraging to the use of the weighted mean.
 %====================================================================
 %Selection effects
 Bright quasars with ($r \lesssim 17$) at redshifts $1 < z < 2.1$ are
-not necessarily representative of the intrinsic quasar population
+not necessarily representative for the intrinsic quasar population
 \citep{Paris2014} and the final composite is not guaranteed to reflect
 the properties of quasars at different magnitudes or
 redshifts. Comparison to the parent population yields, in terms of
@@ -1178,14 +1175,14 @@ colors, a redder than average selection for the quasars fulfilling the
 selection criteria for the X-shooter composite. The objects that
 fulfill the selection criteria are $\sim 0.2$ mags redder than the
 quasar mean \textit{g-i} color. This translates into changing a pure
-power-law slope from $-1.6$ to $-1.9$, so toward steeper slope and
+power-law slope from $-1.6$ to $-1.9$, so towards steeper slope and
 more blue spectra. Since quasar spectra are more complicated than pure
-power laws, a more likely explanation for this offset between the
+power-laws, a more likely explanation for this offset between the
 full quasar sample and the subset selected here is the shifting of
 \lya-line emission into the SDSS \textit{g}-band, therefore artificially making
 the continuum appear bluer.  A comparison to the composite by
 \citet{VandenBerk2001} which consists of lower redshift, intrinsically
-fainter quasars, shows a high degree of similarity in the general
+fainter quasars, shows a large degree of similarity in the general
 shape and small differences on small scales, see \sect{comparison}.
 %====================================================================
 \subsubsection{Flux calibration}  \sectlabel{Flux calibration}
@@ -1194,19 +1191,19 @@ shape and small differences on small scales, see \sect{comparison}.
 As stated in \sect{sample}, we find slight variations in both the
 absolute flux level and spectral slope of the X-Shooter observed
 spectra compared with those observed with SDSS. Since we are to a
-high degree seeing limited, we expect the slit loss to be
+large degree seeing limited, we expect the slit-loss to be
 insignificant and potential alternative solutions are investigated. To
 quantify this effect of variation of the accuracy of our
-flux calibration compared with the corresponding object spectra
+flux-calibration compared with the corresponding object spectra
 obtained with SDSS, we compare the photometry obtained from SDSS with
 the synthetic magnitudes calculated in \sect{absmag}. We calculate the
 mean difference between the two magnitudes. There is a clear trend with highest
 deviations in the
-\textit{u}-band and a monotonic decrease in deviations toward
+\textit{u}-band and a monotonic decrease in deviations towards
 \textit{z}-band, with $-0.4 \pm 0.3$ mags in the \textit{u}-band to $-0.1
 \pm 0.2$ mags in the \textit{z}-band. This variation is
-caused by both the accuracy of the flux calibration and the intrinsic
-quasar variability. Since the slit loss is expected to be wavelength
+caused by both the accuracy of the flux-calibration and the intrinsic
+quasar variability. Since the slit-loss is expected to be wavelength
 dependent, peaking in the blue, this is consistent with the trend
 observed. For the intrinsic variability, \cite{MacLeod2012} find a
 characteristic variation timescale of $\sim 2$ years with an average
@@ -1259,7 +1256,7 @@ we exclude regions of low transmission, namely the two absorption band at $\sim
 in noise in the regions where individual spectra have been masked, but more
 problematic is the introduction of residual atmospheric absorption in unmasked
 regions. Since there is significant absorption from $\sim 7000$ \AA~and
-redward, as is also visible in \fig{telluric_qc}, and especially in the NIR
+redwards, as is also visible in \fig{telluric_qc}, and especially in the NIR
 arm, masking each individual absorption complex throughout the spectrum is not
 desirable. The telluric correction method essentially leaves the unaffected
 region free of change. 
@@ -1269,20 +1266,20 @@ region free of change.
  \subsubsection{Host galaxy contamination.}  \sectlabel{Host galaxy
 contamination}
  %====================================================================
-
+%Host galaxy contamination.
 A geometric composite has been generated in bins of luminosity by
 \citet{Shen2011} and the evolution of the relative contribution from the host
 galaxy with luminosity is investigated. It can be seen that the lower luminosity
 quasars have a spectral break around $\sim$ 4000 \AA, which is lacking at higher
 luminosities and attributed to host galaxy contamination. We calculate
 $L_{5100}$ for the spectra in the composite presented here, using the continuum
-flux density at $5100$ {\AA} and converting to luminosity following
-\cite{Netzer2007},
+flux density at $5100$ {\AA} and convert to luminosity following
+\cite{Netzer2007}:
 \begin{eqnarray}\eqlabel{l5100}
-L_{5100} &=&    4 \pi D_{L} ^{2} \lambda_{5100}  F_{\lambda5100},
+L_{5100} &=&    4 \pi D_{L} ^{2} \lambda_{5100}  F_{\lambda5100}
 \end{eqnarray}
 we find and average $\log L_{5100} = 46.7 \pm 0.1$ which is an order of
-magnitude higher than the highest luminosity bin in \cite{Shen2011} which is
+magnitude larger than the highest luminosity bin in \cite{Shen2011} which is
 assumed to be free of host galaxy contamination. This is consistent with what is
 found by \citet{Hopkins2007}, that host galaxy light is likely a small
 contribution for quasars brighter than $M_{B} \gtrsim -23$. We have selected our
@@ -1301,22 +1298,22 @@ contamination from underlying host galaxy light.
 
 
 We have generated a quasar composite covering the entire range from 1000 \AA~to
-11350 \AA~ based on observations with X-shooter of seven bright ($r \lesssim 17$)
+11350 \AA~ based on observations with X-shooter of 7 bright ($r \lesssim 17$)
 quasars at redshifts $1 < z < 2.1$ free of host galaxy contamination. Assuming a
-power-law continuum, we found a spectral slope of $\alpha_\lambda = -1.70 \pm 0.01$, which is
-somewhat steeper than for composites presented by other authors. We
-found a consistent slope within errors for various combination methods. We
-attributed the discrepancy between the power-law slopes to the different wavelength
-coverages, where the very wide wavelength coverage of X-shooter ensures that we
-can effectively choose regions free of emission lines and line-continuum
+power law continuum we find a spectral slope of $\alpha_\lambda = -1.70 \pm 0.01$, a
+somewhat steeper slope compared to composites presented by other authors. We
+find a consistent slope within errors for various combination methods. We
+attribute the discrepancy between the power-law slopes to the different wavelength
+coverage's, where the very large wavelength coverage of X-shooter ensures that we
+can effectively choose regions free of emission lines and line continuum
 emission, especially the Balmer continuum and \feii-line complexes, i.e., the
-Small Blue Bump heavily affecting the region from $2000 - 5000$ \AA. We
-applied the composite to fit for the amount of dust in three quasars with
-varying dust content and found that the amount of visual extinction 
-agrees with what is found using a combination of previously generated
-composites. A comparison with other composites was done, and a high degree of similarity is highlighted despite the very different selection criteria and
+\textit{Small Blue Bump} heavily affecting the region from $2000 - 5000$ \AA. We
+have applied the composite to fit for the amount of dust in three quasars with
+varying dust content and found that the amount of visual extinction is in
+agreement with what is found using a combination of previously generated
+composites. A comparison with other composites is done and a high degree of similarity is highlighted despite the very different selection criteria and
 reported spectral slopes.
-We have made the composite and all the code used to generate it available at
+We make the composite and all the code used to generate it available at
 \url{https://github.com/jselsing/QuasarComposite}. We show a portion of the
 composite values for clarity regarding the format in \tab{example}.
 
@@ -1327,17 +1324,17 @@ composite values for clarity regarding the format in \tab{example}.
 \section{Acknowledgements}  \sectlabel{Acknowledgements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We thank the anonymous referee for a constructive report that improved our
+We thank the anonymous referee for constructive report which improved out
 manuscript on several important points. We thank Marianne Vestergaard and Jens
 Hjorth for useful discussions and suggestions. The research leading to these
-results received funding from the European Research Council under the
+results has received funding from the European Research Council under the
 European Union’s Seventh Framework Program (FP7/2007-2013)/ERC Grant agreement
 no. EGGS- 278202. LC acknowledges support from an YDUN grant DFF – 4090-00079.
 The Dark Cosmology Centre was funded by the DNRF. This research made use of
 Astropy, a community- developed core Python package for Astronomy
 \citep{TheAstropyCollaboration2013}. The analysis and plotting has been achieved
-using the Python-based packages Matplotlib \citep{Hunter2007}, Numpy, and Scipy
-\citep{VanderWalt2011}, along with other community-developed packages.
+using the Python-based packages Matplotlib \citep{Hunter2007}, Numpy and Scipy
+\citep{VanderWalt2011} along with other community-developed packages.
 
 \bibliographystyle{aa_arxiv}
 \bibliography{references}
@@ -1353,32 +1350,40 @@ using the Python-based packages Matplotlib \citep{Hunter2007}, Numpy, and Scipy
 %===========================================================================
 
 
-We derive that the geometric mean of a sample of power laws equals a power law
+We show that the geometric mean of a sample of power-laws equals a power law
 with the sample mean spectral index. The geometric mean is a type of mean
-defined as
+defined as:
 \begin{eqnarray}\eqlabel{geometric mean}
 \bar{f_{\lambda}} &=&  \left( \prod_{i=1}^n f_{\lambda, i} \right) ^{1/n},
 \end{eqnarray}
 where the product is over the individual spectra. We model each spectrum as a
-power law
+power-law:
+
 \begin{eqnarray}\eqlabel{powerlaw}
 f_{\lambda, i} &=&  k \lambda ^{\alpha_{i}},
 \end{eqnarray}
-and we get by inserting \eq{powerlaw} into \eq{geometric mean}
-\begin{eqnarray}\eqlabel{deriv1}
-\bar{f_{\lambda}} &=&  \left( \prod_{i=1}^n k \lambda ^{\alpha_{i}}\right)
-^{1/n}.
-\end{eqnarray}
-We rewrite this expression and make the product a sum in the exponent
+
+ we get by inserting \eq{powerlaw} into \eq{geometric mean}:
+ 
+ \begin{eqnarray}\eqlabel{deriv1}
+ \bar{f_{\lambda}} &=&  \left( \prod_{i=1}^n k \lambda ^{\alpha_{i}}\right)
+^{1/n}
+ \end{eqnarray}
+
+we rewrite and make the product a sum in the exponent:
+
  \begin{eqnarray}\eqlabel{deriv2}
  \bar{f_{\lambda}} &=&  k \left( \lambda ^{ \frac{1}{n} \sum_{i=1}^n \alpha_{i} 
-}\right),
+}\right) ,
  \end{eqnarray}
-where we see that the geometric mean of a sample of power laws is a power law,
+we see that the geometric mean of a sample of power laws is a power law:
+
  \begin{eqnarray}\eqlabel{deriv3}
  \bar{f_{\lambda}} &=&  k \lambda ^{ \bar{\alpha_{i} }},
  \end{eqnarray}
-with the mean index
+
+with the mean index, $\bar{\alpha}$:
+
  \begin{eqnarray}\eqlabel{mean}
  \bar{\alpha} &=&  \frac{1}{n} \sum_{i=1}^n \alpha_{i} .
  \end{eqnarray}

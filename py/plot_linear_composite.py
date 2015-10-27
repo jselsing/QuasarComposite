@@ -73,7 +73,7 @@ def main():
 
 
     par_guess = [1, -1.7]
-    par_guess2 = [1, 5700, -1.7, -1.7]
+    par_guess2 = [1, 5000, -1.7, -1.7]
     wmean[np.where(np.isnan(wmean) == True)] = 0
     mask = (wl > 1300) & (wl < 1350) | (wl > 1425) & (wl < 1475) | (wl > 5500) & (wl < 5800) | (wl > 7300) & (wl < 7500) #| (wl > 9700) & (wl < 9900) | (wl > 10200) & (wl < 10600)
     popt, pcov = optimize.curve_fit(power_law, wl[mask], wmean_cont[mask], p0=par_guess, sigma=err_wmean[mask], absolute_sigma=True)

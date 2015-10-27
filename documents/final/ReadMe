@@ -1,0 +1,66 @@
+J/A+A/vol/page     X-shooter quasar composite     (Selsing+, 2015)
+================================================================================
+An X-shooter composite of bright 1 < z < 2 quasars from UV to infrared
+     Selsing J., Fynbo J. P. U, Christensen L., Krogager J.-K.
+    <Astron. Astrophys. vol, page (year)>
+    =2015A&A...VVV.ppppI     (SIMBAD/NED BibCode)
+================================================================================
+Keywords: quasars: general - Galaxies: ISM - Methods: data analysis - 
+	Techniques: spectroscopic
+
+Abstract:
+	Quasi-stellar object (QSO) spectral templates are important both to
+	QSO physics and for investigations that use QSOs as probes of
+	intervening gas and dust. However, combinations of various QSO
+	samples obtained at different times and with different instruments
+	so as to expand a composite and to cover a wider rest frame
+	wavelength region may create systematic effects, and the
+	contribution from QSO hosts may contaminate the composite. We have
+	constructed a composite spectrum from luminous blue QSOs at 1 < z <
+	2.1 selected from the Sloan Digital Sky Survey (SDSS). The
+	observations with X-shooter simultaneously cover ultraviolet (UV) to
+	near-infrared (NIR) light, which ensures that the composite
+	spectrum covers the full rest-frame range from Ly\beta to 11350 \AA
+	without any significant host contamination. Assuming a power-law
+	continuum for the composite we find a spectral slope of \alpha_\lambda =
+	1.70 +/- 0.01, which is steeper than previously found in the literature.
+	We attribute the differences to our broader spectral wavelength
+	coverage, which allows us to effectively avoid fitting any regions
+	that are affected either by strong QSO emissions lines (e.g., Balmer
+	lines and complex [Fe II] blends) or by intrinsic host galaxy
+	emission. Finally, we demonstrate the application of the QSO
+	composite spectrum for evaluating the reddening in other QSOs.
+
+Description:
+	Quasar composite made from bright QSOs, as described in the paper.
+	The composite consists of wavelength with corresponding arbitrarily
+	normalized flux and error.
+	The source code and composite is also made available at
+	https://github.com/jselsing/QuasarComposite
+
+
+File Summary:
+--------------------------------------------------------------------------------
+  FileName   Lrecl  Records   Explanations
+--------------------------------------------------------------------------------
+ReadMe          66        .   This file
+Selsing2015.dat   25876   3   Quasar composite
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: Selsing2015.dat
+--------------------------------------------------------------------------------
+   Bytes Format Units   Label     Explanations
+--------------------------------------------------------------------------------
+   1  F1.1 	  "Angstrom"       Wavelength        Wavelength array for the composite
+   2  F1.4    "Normalized flux-density"       n/a       Normalized to unity at 6800 \AA (1)
+   3  F1.4    "Normalized flux-density error"     n/a      The error relative to the normalized flux-density
+
+--------------------------------------------------------------------------------
+Note (1): Constituent spectra are corrected for galatic extinction using their 
+	coordinates and the extinctions map from 
+	http://irsa.ipac.caltech.edu/applications/DUST/
+--------------------------------------------------------------------------------
+References:
+
+================================================================================
+(End)          Jonatan Selsing [DARK, NBI                            23-Okt-2015

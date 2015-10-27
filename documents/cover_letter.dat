@@ -1,0 +1,353 @@
+We thank the referee for a very thorough and careful review of our manuscript
+and for a very constructive report. The questions asked and changes suggested
+has helped improve the manuscript.
+
+We go through the referee’s comments one at a time and comment below. We have marked 
+all changes in boldface in the manuscript.
+
+=================================================================
+S 2, par 1 -- explain what is meant by "stripe 82"
+
+AUTHOR'S RESPONSE:
+Stripe 82 is one of the regions observed as part of the SDSS. SDSS mainly
+covers the north galactic pole, but when unavailable, three stripes towards the
+south galactic cap is observed. The middle of these stripes is called Stripe
+82. The name stripe comes from the shape of the observation coverage. We have
+added a reference:
+OLD:
+"In stripe 82 about 50 such candidate QSOs has been studied using the New
+Technology Telescope (NTT)."
+NEW:
+In the central southern SDSS footprint, Stripe 82 (Annis et al. 2014), about 50
+such candidate QSOs has been studied using the New Technology Telescope (NTT).
+
+=================================================================
+S 3, par 1 -- Ultimately 7 QSOs were selected for the study,
+ but how many could have been selected?
+
+AUTHOR'S RESPONSE:
+173 SDSS quasars in total fulfill the selection criteria. The full sample of
+SDSS quasars fulfilling the selection criteria is used to test for systematic
+differences caused by selecting a subsample in section 6.2. We have clarified
+the text a bit to include the full number of objects.
+
+OLD:
+a smaller sample will suffice. We have consequently selected 7 of the brightest
+SDSS QSOs at $1 < z < 2.1$ with declinations
+NEW:
+a smaller sample will suffice. From the 166,583 quasars presented in the SDSS
+DR10 quasar catalog \citep{Paris2014}, 173 objects fulfill our selection
+criteria. Of these quasars, 102 are at declinations < +15 from which we select
+7 without signs of BAL activity or other strong associated absorption systems
+at declinations $\lesssim +15^\circ$ that have SDSS spectra and are observable
+in a single visitor run at the Very Large Telescope (VLT).
+
+Fig. 1 -- Should the "1e-16" be on the left side label?  What
+ are the units?
+
+AUTHOR'S RESPONSE:
+This is a mistake in the labeling of the plot. The units are flux densities:
+erg s^1 cm^-2 AA^-1. The "1e-16" refers to the scale of the numbers. We
+have changed both Fig. 1 and Fig. 2, to include the scaling as part of the
+units. This also leaves more space for the figure. Additionally an effort has
+been made to reduce the file-sizes of the images.
+
+S 4.2, par 1 -- Why use a 2-degree radius for the average
+ extinction value?  That seems large compared to the
+ resolution of the Schlegel et al. maps.
+
+AUTHOR'S RESPONSE:
+We have used the service http://irsa.ipac.caltech.edu/applications/DUST/, which
+queries the dust maps. This service gives cut-outs of 2x2degrees in 82x82
+pixels. We have previously been using just a mean for the queried dust in the
+cut-out, but following the suggestion by the referee we have updated the E(B-V)
+values to use only the 4 central pixel values. The resolution of the dust-map
+used is now ~3 arc min. We have updated the text to reflect the improved
+resolution and updated the composite with the new extinction values. This also
+slightly changes the inferred values of the slopes and the inferred synthetic
+magnitudes, which we have updated throughout the text. No qualitative changes
+to the conclusions are needed. Additionally an error in the estimation of the
+absolute magnitudes was corrected and an erroneous scaling of the composite by
+(1+z) was corrected. 
+
+S 4.5, par 1 -- The pixel filtering process is not clear.
+ Does the filter have a width and profile?  The 20% change
+ is with respect to what?
+
+AUTHOR'S RESPONSE:
+The pixel filtering process is literally just the pixel-to-pixel variation. I
+make a comparison between neighboring pixels, running from low wavelength to
+high and mask the pixels which has high variation. This is to mask out the
+noisy pixels from the XShooter-reduction of which it tends to have quite a few
+of. Since the error image is not correspondingly off in value and no bad-pixel
+flags are set. Including these noisy pixels will propagate into the composite.
+We have updated the text for a more clear description.
+
+S 4.6, par 1 -- The sampling used for the q-q plot is not clear.
+ I assume that the average flux density value of 100 pixels
+ covering a specified wavelength region was found for each
+ of the 7 spectra.  The text doesn't seem to say this.
+
+AUTHOR'S RESPONSE:
+This is correctly assumed! We have updated the text to better describe the sampling used for the q-q plot.
+
+S 4.7, par 1 -- What values of the cosmological parameters
+ did you use to calculate the luminosity distance?
+
+AUTHOR'S RESPONSE:
+This is stated in the last paragraph of the introduction. Please see S 1, par 4
+
+S 5, par 2 -- "a straight line adequately describes the continuum"
+ Does this mean in log-log space, or equivalently, that a single
+ power law is adequate?
+
+This exactly means in log-log space and that a single power law is adequate. We
+have updated the text to more clearly describe the reflect this.
+
+S 5.1 -- Can you distinguish between dust reddening and a difference
+ in spectral slope (or some combination)?  This may be outside
+ of the scope of the paper.
+
+AUTHOR'S RESPONSE:
+It is true that there must be a distribution of slopes and that if the
+intrinsic slope of the quasar continuum is different from what is assumed
+using the composite, an erroneous amount of dust will be inferred. This is
+outside the scope of the paper, but we have added a paragraph to address this
+comment. Specifically changes in quasar slope will change only the slope,
+whereas dust will change both the slope and the curvature.  Also, please see
+section 6.1.
+
+S 6.3, par 2 -- I think you mean "bluewards" instead of "redwards"
+ in "composites are visible redwards of Ly-alpha".
+
+AUTHOR'S RESPONSE:
+Correct, thanks for pointing this out.
+
+S 6.3, par 3 -- Do you mean "bluewards of 10000 A" ?
+
+AUTHOR'S RESPONSE:
+Correct, thanks.
+
+S 6.3, par 3 -- Are there at least two continuum regions covered
+ by all of the spectra?  If so, a direct comparison could be
+ made at least using those regions.
+
+AUTHOR'S RESPONSE:
+The only emission-free continuum region available in most other composites is
+just redwards of Lyman Alpha. A power-law fit to this short region would be too
+uncertain for a meaningful comparison, since the specifics of the region 
+(definition of the boundaries) would dominate the variance of the results. We 
+have added some text to better clarify this.
+
+Minor grammatical errors, etc. (not exhaustive):
+
+S 1, par 1 -- "dust in QSOs or in galaxies along QSO sightlines"
+
+AUTHOR'S RESPONSE:
+Changed from:
+dust in QSOs or in galaxies intervening QSO sightlines.
+to
+dust in QSOs or in galaxies along QSO sightlines
+
+S 3, par 2 -- "Each observation consisted of 4"
+
+AUTHOR'S RESPONSE:
+Changed from:
+Each object consist of 4
+to
+Each observation consists of 4
+
+ "residuals are minimized"
+
+AUTHOR'S RESPONSE:
+Changed from:
+residuals is minimized
+to
+residuals are minimized
+
+S 3.1, par 1 -- "absorption depends heavily"
+
+AUTHOR'S RESPONSE:
+Changed from:
+absorption is depends heavily
+to
+absorption depends heavily
+
+S 3.1, par 2 -- "of the Gottingen"
+
+AUTHOR'S RESPONSE:
+Changed from:
+of G\"ottingen
+to
+from the G\"ottingen
+
+Fig. 1 caption -- "purple is the corrected spectrum"
+
+AUTHOR'S RESPONSE:
+Changed from:
+purple is the corrected
+to
+purple is the corrected spectrum
+
+ "corrected spectrum smoothed"
+
+AUTHOR'S RESPONSE:
+Changed from:
+"corrected smoothed
+to
+corrected spectrum smoothed
+
+ "noise are where"
+
+AUTHOR'S RESPONSE:
+Changed from:
+noise is where
+to
+noise are where
+
+S 4.1, par 1 -- "H-beta containing both broad"
+
+AUTHOR'S RESPONSE:
+Changed from:
+H-beta both containing broad
+to
+H-beta containing both broad
+
+ "does not guarantee that the global minimum of the
+ residuals will be found"
+
+AUTHOR'S RESPONSE:
+Changed from:
+do not guarantee to find the global minimum of the residuals
+to
+does not guarantee that the global minimum of the residuals will be found
+
+S 4.2, par 1 -- "source are extracted ... and an arithmetic"
+
+AUTHOR'S RESPONSE:
+Changed from:
+source is extracted ... and a arithmetic
+to
+source are extracted ... and an arithmetic
+
+S 4.3, par 1 -- "An average redshift of"
+
+AUTHOR'S RESPONSE:
+Changed from:
+With an average redshift of
+to
+An average redshift of
+
+S 4.4, par 1 -- "points represent the visually"
+
+AUTHOR'S RESPONSE:
+Changed from:
+points represents the visually
+to
+points represent the visually
+
+S 4.6, par 1 -- "quantile-quantile plot, shown in Fig. 3."
+
+AUTHOR'S RESPONSE:
+Changed from:
+quantile-quantile plot, see Fig. 3.
+to
+quantile-quantile plot, shown in Fig. 3.
+
+S 4.6, par 2 -- "treated as stochastic"
+
+AUTHOR'S RESPONSE:
+Changed from:
+treated as a stochastic
+to
+treated as stochastic
+
+S 5, par 2 -- "Blueward of Ly-alpha the spectral"
+
+AUTHOR'S RESPONSE:
+Changed from:
+Bluewards of Ly-alpha the spectrum the spectral
+to
+Blueward of Ly-alpha the spectral
+
+S 5.2, par 1 -- "therefore researchers should be wary"
+
+AUTHOR'S RESPONSE:
+Changed from:
+ therefore potential conclusions should be wary
+to
+deleted last part of sentence. Now reads:
+with single-epoch data. Significant variation
+
+Fig. 7 caption -- "weighted arithmetic mean quasar"
+
+AUTHOR'S RESPONSE:
+Changed from:
+weighted arithmetic quasar
+to
+weighted arithmetic mean quasar
+
+S 6.2, par 1 -- "consisting of all SDSS quasars fulfilling"
+
+AUTHOR'S RESPONSE:
+Changed from:
+consisting of all SDSS quasar fulfilling
+to
+consisting of all SDSS quasars fulfilling
+
+S 6.3, par 1 -- "We compare the X-shooter composite to composites"
+
+AUTHOR'S RESPONSE:
+Changed from:
+We compare to composites
+to
+We compare the X-shooter composite to composites
+
+S 6.3, par 2 -- "ionic species has optimal"
+
+AUTHOR'S RESPONSE:
+Changed from:
+ionic species have optimal
+to
+ionic species has optimal
+
+S 6.4.2, par 1 -- "a more likely explanation for this"
+
+AUTHOR'S RESPONSE:
+Changed from:
+ a more likely explanations for this
+to
+a more likely explanation for this
+
+S 6.4.6, par 1 -- "from underlying host galaxy light"
+
+AUTHOR'S RESPONSE:
+Changed from:
+from underlying host galaxy
+to
+from underlying host galaxy light
+
+S 7, par 1 -- "a high degree of similarity"
+
+AUTHOR'S RESPONSE:
+Changed from:
+a high decree of similarity
+to
+a high degree of similarity
+
+ "composite values for clarity"
+
+AUTHOR'S RESPONSE:
+Changed from:
+composite for clarity
+to
+composite values for clarity
+
+App. A -- "we see that the geometric ... laws is a power law"
+
+AUTHOR'S RESPONSE:
+Changed from:
+we see that geometric ... laws is the a power law
+to
+we see that the geometric ... laws is a power law
+
