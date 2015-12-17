@@ -329,7 +329,7 @@ def main():
             (bp_map_new[i])[mask_cont] = 0
 
         #Saving ready spectra
-        np.savetxt('data/regularised.dat', flux_cont_new.transpose(), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
+        np.savetxt('data/regularised.dat', np.column_stack((wl_new, flux_cont_new.transpose())), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
         print('Saving IGM-corrected regularised data to to data/regularised.dat')
         def weighted_avg_and_std(values, sigma, axis=0):
             norm = abs(np.mean(values))
