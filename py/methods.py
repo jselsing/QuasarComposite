@@ -277,7 +277,7 @@ def format_axes(ax):
     return ax
 
 
-from gen_methods import medfilt, smooth
+# from gen_methods import medfilt, smooth
 def hist(rawData,xRange,nBins=10,mode='lin'):
 
     """histogram using linear binning of supplied data

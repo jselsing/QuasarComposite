@@ -20,8 +20,9 @@ latexify()
 # use seaborn for nice default plot settings
 import seaborn; seaborn.set_style('ticks')
 
-from unred import ccm_unred,cardelli_reddening
-from gen_methods import smooth,medfilt
+# from unred import ccm_unred,cardelli_reddening
+from cardelli_unred import cardelli_reddening
+# from gen_methods import smooth,medfilt
 from methods import common_wavelength
 
 def main():
@@ -304,23 +305,25 @@ def main():
 
 
 
-        std_norm = np.zeros(np.shape(flux_cont_new))
-        print(n_obj)
-        for n in range(n_obj):
-            #Normalise
-            mask = (wl_new > mask_ran) & (wl_new < mask_ran + 100)
-            norm = np.median(flux_new[n][mask])
-            flux_new[n] /= norm
-            flux_cont_new[n] /= norm
-            fluxerr_new[n] /= norm
-            par_guess = [2e6, -1.5]
-            mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
-            popt, pcov = optimize.curve_fit(power_law, wl_new[mask], flux_cont_new[n][mask], p0=par_guess,
-                                            sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
-            std_norm[n] = power_law(wl_new, *popt)
-            indi_pow.append(popt[1])
+        # std_norm = np.zeros(np.shape(flux_cont_new))
+        # print(n_obj)
+        # for n in range(n_obj):
+        #     #Normalise
+        #     mask = (wl_new > mask_ran) & (wl_new < mask_ran + 100)
+        #     norm = np.median(flux_new[n][mask])
+        #     flux_new[n] /= norm
+        #     flux_cont_new[n] /= norm
+        #     fluxerr_new[n] /= norm
+        #     par_guess = [2e6, -1.5]
+        #     mask = (wl_new > 1300) & (wl_new < 1350) | (wl_new > 1425) & (wl_new < 1475) | (wl_new > 5500) & (wl_new < 5800) | (wl_new > 7300) & (wl_new < 7500)
+        #     popt, pcov = optimize.curve_fit(power_law, wl_new[mask], flux_cont_new[n][mask], p0=par_guess,
+        #                                     sigma=fluxerr_new[n][mask] , absolute_sigma=True, maxfev=2000)
+        #     std_norm[n] = power_law(wl_new, *popt)
+        #     indi_pow.append(popt[1])
+        #     pl.plot(wl_new, flux_new)
+        #     plt.show()
 
-
+        # exit()
 
 
         #Ensuring pixel usage blueward of Lya
@@ -329,8 +332,15 @@ def main():
             (bp_map_new[i])[mask_cont] = 0
 
         #Saving ready spectra
-        np.savetxt('data/regularised.dat', np.column_stack((wl_new, flux_cont_new.transpose())), header="SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
+        np.savetxt('data/regularised.dat', np.column_stack((wl_new, flux_cont_new.transpose())), header="Wavelength-array SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
+          
+        #Saving ready spectra
+        np.savetxt('data/regularised_err.dat', np.column_stack((wl_new, fluxerr_new.transpose())), header="Wavelength-array SDSS0820+1306 SDSS1150-0023 SDSS1219-0100 SDSS1236-0331 SDSS1354-0013 SDSS1431+0535 SDSS1437-0147")#, fmt = ['%5.1f', '%2.15E'] )
+  
+
         print('Saving IGM-corrected regularised data to to data/regularised.dat')
+
+        exit()
         def weighted_avg_and_std(values, sigma, axis=0):
             norm = abs(np.mean(values))
             values = np.array(values) / norm
