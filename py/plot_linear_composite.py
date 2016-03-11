@@ -12,7 +12,7 @@ __copyright__ = "Copyright 2014 Jonatan Selsing"
 from methods import latexify, format_axes, gauss
 
 import numpy as np
-from gen_methods import medfilt
+#from gen_methods import medfilt
 import glob
 
 import matplotlib.pylab as pl
@@ -50,8 +50,15 @@ def main():
     f = InterpolatedUnivariateSpline(wl[mask], err_wmean[mask], k=5)
     err_wmean = f(wl)
 
-
-
+    #Saving to .dat file
+    dt = [("wl", np.float64), ("wmean_cont", np.float64), ("err_wmean", np.float64) ]
+    data = np.array(zip(wl, wmean_cont, err_wmean), dtype=dt)
+    file_name = "data/templates/Selsing2015_interpolated.dat"
+    np.savetxt(file_name, data, header="wl	weighted mean	error of weighted mean", fmt = ['%5.1f', '%1.4f', '%1.4f' ])
+    pl.plot(wl,wmean_cont)
+    pl.semilogy()
+    pl.show()
+    exit()
 
     #Fitting power laws
     from scipy import optimize
